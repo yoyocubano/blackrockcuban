@@ -1,34 +1,59 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import ProductList from '../../product/list/List';
-import Pagination from '../../product/list/Pagination';
-import { useAppState } from '../../../../../../lib/context/app';
-import { get } from '../../../../../../lib/util/get';
+import { getContextValue } from '../../../../graphql/services/buildContext';
+import ProductList from '../../../components/product/list/List';
 
-export default function Products({ withPagination = true }) {
-  const context = useAppState();
-  const products = get(context, 'category.products', []);
-
+export default function Products({ products: { products: { items } } }) {
   return (
     <div className="page-width">
       <span className="product-count italic block mb-2">
-        {products.length}
-        {' '}
-        products
+        {`${items.length} products`}
       </span>
-      <ProductList products={products} countPerRow={3} />
-      {withPagination === true && (
-        <Pagination
-          currentUrl={get(context, 'currentUrl')}
-          currentPage={get(context, 'pagination.currentPage')}
-          limit={get(context, 'pagination.limit')}
-          total={get(context, 'pagination.total')}
-        />
-      )}
+      <ProductList products={items} countPerRow={3} />
     </div>
   );
 }
 
-Products.propTypes = {
-  withPagination: PropTypes.bool.isRequired
+export const layout = {
+  areaId: "content",
+  sortOrder: 15
 };
+
+export const query = `
+  query Query ($categoryId: Int!, $filters: [FilterInput]) {
+    products: category(id: $categoryId) {
+      products(filters: $filters) {
+        items {
+          ...Product
+        }
+      }
+    }
+  }`;
+
+export const fragments = `
+  fragment Product on Product {
+    productId
+    name
+    sku
+    price {
+      regular {
+        value
+        text
+      }
+      special {
+        value
+        text
+      }
+    }
+    image {
+      alt
+      listing
+    }
+    url
+  }
+`;
+
+export const variables = `
+{
+  categoryId: getContextValue('categoryId'),
+  filters: getContextValue('filtersFromUrl')
+}`
