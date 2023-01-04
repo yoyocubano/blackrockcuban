@@ -32,14 +32,13 @@ export default function CategoryNewForm({
       submitBtn={false}
       id={id}
     >
-      <Area id='categoryForm' noOuter={true} />
+      <Area id={id} noOuter={true} />
     </Form>
   );
 }
 
 CategoryNewForm.propTypes = {
-  updateAction: PropTypes.string.isRequired,
-  createAction: PropTypes.string.isRequired,
+  action: PropTypes.string.isRequired,
   gridUrl: PropTypes.string.isRequired
 };
 
