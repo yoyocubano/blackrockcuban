@@ -46,7 +46,7 @@ module.exports = async (request, response, delegate, next) => {
       });
     }
 
-    // Assign the product to the collection
+    // Remove the product from the collection
     await del('product_collection')
       .where('collection_id', '=', collection['collection_id'])
       .and('product_id', '=', product['product_id'])

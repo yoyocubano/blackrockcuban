@@ -6,7 +6,6 @@ import { useModal } from '@components/common/modal/useModal';
 import './Products.scss';
 import AddProducts from '@components/admin/catalog/collection/collectionEdit/AddProducts';
 import Spinner from '@components/common/Spinner';
-import Button from '@components/common/form/Button';
 
 const ProductsQuery = `
   query Query ($code: String!, $page: String!, $name: String!) {
@@ -146,7 +145,7 @@ export default function Products({
                 )}
                 <div className="flex justify-between">
                   <div>
-                    <i>Total: {data.collection.products.total} items</i>
+                    <i>{data.collection.products.total} items</i>
                   </div>
                   <div>
                     {data.collection.products.total > 10 && (
@@ -185,7 +184,7 @@ export default function Products({
                       // eslint-disable-next-line react/no-array-index-key
                       <div
                         key={p.uuid}
-                        className="grid grid-cols-6 gap-2 py-1 border-divider"
+                        className="grid grid-cols-8 gap-2 py-1 border-divider items-center"
                       >
                         <div className="grid-thumbnail text-border border border-divider p-075 rounded flex justify-center col-span-1">
                           {p.image?.url && (
@@ -213,7 +212,7 @@ export default function Products({
                             </svg>
                           )}
                         </div>
-                        <div className="col-span-4">
+                        <div className="col-span-5">
                           <a
                             href={p.editUrl || ''}
                             className="font-semibold hover:underline"
@@ -221,18 +220,20 @@ export default function Products({
                             {p.name}
                           </a>
                         </div>
-                        <div className="col-span-1">
-                          <Button
-                            variant="secondary"
-                            onAction={async () => {
+                        <div className="col-span-2 text-right">
+                          <a
+                            href="#"
+                            onClick={async (e) => {
+                              e.preventDefault();
                               await removeProduct(
                                 p.removeFromCollectionUrl,
                                 p.uuid
                               );
                             }}
-                            isLoading={removing.includes(p.uuid)}
-                            title="Remove"
-                          />
+                            className="text-critical hover:first-letter:"
+                          >
+                            Remove
+                          </a>
                         </div>
                       </div>
                     );
@@ -271,6 +272,5 @@ export const query = `
       code
       addProductApi: addProductUrl
     }
-    addProductApi: url(routeId: "bestsellers")
   }
 `;
