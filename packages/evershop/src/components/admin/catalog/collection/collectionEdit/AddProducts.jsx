@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
+import CheckIcon from '@heroicons/react/outline/CheckIcon';
 
 const SearchQuery = `
   query Query ($query: String) {
@@ -13,6 +14,9 @@ const SearchQuery = `
         productId
         uuid
         sku
+        collections {
+          collectionId
+        }
         name
         price {
           regular {
@@ -28,9 +32,9 @@ const SearchQuery = `
   }
 `;
 
-function AddProducts({ addProductApi, assignedItems, closeModal }) {
+function AddProducts({ addProductApi, collectionId, closeModal }) {
   const [inputValue, setInputValue] = React.useState('');
-  const [addedProducts, setAddedProducts] = React.useState(assignedItems || []);
+  const [addedProducts, setAddedProducts] = React.useState([]);
 
   const [result, reexecuteQuery] = useQuery({
     query: SearchQuery,
@@ -118,7 +122,12 @@ function AddProducts({ addProductApi, assignedItems, closeModal }) {
                         <p>{product.sku}</p>
                       </div>
                       <div className="col-span-2 text-right">
-                        {!addedProducts.includes(product.uuid) && (
+                        {!(
+                          addedProducts.includes(product.uuid) ||
+                          product.collections.find(
+                            (c) => c.collectionId === collectionId
+                          )
+                        ) && (
                           <button
                             className="button secondary"
                             onClick={async (e) => {
@@ -129,8 +138,13 @@ function AddProducts({ addProductApi, assignedItems, closeModal }) {
                             Add
                           </button>
                         )}
-                        {addedProducts.includes(product.uuid) && (
-                          <span className="button button-secondary">✓</span>
+                        {(addedProducts.includes(product.uuid) ||
+                          product.collections.find(
+                            (c) => c.collectionId === collectionId
+                          )) && (
+                          <span className="button primary">
+                            <CheckIcon width={20} height={20} />
+                          </span>
                         )}
                       </div>
                     </div>
@@ -153,12 +167,7 @@ function AddProducts({ addProductApi, assignedItems, closeModal }) {
 AddProducts.propTypes = {
   addProductApi: PropTypes.string.isRequired,
   collectionId: PropTypes.number.isRequired,
-  collectionProducts: PropTypes.arrayOf(PropTypes.number),
   closeModal: PropTypes.func.isRequired
-};
-
-AddProducts.defaultProps = {
-  collectionProducts: []
 };
 
 export default AddProducts;
