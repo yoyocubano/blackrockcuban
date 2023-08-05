@@ -47,7 +47,7 @@ function Actions({ pages = [], selectedIds = [] }) {
       name: 'Disable',
       onAction: () => {
         openAlert({
-          heading: `Disable ${selectedIds.length} products`,
+          heading: `Disable ${selectedIds.length} pages`,
           content: 'Are you sure?',
           primaryAction: {
             title: 'Cancel',
