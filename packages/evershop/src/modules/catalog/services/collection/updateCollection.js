@@ -43,12 +43,12 @@ async function updateCollectionData(uuid, data, connection) {
   }
 
   try {
-    const result = await update('collection')
+    const newCollection = await update('collection')
       .given(data)
       .where('uuid', '=', uuid)
       .execute(connection);
 
-    return result;
+    return newCollection;
   } catch (e) {
     if (!e.message.includes('No data was provided')) {
       throw e;

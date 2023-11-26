@@ -47,12 +47,12 @@ module.exports = async (uuid, context) => {
     }
     // Merge hook context with context
     Object.assign(hookContext, context);
-    const collection = await hookable(deleteCategory, hookContext)(
+    const category = await hookable(deleteCategory, hookContext)(
       uuid,
       connection
     );
     await commit(connection);
-    return collection;
+    return category;
   } catch (e) {
     await rollback(connection);
     throw e;
