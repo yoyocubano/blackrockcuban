@@ -66,32 +66,47 @@ async function updateCategoryData(uuid, data, connection) {
 
 /**
  * Update category service. This service will update a category with all related data
+ * @param {String} uuid
  * @param {Object} data
+ * @param {Object} connection
  */
-async function updateCategory(uuid, data) {
+async function updateCategory(uuid, data, connection) {
+  const categoryData = await getValue('categoryDataBeforeUpdate', data);
+  // Validate category data
+  validateCategoryDataBeforeInsert(categoryData);
+
+  // Insert category data
+  const category = await hookable(updateCategoryData, { connection })(
+    uuid,
+    categoryData,
+    connection
+  );
+
+  return category;
+}
+
+module.exports = async (uuid, data, context) => {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
-    const categoryData = await getValue('categoryDataBeforeUpdate', data);
-    // Validate category data
-    validateCategoryDataBeforeInsert(categoryData);
-
-    // Insert category data
-    const category = await hookable(updateCategoryData, { connection })(
+    const hookContext = {
+      connection
+    };
+    // Make sure the context is either not provided or is an object
+    if (context && typeof context !== 'object') {
+      throw new Error('Context must be an object');
+    }
+    // Merge hook context with context
+    Object.assign(hookContext, context);
+    const collection = await hookable(updateCategory, hookContext)(
       uuid,
-      categoryData,
+      data,
       connection
     );
-
     await commit(connection);
-    return category;
+    return collection;
   } catch (e) {
     await rollback(connection);
     throw e;
   }
-}
-
-module.exports = async (uuid, data) => {
-  const result = await hookable(updateCategory)(uuid, data);
-  return result;
 };
