@@ -32,8 +32,8 @@ function validateCollectionDataBeforeInsert(data) {
 }
 
 async function insertCollectionData(data, connection) {
-  const result = await insert('collection').given(data).execute(connection);
-  return result;
+  const collection = await insert('collection').given(data).execute(connection);
+  return collection;
 }
 
 /**
@@ -68,12 +68,12 @@ module.exports = async (data, context) => {
     }
     // Merge hook context with context
     Object.assign(hookContext, context);
-    const result = await hookable(createCollection, hookContext)(
+    const collection = await hookable(createCollection, hookContext)(
       data,
       connection
     );
     await commit(connection);
-    return result;
+    return collection;
   } catch (e) {
     await rollback(connection);
     throw e;
