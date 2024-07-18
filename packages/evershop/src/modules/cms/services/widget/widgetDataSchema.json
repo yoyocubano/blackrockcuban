@@ -8,9 +8,20 @@
       "type": ["string", "integer"],
       "enum": ["0", "1", 0, 1]
     },
+    "area": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "route": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "settings": {
       "type": "object",
-      "skipEscape": true,
       "additionalProperties": true
     }
   },
