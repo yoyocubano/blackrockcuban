@@ -1,5 +1,5 @@
 import staticMiddleware from '../../../../../lib/middlewares/static.js';
 
-export default (request, response, next) => {
-  staticMiddleware(request, response, next);
+export default async (request, response, next) => {
+  await staticMiddleware(request, response, next);
 };
