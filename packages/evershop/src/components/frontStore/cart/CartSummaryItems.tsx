@@ -1,5 +1,6 @@
+import { Image } from '@components/common/Image.js';
+import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
 import { CartItem } from '@components/frontStore/cart/CartContext.js';
-import { OrderItem } from '@components/frontStore/customer/CustomerContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
@@ -28,7 +29,7 @@ const CartSummarySkeleton: React.FC<{ rows?: number }> = ({ rows = 2 }) => {
 };
 
 const CartSummaryItemsList: React.FC<{
-  items: CartItem[] | OrderItem[];
+  items: CartItem[];
   loading: boolean;
   showPriceIncludingTax?: boolean;
 }> = ({ items, loading, showPriceIncludingTax }) => {
@@ -51,11 +52,16 @@ const CartSummaryItemsList: React.FC<{
         <li key={item.uuid} className="flex items-start py-3">
           <div className="relative mr-4 self-center">
             {item.thumbnail && (
-              <img
+              <Image
+                width={100}
+                height={100}
                 src={item.thumbnail}
                 alt={item.productName}
                 className="w-16 h-16 object-cover rounded border p-2 box-border"
               />
+            )}
+            {!item.thumbnail && (
+              <ProductNoThumbnail className="w-16 h-16 rounded border p-2 box-border" />
             )}
             <span className="absolute -top-2 -right-2 bg-gray-200 rounded-full w-6 h-6 flex items-center justify-center text-gray-700 text-sm">
               {item.qty}
