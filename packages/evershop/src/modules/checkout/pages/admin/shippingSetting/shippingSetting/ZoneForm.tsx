@@ -66,7 +66,7 @@ function ZoneForm({
             placeholder="Enter zone name"
             required
             validation={{ required: 'Zone name is required' }}
-            value={zone?.name}
+            defaultValue={zone?.name}
           />
         </Card.Session>
         <Card.Session title="Country">
