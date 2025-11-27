@@ -43,6 +43,13 @@ function ZoneForm({
     query: CountriesQuery
   });
 
+  // Reset provinces when country changes
+  React.useEffect(() => {
+    if (countryWatch !== zone?.country?.code) {
+      form.setValue('provinces', []);
+    }
+  }, [countryWatch, zone?.country?.code, form]);
+
   if (fetching) return <Spinner />;
   if (error) {
     return <p className="text-critical">Error loading countries</p>;
