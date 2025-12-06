@@ -1,26 +1,33 @@
 import {
   commit,
-  insert,
   rollback,
   select,
-  startTransaction
+  startTransaction,
+  update
 } from '@evershop/postgres-query-builder';
-import { getConnection } from '../../../../lib/postgres/connection.js';
+import { getConnection, pool } from '../../../../lib/postgres/connection.js';
 import {
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD,
   OK
 } from '../../../../lib/util/httpStatus.js';
-import { updateShipmentStatus } from '../../services/updateShipmentStatus.js';
+import { EvershopRequest } from '../../../../types/request.js';
+import { EvershopResponse } from '../../../../types/response.js';
+import addOrderActivityLog from '../../services/addOrderActivityLog.js';
 
-export default async (request, response, next) => {
+export default async (
+  request: EvershopRequest,
+  response: EvershopResponse,
+  next
+) => {
   const connection = await getConnection();
   await startTransaction(connection);
-  const { order_id } = request.body;
+  const { order_id, shipment_id } = request.params;
+  const { carrier, tracking_number } = request.body;
   try {
     const order = await select()
       .from('order')
-      .where('order_id', '=', order_id)
+      .where('uuid', '=', order_id)
       .load(connection);
 
     if (!order) {
@@ -35,7 +42,7 @@ export default async (request, response, next) => {
     }
     const shipment = await select()
       .from('shipment')
-      .where('shipment_order_id', '=', order_id)
+      .where('uuid', '=', shipment_id)
       .load(connection);
 
     if (!shipment) {
@@ -43,29 +50,38 @@ export default async (request, response, next) => {
       response.json({
         error: {
           status: INVALID_PAYLOAD,
-          message: 'Shipment was not created'
+          message: 'Invalid shipment id'
         }
       });
       return;
     }
-
-    await updateShipmentStatus(order_id, 'delivered', connection);
-    /* Add an activity log message */
-    await insert('order_activity')
+    await update('shipment')
       .given({
-        order_activity_order_id: order.order_id,
-        comment: 'Order delivered',
-        customer_notified: 0 // TODO: Add customer notification
+        carrier,
+        tracking_number
       })
+      .where('uuid', '=', shipment_id)
       .execute(connection);
+    /* Add an activity log message */
+    await addOrderActivityLog(
+      order.order_id,
+      'Shipment information updated',
+      false,
+      connection
+    );
 
     await commit(connection);
+
+    // Load updated shipment
+    const updatedShipment = await select()
+      .from('shipment')
+      .where('shipment_order_id', '=', order.order_id)
+      .and('uuid', '=', shipment_id)
+      .load(pool);
+
     response.status(OK);
     response.$body = {
-      data: {
-        order_id: order.order_id,
-        shipment_id: shipment.shipment_id
-      }
+      data: updatedShipment
     };
     next();
   } catch (e) {

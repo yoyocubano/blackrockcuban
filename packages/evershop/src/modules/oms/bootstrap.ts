@@ -3,11 +3,18 @@ import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilter
 import { hookAfter } from '../../lib/util/hookable.js';
 import { merge } from '../../lib/util/merge.js';
 import { addProcessor } from '../../lib/util/registry.js';
+import {
+  OrderCreateResult,
+  SaveOrderArgs,
+  SaveOrderContext
+} from '../checkout/services/orderCreator.js';
+import createShipment from './services/createShipment.js';
 import registerDefaultOrderCollectionFilters from './services/registerDefaultOrderCollectionFilters.js';
 import {
   changeOrderStatus,
   resolveOrderStatus
 } from './services/updateOrderStatus.js';
+import { updateShipmentStatus } from './services/updateShipmentStatus.js';
 
 export default () => {
   addProcessor('configurationSchema', (schema) => {
@@ -351,7 +358,7 @@ export default () => {
     registerDefaultOrderCollectionFilters,
     1
   );
-  addProcessor(
+  addProcessor<Array<any>>(
     'orderCollectionFilters',
     (filters) => [...filters, ...defaultPaginationFilters],
     2
@@ -382,6 +389,23 @@ export default () => {
       }
       const orderStatus = resolveOrderStatus(order.payment_status, status);
       await changeOrderStatus(orderId, orderStatus, connection);
+    }
+  );
+
+  hookAfter<SaveOrderContext, OrderCreateResult, SaveOrderArgs>(
+    'saveOrder',
+    async function createShipmentForVirtualProductsOrder(
+      order,
+      cart,
+      connection
+    ) {
+      if (order.no_shipping_required) {
+        // Create a shipment for this order
+        await createShipment(order.uuid, null, null, connection);
+
+        // And update shipment status to delivered
+        await updateShipmentStatus(order.order_id, 'delivered', connection);
+      }
     }
   );
 };

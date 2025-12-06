@@ -1,17 +1,32 @@
-import Button from '@components/common/Button';
+import Button from '@components/common/Button.js';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
 
+interface MarkDeliveredButtonProps {
+  order: {
+    orderId: string;
+    noShippingRequired: boolean;
+    shipmentStatus: {
+      code: string;
+    };
+    shipment: {
+      shipmentId: number;
+    } | null;
+  };
+  markDeliveredApi: string;
+}
+
 export default function MarkDeliveredButton({
   order: {
     orderId,
+    noShippingRequired,
     shipmentStatus: { code },
     shipment
   },
   markDeliveredApi
-}) {
-  if (!shipment || code === 'delivered') {
+}: MarkDeliveredButtonProps) {
+  if (noShippingRequired || !shipment || code === 'delivered') {
     return null;
   } else {
     return (
@@ -42,19 +57,6 @@ export default function MarkDeliveredButton({
   }
 }
 
-MarkDeliveredButton.propTypes = {
-  order: PropTypes.shape({
-    orderId: PropTypes.string,
-    shipmentStatus: PropTypes.shape({
-      code: PropTypes.string
-    }).isRequired,
-    shipment: PropTypes.shape({
-      shipmentId: PropTypes.number
-    })
-  }).isRequired,
-  markDeliveredApi: PropTypes.string.isRequired
-};
-
 export const layout = {
   areaId: 'order_actions',
   sortOrder: 10
@@ -63,6 +65,7 @@ export const layout = {
 export const query = `
   query Query {
     order(uuid: getContextValue("orderId")) {
+      noShippingRequired
       orderId
       shipmentStatus {
         code

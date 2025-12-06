@@ -1,17 +1,58 @@
-import { Card } from '@components/admin/Card';
-import { AddressSummary } from '@components/common/customer/address/AddressSummary';
-import PropTypes from 'prop-types';
+import { Card } from '@components/admin/Card.js';
+import { AddressSummary } from '@components/common/customer/address/AddressSummary.js';
 import React from 'react';
+
+interface CustomerProps {
+  order: {
+    customerFullName: string;
+    customerEmail: string;
+    customerUrl?: string;
+    noShippingRequired: boolean;
+    shippingAddress: {
+      fullName: string;
+      city: string;
+      address1: string;
+      address2?: string;
+      postcode: string;
+      telephone: string;
+      province: {
+        code: string;
+        name: string;
+      };
+      country: {
+        code: string;
+        name: string;
+      };
+    };
+    billingAddress: {
+      fullName: string;
+      city: string;
+      address1: string;
+      address2?: string;
+      postcode: string;
+      telephone: string;
+      province: {
+        code: string;
+        name: string;
+      };
+      country: {
+        code: string;
+        name: string;
+      };
+    };
+  };
+}
 
 export default function Customer({
   order: {
+    noShippingRequired,
     shippingAddress,
     billingAddress,
     customerFullName,
     customerEmail,
     customerUrl
   }
-}) {
+}: CustomerProps) {
   return (
     <Card title="Customer">
       <Card.Session>
@@ -31,12 +72,15 @@ export default function Customer({
             {customerEmail}
           </a>
         </div>
-        <div>
-          <span>{shippingAddress.telephone}</span>
-        </div>
+        {shippingAddress?.telephone && (
+          <div>
+            <span>{shippingAddress.telephone}</span>
+          </div>
+        )}
       </Card.Session>
       <Card.Session title="Shipping Address">
-        <AddressSummary address={shippingAddress} />
+        {!noShippingRequired && <AddressSummary address={shippingAddress} />}
+        {noShippingRequired && <span>{'No shipping required'}</span>}
       </Card.Session>
       <Card.Session title="Billing address">
         <AddressSummary address={billingAddress} />
@@ -44,44 +88,6 @@ export default function Customer({
     </Card>
   );
 }
-
-Customer.propTypes = {
-  order: PropTypes.shape({
-    customerFullName: PropTypes.string.isRequired,
-    customerEmail: PropTypes.string.isRequired,
-    customerUrl: PropTypes.string,
-    shippingAddress: PropTypes.shape({
-      fullName: PropTypes.string.isRequired,
-      address1: PropTypes.string.isRequired,
-      city: PropTypes.string.isRequired,
-      postcode: PropTypes.string.isRequired,
-      telephone: PropTypes.string.isRequired,
-      province: PropTypes.shape({
-        code: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      }).isRequired,
-      country: PropTypes.shape({
-        code: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired,
-    billingAddress: PropTypes.shape({
-      fullName: PropTypes.string.isRequired,
-      address1: PropTypes.string.isRequired,
-      city: PropTypes.string.isRequired,
-      postcode: PropTypes.string.isRequired,
-      telephone: PropTypes.string.isRequired,
-      province: PropTypes.shape({
-        code: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      }).isRequired,
-      country: PropTypes.shape({
-        code: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired
-  }).isRequired
-};
 
 export const layout = {
   areaId: 'rightSide',
@@ -94,6 +100,7 @@ export const query = `
       customerFullName
       customerEmail
       customerUrl
+      noShippingRequired
       shippingAddress {
         fullName
         city
