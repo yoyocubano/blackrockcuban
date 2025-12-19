@@ -8,7 +8,6 @@ import { Config } from '../../types/appContext.js';
 import { EvershopRequest } from '../../types/request.js';
 import { EvershopResponse } from '../../types/response.js';
 import { error } from '../log/logger.js';
-import { getRoutes } from '../router/Router.js';
 import { get } from '../util/get.js';
 import { getConfig } from '../util/getConfig.js';
 import isProductionMode from '../util/isProductionMode.js';
@@ -64,7 +63,10 @@ function renderDevelopment(
   request: EvershopRequest,
   response: EvershopResponse
 ) {
-  const route = request.locals.webpackMatchedRoute;
+  const route = request.currentRoute;
+  const classes = route.isAdmin
+    ? `admin ${route.id}`
+    : `frontStore ${route.id}`;
   const language = getConfig('shop.language', 'en');
   if (!route) {
     // In testing mode, we do not have devMiddleware
@@ -80,50 +82,28 @@ function renderDevelopment(
             `);
     return;
   }
-  // We can not get devMiddleware from response.locals
-  // because there are 2 build (current route, and notFound)
-
   const contextValue = buildContextData(request, response);
   const safeContextValue = jsesc(contextValue, {
     json: true,
     isScriptContext: true
   });
-  const { assetsByChunkName } = response.locals.jsonWebpackStats;
-
-  const notFoundFile = request.currentRoute?.isAdmin
-    ? 'adminNotFound.js'
-    : 'notFound.js';
   const langCode = request.currentRoute?.isAdmin ? 'en' : language;
   response.send(`
             <!doctype html><html lang="${langCode}">
                 <head>
                   <script>var eContext = ${safeContextValue}</script>
                 </head>
-                <body>
-                <div id="app" className="bg-background"></div>
-                 ${normalizeAssets(assetsByChunkName[route.id])
-                   .filter((p) => p.endsWith('.js'))
-                   .map(
-                     (p) =>
-                       `<script defer src="/${
-                         response.statusCode === 404 ? notFoundFile : p
-                       }"></script>`
-                   )
-                   .join('\n')}
+                <body class="${classes}">
+                <div id="app"></div>
+                 <script defer src="/main.js"></script>
                 </body >
             </html >
   `);
 }
 
 function renderProduction(request, response) {
-  const routes = getRoutes();
   const language = getConfig('shop.language', 'en');
-  const frontNotFound = routes.find((route) => route.id === 'notFound');
-  const adminNotFound = routes.find((route) => route.id === 'adminNotFound');
-  const notFound = request.currentRoute?.isAdmin
-    ? adminNotFound
-    : frontNotFound;
-  const route = response.statusCode === 404 ? notFound : request.currentRoute;
+  const route = request.currentRoute;
   const langCode = route.isAdmin === true ? 'en' : language;
   const serverIndexPath = path.resolve(
     getRouteBuildPath(route),
@@ -157,7 +137,13 @@ function renderProduction(request, response) {
   import(pathToFileURL(serverIndexPath).toString())
     .then((module) => {
       const source = processPreloadImages(
-        module.default(assets.js, cssList, safeContextValue, langCode)
+        module.default(
+          request.currentRoute,
+          assets.js,
+          cssList,
+          safeContextValue,
+          langCode
+        )
       );
       response.send(source);
     })

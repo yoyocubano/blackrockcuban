@@ -1,10 +1,10 @@
 import { resolve } from 'path';
 import { getEnabledExtensions } from '../../bin/extension/index.js';
 import { getCoreModules } from '../../bin/lib/loadModules.js';
-import { CONSTANTS } from '../helpers.js';
+import { getRoutes } from '../router/Router.js';
 import { getEnabledTheme } from '../util/getEnabledTheme.js';
 import { getEnabledWidgets } from '../widget/widgetManager.js';
-import { scanRouteComponents } from './scanForComponents.js';
+import { ComponentsMap, scanRouteComponents } from './scanForComponents.js';
 
 export function getComponentsByRoute(route) {
   const modules = [...getCoreModules(), ...getEnabledExtensions()];
@@ -28,4 +28,22 @@ export function getComponentsByRoute(route) {
       (widgets || []).map((widget) => widget.settingComponent)
     );
   }
+}
+
+interface AllRouteComponentsMap {
+  [routeId: string]: ComponentsMap;
+}
+
+/**
+ * Scan components for all routes
+ * @returns A map of route IDs to their components
+ */
+export function getAllRouteComponents(): AllRouteComponentsMap {
+  const allComponents: AllRouteComponentsMap = {};
+  const routes = getRoutes();
+  routes.forEach((route) => {
+    allComponents[route.id] = getComponentsByRoute(route);
+  });
+
+  return allComponents;
 }

@@ -1,7 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-:root {
+
+body.admin {
   --primary: #008060;
   --secondary: #111213;
   --surface: #111213;
@@ -22,7 +23,7 @@
   --formFieldBorderShadow: #aeb4b9;
 }
 
-body {
+body.admin {
   color: #202223;
 }
 table {
@@ -52,7 +53,7 @@ table {
     }
   }
 }
-#app {
+body.admin {
   background-color: rgba(246, 246, 247, 0.9882352941);
 }
 .header {
@@ -90,7 +91,7 @@ table {
 }
 
 @layer base {
-  body {
+  body.admin {
     @apply text-sm;
   }
   .required-indicator {

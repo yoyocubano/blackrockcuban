@@ -44,6 +44,11 @@ export default function LoginForm({ authUrl, dashboardUrl }: LoginFormProps) {
 
   return (
     <div className="admin-login-form">
+      <style>{`
+        .header {
+          display: none !important;
+        }
+      `}</style>
       <div className="flex items-center justify-center mb-7">
         <svg
           width="60"

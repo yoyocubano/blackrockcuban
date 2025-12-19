@@ -4,28 +4,25 @@ import webpack from 'webpack';
 import { getEnabledExtensions } from '../../../bin/extension/index.js';
 import { getComponentsByRoute } from '../../componee/getComponentsByRoute.js';
 import { CONSTANTS } from '../../helpers.js';
+import { getRoutes } from '../../router/Router.js';
 import { createBaseConfig } from '../createBaseConfig.js';
 import { GraphqlPlugin } from '../plugins/GraphqlPlugin.js';
 import { ThemeWatcherPlugin } from '../plugins/ThemeWatcherPlugin.js';
 
-export function createConfigClient(route, tailwindConfig) {
+export function createConfigClient(
+  adminTailwindConfig,
+  frontstoreTailwindConfig
+) {
   const extensions = getEnabledExtensions();
   const config = createBaseConfig(false);
-  config.name = route.id;
+  config.name = 'bundle-client';
 
   const loaders = config.module.rules;
   loaders.unshift({
     test: /common[\\/]react[\\/]client[\\/]Index\.js$/i,
     use: [
       {
-        loader: path.resolve(
-          CONSTANTS.LIBPATH,
-          'webpack/loaders/AreaLoader.js'
-        ),
-        options: {
-          getComponents: () => getComponentsByRoute(route),
-          route
-        }
+        loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/AreaLoader.js')
       }
     ]
   });
@@ -46,16 +43,84 @@ export function createConfigClient(route, tailwindConfig) {
       {
         loader: 'postcss-loader',
         options: {
-          postcssOptions: {
-            plugins: [
-              [
-                'tailwindcss',
-                {
-                  config: tailwindConfig
-                }
-              ],
-              'autoprefixer'
-            ]
+          postcssOptions: (loaderContext) => {
+            const { resourcePath } = loaderContext;
+            const normalizedPath = resourcePath.replace(/\\/g, '/');
+
+            if (normalizedPath.includes('/admin/all/global.scss')) {
+              return {
+                plugins: [
+                  [
+                    'tailwindcss',
+                    {
+                      config: adminTailwindConfig
+                    }
+                  ],
+                  [
+                    'postcss-prefix-selector',
+                    {
+                      prefix: '.admin',
+                      transform: function (prefix, selector, prefixedSelector) {
+                        // Don't prefix :root, html, body, or * selectors
+                        if (
+                          selector === ':root' ||
+                          selector === 'html' ||
+                          selector === 'body' ||
+                          selector === '*'
+                        ) {
+                          return selector;
+                        }
+                        // Don't prefix selectors that already contain .admin
+                        if (selector.includes('.admin')) {
+                          return selector;
+                        }
+                        return prefixedSelector;
+                      }
+                    }
+                  ],
+                  'autoprefixer'
+                ]
+              };
+            } else if (normalizedPath.includes('/frontStore/all/global.scss')) {
+              return {
+                plugins: [
+                  [
+                    'tailwindcss',
+                    {
+                      config: frontstoreTailwindConfig
+                    }
+                  ],
+                  [
+                    'postcss-prefix-selector',
+                    {
+                      prefix: '.frontStore',
+                      transform: function (prefix, selector, prefixedSelector) {
+                        // Don't prefix :root, html, body, or * selectors
+                        if (
+                          selector === ':root' ||
+                          selector === 'html' ||
+                          selector === 'body' ||
+                          selector === '*'
+                        ) {
+                          return selector;
+                        }
+                        // Don't prefix selectors that already contain .frontStore
+                        if (selector.includes('.frontStore')) {
+                          return selector;
+                        }
+                        return prefixedSelector;
+                      }
+                    }
+                  ],
+                  'autoprefixer'
+                ]
+              };
+            } else {
+              // For other CSS/SCSS files, only use autoprefixer (skip Tailwind for performance)
+              return {
+                plugins: ['autoprefixer']
+              };
+            }
           }
         }
       },
@@ -78,14 +143,14 @@ export function createConfigClient(route, tailwindConfig) {
           'webpack/loaders/GraphQLAPILoader.js'
         ),
         options: {
-          isAdmin: route.isAdmin
+          isAdmin: false //route.isAdmin
         }
       }
     ]
   });
 
   const { plugins } = config;
-  plugins.push(new GraphqlPlugin(route));
+  plugins.push(new GraphqlPlugin());
   plugins.push(new webpack.ProgressPlugin());
   plugins.push(new webpack.HotModuleReplacementPlugin());
   plugins.push(
@@ -96,15 +161,13 @@ export function createConfigClient(route, tailwindConfig) {
   plugins.push(new ThemeWatcherPlugin());
 
   config.entry = () => {
-    const entry = {};
-
-    entry[route.id] = [
-      ...getComponentsByRoute(route),
+    const routes = getRoutes();
+    const entry = [
       path.resolve(
         CONSTANTS.MODULESPATH,
         '../components/common/react/client/Index.js'
       ),
-      `webpack-hot-middleware/client?path=/eHot/${route.id}&reload=true&overlay=true`
+      `webpack-hot-middleware/client?path=/eHot&reload=true&overlay=true`
     ];
     return entry;
   };

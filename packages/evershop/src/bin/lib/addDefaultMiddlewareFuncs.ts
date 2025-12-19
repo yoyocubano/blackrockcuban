@@ -70,11 +70,11 @@ export function addDefaultMiddlewareFuncs(app) {
     },
     resave: getConfig('system.session.resave', false),
     saveUninitialized: getConfig('system.session.saveUninitialized', true)
-  };
+  } as session.SessionOptions;
 
   if (isProductionMode()) {
     app.set('trust proxy', 1);
-    sess.cookie.secure = false;
+    sess.cookie!.secure = false;
   }
 
   const adminSessionMiddleware = session({
@@ -156,7 +156,7 @@ export function addDefaultMiddlewareFuncs(app) {
         if (match) {
           request.locals = request.locals || {};
           request.locals.customParams = {};
-          const keys = [];
+          const keys: any[] = [];
           pathToRegexp(r.path, keys);
           keys.forEach((key, index) => {
             request.locals.customParams[key.name] = match[index + 1];
@@ -182,10 +182,7 @@ export function addDefaultMiddlewareFuncs(app) {
       return next();
     }
 
-    const routes = getRoutes();
     const route = findRoute(request);
-    request.locals = request.locals || {};
-    request.locals.webpackMatchedRoute = route;
     if (!route || !isBuildRequired(route)) {
       next();
     } else {
@@ -222,100 +219,55 @@ export function addDefaultMiddlewareFuncs(app) {
           path.join(theme.path, 'dist', '**', '[A-Z]*.js')
         );
       }
-      if (!route.webpackCompiler) {
-        route.webpackCompiler = webpack(
+      if (!app.locals.webpackCompiler) {
+        app.locals.webpackCompiler = webpack(
           createConfigClient(
-            route,
-            route.isAdmin ? adminTailwindConfig : frontStoreTailwindConfig
-          )
+            adminTailwindConfig,
+            frontStoreTailwindConfig
+          ) as any
         );
       }
-      const { webpackCompiler } = route;
+      const { webpackCompiler } = app.locals;
       let middlewareFunc;
-      if (!route.webpackMiddleware) {
-        middlewareFunc = route.webpackMiddleware = middleware(webpackCompiler, {
-          serverSideRender: true,
-          publicPath: '/',
-          stats: 'none'
-        });
-        middlewareFunc.context.logger.info = () => {};
-      } else {
-        middlewareFunc = route.webpackMiddleware;
-      }
-      middlewareFunc.waitUntilValid(() => {
-        const { stats } = middlewareFunc.context;
-        const jsonWebpackStats = stats.toJson();
-        response.locals.jsonWebpackStats = jsonWebpackStats;
-      });
-      // We need to run build for notFound route
-      const notFoundRoute = routes.find((r) => r.id === 'notFound');
-      if (!notFoundRoute.webpackCompiler) {
-        notFoundRoute.webpackCompiler = webpack(
-          createConfigClient(notFoundRoute, frontStoreTailwindConfig)
-        );
-      }
-      const notFoundWebpackCompiler = notFoundRoute.webpackCompiler;
-      let notFoundMiddlewareFunc;
-      if (!notFoundRoute.webpackMiddleware) {
-        notFoundMiddlewareFunc = notFoundRoute.webpackMiddleware = middleware(
-          notFoundWebpackCompiler,
+      if (!app.locals.webpackMiddleware) {
+        middlewareFunc = app.locals.webpackMiddleware = middleware(
+          webpackCompiler,
           {
             serverSideRender: true,
             publicPath: '/',
             stats: 'none'
           }
         );
-        notFoundMiddlewareFunc.context.logger.info = () => {};
+        middlewareFunc.context.logger.info = () => {};
       } else {
-        notFoundMiddlewareFunc = notFoundRoute.webpackMiddleware;
+        middlewareFunc = app.locals.webpackMiddleware;
       }
-
-      // We need to run build for adminNotFound route
-      const adminNotFoundRoute = routes.find((r) => r.id === 'adminNotFound');
-      if (!adminNotFoundRoute.webpackCompiler) {
-        adminNotFoundRoute.webpackCompiler = webpack(
-          createConfigClient(adminNotFoundRoute, adminTailwindConfig)
-        );
-      }
-      const adminNotFoundWebpackCompiler = adminNotFoundRoute.webpackCompiler;
-      let adminNotFoundMiddlewareFunc;
-      if (!adminNotFoundRoute.webpackMiddleware) {
-        adminNotFoundMiddlewareFunc = adminNotFoundRoute.webpackMiddleware =
-          middleware(adminNotFoundWebpackCompiler, {
-            serverSideRender: true,
-            publicPath: '/',
-            stats: 'none'
-          });
-        adminNotFoundMiddlewareFunc.context.logger.info = () => {};
-      } else {
-        adminNotFoundMiddlewareFunc = adminNotFoundRoute.webpackMiddleware;
-      }
-
-      middlewareFunc(request, response, () => {
-        notFoundMiddlewareFunc(request, response, () => {
-          adminNotFoundMiddlewareFunc(request, response, next);
-        });
+      middlewareFunc.waitUntilValid(() => {
+        const { stats } = middlewareFunc.context;
+        const jsonWebpackStats = stats.toJson();
+        response.locals.jsonWebpackStats = jsonWebpackStats;
       });
+
+      middlewareFunc(request, response, next);
     }
   });
   app.use((request, response, next) => {
     if (!isDevelopmentMode()) {
       return next();
     }
-    const routes = getRoutes();
     const route = findRoute(request);
     request.currentRoute = route;
     if (!isBuildRequired(route)) {
       return next();
     }
-    if (!route.hotMiddleware) {
-      const { webpackCompiler } = route;
+    if (!app.locals.hotMiddleware) {
+      const { webpackCompiler } = app.locals;
       const hotMiddleware = webpackHotMiddleware(webpackCompiler, {
-        path: `/eHot/${route.id}`
+        path: `/eHot`
       });
-      route.hotMiddleware = hotMiddleware;
+      app.locals.hotMiddleware = hotMiddleware;
     }
-    return route.hotMiddleware(request, response, () => {
+    return app.locals.hotMiddleware(request, response, () => {
       next();
     });
   });

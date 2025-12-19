@@ -1,7 +1,13 @@
 import { existsSync, readdirSync } from 'fs';
 import { resolve, sep } from 'path';
+import { Extension } from '../../types/extension.js';
+import { Route } from '../../types/route.js';
 
-function scanForComponents(path) {
+interface ComponentsMap {
+  [key: string]: string;
+}
+
+function scanForComponents(path: string): string[] {
   return readdirSync(resolve(path), { withFileTypes: true })
     .filter(
       (dirent) =>
@@ -12,8 +18,15 @@ function scanForComponents(path) {
     .map((dirent) => resolve(path, dirent.name));
 }
 
-function scanRouteComponents(route, modules, themePath = null) {
-  let components = {};
+function scanRouteComponents(
+  route: Route,
+  modules: {
+    name: string;
+    path: string;
+  }[],
+  themePath: string | null = null
+): ComponentsMap {
+  let components: ComponentsMap = {};
 
   modules.forEach((module) => {
     // Scan for 'all' components
@@ -28,7 +41,7 @@ function scanRouteComponents(route, modules, themePath = null) {
       : [];
 
     pages.forEach((page) => {
-      let moduleComponents = [];
+      let moduleComponents: string[] = [];
       if (page === 'all' || page === route.id) {
         moduleComponents = [
           ...moduleComponents,
@@ -43,11 +56,14 @@ function scanRouteComponents(route, modules, themePath = null) {
         ];
       }
 
-      const componentsObject = moduleComponents.reduce((a, v) => {
-        // Split the path by separator and get the 2 last items (routeId and component name)
-        const key = v.split(sep).slice(-2).join('/');
-        return { ...a, [key]: v };
-      }, {});
+      const componentsObject = moduleComponents.reduce(
+        (a: ComponentsMap, v: string) => {
+          // Split the path by separator and get the 2 last items (routeId and component name)
+          const key = v.split(sep).slice(-2).join('/');
+          return { ...a, [key]: v };
+        },
+        {}
+      );
 
       components = { ...components, ...componentsObject };
     });
@@ -62,7 +78,7 @@ function scanRouteComponents(route, modules, themePath = null) {
       : [];
 
     themePages.forEach((page) => {
-      let themeComponents = [];
+      let themeComponents: string[] = [];
       if (page === 'all' || page === route.id) {
         themeComponents = [
           ...themeComponents,
@@ -77,11 +93,14 @@ function scanRouteComponents(route, modules, themePath = null) {
         ];
       }
 
-      const themeComponentsObject = themeComponents.reduce((a, v) => {
-        // Split the path by separator and get the 2 last items (routeId and component name)
-        const key = v.split(sep).slice(-2).join('/');
-        return { ...a, [key]: v };
-      }, {});
+      const themeComponentsObject = themeComponents.reduce(
+        (a: ComponentsMap, v: string) => {
+          // Split the path by separator and get the 2 last items (routeId and component name)
+          const key = v.split(sep).slice(-2).join('/');
+          return { ...a, [key]: v };
+        },
+        {}
+      );
 
       components = { ...components, ...themeComponentsObject };
     });
@@ -91,3 +110,4 @@ function scanRouteComponents(route, modules, themePath = null) {
 }
 
 export { scanForComponents, scanRouteComponents };
+export type { ComponentsMap };
