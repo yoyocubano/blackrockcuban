@@ -7,7 +7,7 @@ import {
 import {
   CustomerProvider,
   Customer
-} from '@components/frontStore/customer/CustomerContext.jsx';
+} from '@components/frontStore/customer/CustomerContext.js';
 import { Footer } from '@components/frontStore/Footer.js';
 import { Header } from '@components/frontStore/Header.js';
 import React from 'react';
