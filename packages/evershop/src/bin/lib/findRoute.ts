@@ -16,9 +16,8 @@ export function findRoute(request) {
         routes.find((r) => r.id === id) ||
         routes.find((r) => r.id === 'notFound')
       );
-    } else if (path.includes('/eHot/')) {
-      const id = path.split('/').pop();
-      return routes.find((r) => r.id === id);
+    } else if (path.includes('/eHot')) {
+      return routes.find((r) => r.id === 'homepage');
     } else {
       return routes.find((r) => r.id === 'notFound');
     }

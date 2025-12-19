@@ -14,70 +14,49 @@ import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInst
 import { getContextValue } from '../../services/contextHelper.js';
 
 export default async (request, response, next) => {
-  let query;
-  getContextValue(request, 'dummy', null);
-  if (isDevelopmentMode()) {
-    let route;
-    if (response.statusCode === 404) {
-      if (request.currentRoute?.isAdmin) {
-        route = getRoutes().find((r) => r.id === 'adminNotFound');
-      } else {
-        route = getRoutes().find((r) => r.id === 'notFound');
-      }
-    } else {
-      // Get the 'query.graphql' from webpack compiler
-      route = request.locals.webpackMatchedRoute;
+  try {
+    let query;
+    getContextValue(request, 'dummy', null);
+    if (isDevelopmentMode()) {
+      const route = request.currentRoute;
+      const devMiddleware = request.app.locals.webpackMiddleware;
+      const { outputFileSystem } = devMiddleware.context;
+      const { jsonWebpackStats } = response.locals;
+      const { outputPath } = jsonWebpackStats;
+
+      query = outputFileSystem.readFileSync(
+        path.join(outputPath, `query-${route.id}.graphql`),
+        'utf8'
+      );
+    } else if (isProductionMode()) {
+      const routes = getRoutes();
+      const route = request.currentRoute;
+      const subPath = getRouteBuildPath(route);
+      query = readFileSync(
+        path.resolve(CONSTANTS.BUILDPATH, subPath, 'server/query.graphql'),
+        'utf8'
+      );
     }
-    const devMiddleware = route.webpackMiddleware;
-    const { outputFileSystem } = devMiddleware.context;
-    const { jsonWebpackStats } = response.locals;
-    const { outputPath } = jsonWebpackStats;
+    const widgetInstances = await loadWidgetInstances(request);
+    const enabledWidgets = getEnabledWidgets();
+    if (query) {
+      // Parse the query
+      // Use regex to replace "getContextValue_'base64 encoded string'"
+      // from the query to the actual function
+      const regex = /\\"getContextValue_([a-zA-Z0-9+/=]+)\\"/g;
+      query = query.replace(regex, (match, p1) => {
+        const base64 = p1;
+        const decoded = Buffer.from(base64, 'base64').toString('ascii');
+        let value = eval(`getContextValue(request, ${decoded})`);
 
-    query = outputFileSystem.readFileSync(
-      path.join(outputPath, 'query.graphql'),
-      'utf8'
-    );
-  } else if (isProductionMode()) {
-    const routes = getRoutes();
-    let route;
-    if (response.statusCode === 404) {
-      if (request.currentRoute?.isAdmin) {
-        route = routes.find((r) => r.id === 'adminNotFound');
-      } else {
-        route = routes.find((r) => r.id === 'notFound');
-      }
-    } else {
-      route = request.currentRoute;
-    }
-
-    const subPath = getRouteBuildPath(route);
-    query = readFileSync(
-      path.resolve(CONSTANTS.BUILDPATH, subPath, 'server/query.graphql'),
-      'utf8'
-    );
-  }
-  const widgetInstances = await loadWidgetInstances(request);
-  const enabledWidgets = getEnabledWidgets();
-  if (query) {
-    // Parse the query
-    // Use regex to replace "getContextValue_'base64 encoded string'"
-    // from the query to the actual function
-    const regex = /\\"getContextValue_([a-zA-Z0-9+/=]+)\\"/g;
-    query = query.replace(regex, (match, p1) => {
-      const base64 = p1;
-      const decoded = Buffer.from(base64, 'base64').toString('ascii');
-
-      let value = eval(`getContextValue(request, ${decoded})`);
-
-      // JSON sringify without adding double quotes to the property name
-      value = JSON5.stringify(value, { quote: '"' });
-      // Escape the value so we can insert it into the query
-      if (value) {
-        value = value.replace(/"/g, '\\"');
-      }
-      return value;
-    });
-    try {
+        // JSON sringify without adding double quotes to the property name
+        value = JSON5.stringify(value, { quote: '"' });
+        // Escape the value so we can insert it into the query
+        if (value) {
+          value = value.replace(/"/g, '\\"');
+        }
+        return value;
+      });
       const json = JSON5.parse(query);
       // We need to get the list of applicable widgets and remove all the queries and variable that are not used
       let applicableWidgets = [];
@@ -334,9 +313,9 @@ export default async (request, response, next) => {
       request.body.graphqlVariables = variables.values;
       request.body.propsMap = propsMap;
       next();
-    } catch (e) {
-      error(e);
-      throw error;
     }
+  } catch (e) {
+    error(e);
+    throw error;
   }
 };

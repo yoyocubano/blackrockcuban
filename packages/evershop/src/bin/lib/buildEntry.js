@@ -71,12 +71,17 @@ export async function buildEntry(routes, clientOnly = false) {
         const url = route.isAdmin
           ? pathToFileURL(widget.settingComponent).toString()
           : pathToFileURL(widget.component).toString();
-        imports.push(`import ${widget.type} from '${url}';`);
-        areas['*'][widget.type] = {
-          id: widget.type,
+        const id = generateComponentKey(
+          route.isAdmin
+            ? `admin_widget_${widget.type}`
+            : `widget_${widget.type}`
+        );
+        imports.push(`import ${id} from '${url}';`);
+        areas['*'][id] = {
+          id,
           sortOrder: widget.sortOrder || 0,
           component: {
-            default: `---${widget.type}---`
+            default: `---${id}---`
           }
         };
       });

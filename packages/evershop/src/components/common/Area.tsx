@@ -1,4 +1,5 @@
 import { useAppState } from '@components/common/context/app.js';
+import { generateComponentKey } from '@evershop/evershop/lib/webpack/util/keyGenerator.js';
 import React from 'react';
 import type { ElementType } from 'react';
 
@@ -56,7 +57,9 @@ function Area(props: AreaProps) {
     const assignedWidgets: Component[] = [];
 
     widgets.forEach((widget: Widget) => {
-      const w = wildCardWidgets[widget.type];
+      const adminKey = generateComponentKey(`admin_widget_${widget.type}`);
+      const frontKey = generateComponentKey(`widget_${widget.type}`);
+      const w = wildCardWidgets[adminKey] || wildCardWidgets[frontKey];
       if (widget.areaId.includes(id) && w !== undefined) {
         assignedWidgets.push({
           id: widget.id,
