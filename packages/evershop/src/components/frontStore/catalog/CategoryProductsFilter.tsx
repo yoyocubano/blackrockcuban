@@ -19,8 +19,8 @@ export function CategoryProductsFilter() {
         {(renderProps) => (
           <DefaultProductFilterRender
             renderProps={renderProps}
-            title="Product Filters"
-            className="my-custom-class"
+            title={_('Product Filters')}
+            className="product__filters"
             showFilterSummary={true}
           />
         )}
