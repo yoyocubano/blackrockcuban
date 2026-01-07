@@ -106,7 +106,7 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "prepack": "rimraf dist && tsc && copyfiles -u 1 \"src/**/*.{graphql,scss,json}\" dist",
+    "prepack": "rimraf dist && tsc && copyfiles -u 1 \"src/**/*.{graphql,scss,css,json}\" dist",
     "dev": "node ./dist/bin/dev/index.js",
     "start": "node ./dist/bin/start/index.js",
     "build": "node ./dist/bin/build/index.js",
