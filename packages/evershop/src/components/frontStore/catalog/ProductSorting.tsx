@@ -185,9 +185,9 @@ export function ProductSorting({
       }`}
     >
       {props.sortOrder === 'desc' ? (
-        <ArrowDownWideNarrow className="w-5 h-5" />
+        <ArrowDownWideNarrow className="w-5 h-5 text-muted-foreground" />
       ) : (
-        <ArrowUpWideNarrow className="w-5 h-5" />
+        <ArrowUpWideNarrow className="w-5 h-5 text-muted-foreground" />
       )}
     </button>
   );

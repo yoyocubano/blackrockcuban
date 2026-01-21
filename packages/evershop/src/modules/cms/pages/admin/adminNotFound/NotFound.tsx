@@ -19,8 +19,10 @@ function Content({ dashboardUrl }: ContentProps) {
         <Button
           title="Back To Dashboard"
           onClick={() => (window.location.href = dashboardUrl)}
-          variant={'outline'}
-        />
+          variant={'default'}
+        >
+          Back To Dashboard
+        </Button>
       </div>
     </div>
   );
