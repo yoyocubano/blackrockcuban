@@ -271,7 +271,7 @@ export const VariantModal: React.FC<
         </div>
       </div>
       <DialogFooter>
-        <DialogClose asChild>
+        <DialogClose>
           <Button variant="destructive">Cancel</Button>
         </DialogClose>
         <Button

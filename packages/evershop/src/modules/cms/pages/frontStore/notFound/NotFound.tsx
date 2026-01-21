@@ -24,8 +24,8 @@ function Content({ continueShoppingUrl }: ContentProps) {
       <div className="mt-5 text-center">
         <Button
           title={_('Continue shopping')}
-          url={continueShoppingUrl}
-          outline
+          onClick={() => (window.location.href = continueShoppingUrl)}
+          variant="outline"
         />
       </div>
     </div>

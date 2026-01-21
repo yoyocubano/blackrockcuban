@@ -16,7 +16,11 @@ function Content({ dashboardUrl }: ContentProps) {
     <div className="page-content">
       <div className="text-center">The page you requested does not exist.</div>
       <div className="mt-5 text-center">
-        <Button title="Back To Dashboard" url={dashboardUrl} outline />
+        <Button
+          title="Back To Dashboard"
+          onClick={() => (window.location.href = dashboardUrl)}
+          variant={'outline'}
+        />
       </div>
     </div>
   );
