@@ -2,44 +2,60 @@ import config from 'config';
 
 type ConfigStructure = {
   shop: {
-    homeUrl: string;
-    currency: string;
     language: string;
-    timeZone: string;
+    timezone: string;
+    currency: string;
     weightUnit: string;
+    homeUrl: string;
   };
   system: {
+    file_storage: string;
+    admin_collection_size?: number;
+    upload_allowed_mime_types: string[];
+    theme?: string;
     extensions: Array<{
       name: string;
       resolve: string;
       enabled: boolean;
     }>;
+    session: {
+      maxAge: number;
+      resave: boolean;
+      saveUninitialized: boolean;
+      cookieSecret: string;
+      cookieName: string;
+      adminCookieName: string;
+    };
     notification_emails: {
-      from: string;
-      reset_password: {
+      from?: string;
+      order_confirmation?: {
         enabled: boolean;
-        templatePath?: string;
+        templatePath?: string | null;
+        [key: string]: any;
       };
-      order_confirmation: {
+      customer_welcome?: {
         enabled: boolean;
-        templatePath?: string;
+        templatePath?: string | null;
+        [key: string]: any;
       };
-      customer_welcome: {
+      reset_password?: {
         enabled: boolean;
-        templatePath?: string;
+        templatePath?: string | null;
+        [key: string]: any;
       };
     };
-    file_storage: string;
-  };
-  pricing: {
-    tax: {
-      price_including_tax: boolean;
-      rounding: string;
-      precision: number;
-      round_level: string;
+    stripe?: {
+      secretKey?: string;
+      publishableKey?: string;
+      [key: string]: any;
     };
-    rounding: string;
-    precision: number;
+    paypal?: {
+      [key: string]: any;
+    };
+    cod?: {
+      status?: number;
+      [key: string]: any;
+    };
   };
   catalog: {
     collectionPageSize: number;
@@ -50,6 +66,19 @@ type ConfigStructure = {
       };
     };
     showOutOfStockProduct: boolean;
+  };
+  checkout: {
+    showShippingNote: boolean;
+  };
+  pricing: {
+    rounding: string;
+    precision: number;
+    tax: {
+      rounding: string;
+      precision: number;
+      round_level: string;
+      price_including_tax: boolean;
+    };
   };
   themeConfig: {
     logo: {
@@ -73,7 +102,7 @@ type ConfigStructure = {
         {
           name: string;
           badge: string;
-          progress: string;
+          progress?: string;
           isDefault?: boolean;
           isCancelable?: boolean;
         }
@@ -83,7 +112,7 @@ type ConfigStructure = {
         {
           name: string;
           badge: string;
-          progress: string;
+          progress?: string;
           isDefault?: boolean;
           isCancelable?: boolean;
         }
@@ -93,7 +122,7 @@ type ConfigStructure = {
         {
           name: string;
           badge: string;
-          progress: string;
+          progress?: string;
           isDefault?: boolean;
           next: string[];
         }
@@ -150,9 +179,9 @@ type ConfigPath =
  */
 export function getConfig<P extends ConfigPath>(
   path: P,
-  defaultValue?: PathValue<ConfigStructure, P>
-): PathValue<ConfigStructure, P> {
-  return config.has(path)
-    ? config.get<PathValue<ConfigStructure, P>>(path)
-    : (defaultValue as PathValue<ConfigStructure, P>);
+  defaultValue?: PathValue<ConfigStructure, P & string>
+): PathValue<ConfigStructure, P & string> {
+  return config.has(path as string)
+    ? config.get<PathValue<ConfigStructure, P & string>>(path as string)
+    : (defaultValue as PathValue<ConfigStructure, P & string>);
 }

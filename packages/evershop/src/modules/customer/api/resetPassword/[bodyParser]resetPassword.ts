@@ -16,11 +16,10 @@ export default async (
   const { body } = request;
   const { email } = body;
   try {
-    const config = getConfig(
-      'system.notification_emails.reset_password.enabled',
-      true
-    );
-    if (!config) {
+    const config = getConfig('system.notification_emails.reset_password', {
+      enabled: true
+    });
+    if (config?.enabled === false) {
       throw new Error('Reset password email is disabled in config.');
     }
     // Generate a random token using crypto module

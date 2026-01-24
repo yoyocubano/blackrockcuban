@@ -32,15 +32,12 @@ function buildContextData(
     'appConfig',
     {
       tax: {
-        priceIncludingTax: getConfig<boolean>(
-          'pricing.tax.price_including_tax',
-          false
-        )
+        priceIncludingTax: getConfig('pricing.tax.price_including_tax', false)
       },
       catalog: {
         imageDimensions: {
-          width: getConfig<number>('catalog.product.image.width', 1200),
-          height: getConfig<number>('catalog.product.image.height', 1200)
+          width: getConfig('catalog.product.image.width', 1200),
+          height: getConfig('catalog.product.image.height', 1200)
         }
       },
       pageMeta: pageMeta

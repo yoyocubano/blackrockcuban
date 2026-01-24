@@ -155,12 +155,10 @@ export async function sendResetPasswordEmail(email, existingCustomer, token) {
   const url = buildAbsoluteUrl('resetPasswordPage');
   const resetPasswordUrl = `${url}?token=${token}`;
   let template = '';
-  const templatePath = getConfig(
-    'system.notification_emails.reset_password.templatePath'
-  );
+  const config = getConfig('system.notification_emails.reset_password');
   // Check if templatePath is set in config and the file is exists. It should be relative to the project root
-  if (templatePath) {
-    const filePath = path.join(CONSTANTS.ROOTPATH, templatePath);
+  if (config?.templatePath) {
+    const filePath = path.join(CONSTANTS.ROOTPATH, config.templatePath);
     try {
       await fs.access(filePath);
       template = await fs.readFile(filePath, 'utf8');
@@ -173,7 +171,7 @@ export async function sendResetPasswordEmail(email, existingCustomer, token) {
   } else {
     template = TEMPLATE;
   }
-  const body = await buildEmailBodyFromTemplate(template, {
+  const dynamicData = await getValue('resetPasswordEmailData', {
     token,
     resetPasswordUrl,
     customer: existingCustomer
@@ -183,9 +181,10 @@ export async function sendResetPasswordEmail(email, existingCustomer, token) {
     {
       to: email,
       subject,
-      body
+      template,
+      data: dynamicData
     },
     { customer: existingCustomer, token }
   );
-  await sendEmail('resetPassword', args);
+  await sendEmail('reset_password', args);
 }

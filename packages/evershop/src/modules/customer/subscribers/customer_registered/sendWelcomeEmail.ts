@@ -174,11 +174,11 @@ export default async function sendCustomerWelcomeEmail(
     const config = getConfig('system.notification_emails.customer_welcome', {
       enabled: true
     });
-    if (!config.enabled) {
+    if (config?.enabled === false) {
       return;
     }
     let template;
-    if (config.templatePath) {
+    if (config?.templatePath) {
       const filePath = path.join(CONSTANTS.ROOTPATH, config.templatePath);
       try {
         await fs.access(filePath);
@@ -192,22 +192,20 @@ export default async function sendCustomerWelcomeEmail(
     } else {
       template = TEMPLATE;
     }
-    const body = await buildEmailBodyFromTemplate(template, {
-      customer: {
-        ...data,
-        password: undefined
-      }
+    const dynamicData = await getValue('customerWelcomeEmailData', {
+      customer: data
     });
     const args = await getValue(
       'customerWelcomeEmailArguments',
       {
         to: email,
         subject,
-        body
+        template,
+        data: dynamicData
       },
       { customer: data }
     );
-    await sendEmail('customerWelcome', args);
+    await sendEmail('customer_welcome', args);
   } catch (e) {
     error(e);
   }

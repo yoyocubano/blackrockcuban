@@ -3,7 +3,7 @@ export type PaymentStatus = {
   badge: string;
   progress: string;
   isDefault: boolean;
-  next: string[];
+  isCancelable?: boolean;
 };
 
 export type ShipmentStatus = {
@@ -11,7 +11,6 @@ export type ShipmentStatus = {
   badge: string;
   progress: string;
   isDefault: boolean;
-  next: string[];
   isCancelable?: boolean;
 };
 
