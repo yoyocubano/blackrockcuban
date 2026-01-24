@@ -80,11 +80,11 @@ async function saveOrder<T = CreateOrderResult>(
   const shipmentStatusList = getConfig(
     'oms.order.shipmentStatus',
     {}
-  ) as ShipmentStatus[];
-  const paymentStatusList = getConfig(
-    'oms.order.paymentStatus',
-    {}
-  ) as PaymentStatus[];
+  ) as Record<string, ShipmentStatus>;
+  const paymentStatusList = getConfig('oms.order.paymentStatus', {}) as Record<
+    string,
+    PaymentStatus
+  >;
   let defaultShipmentStatus;
   Object.keys(shipmentStatusList).forEach((key) => {
     if (shipmentStatusList[key].isDefault) {

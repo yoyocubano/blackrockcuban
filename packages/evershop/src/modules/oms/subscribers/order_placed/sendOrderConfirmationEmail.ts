@@ -626,11 +626,10 @@ export default async function sendOrderConfirmationEmail(
 ) {
   try {
     const config = getConfig('system.notification_emails.order_confirmation', {
-      enabled: true,
-      templatePath: undefined
+      enabled: true
     });
 
-    if (config.enabled !== true) {
+    if (config?.enabled === false) {
       return;
     }
     // Build the email data
@@ -679,7 +678,7 @@ export default async function sendOrderConfirmationEmail(
       provinces.find((p) => p.code === billingAddress.province)?.name || '';
 
     let template;
-    if (config.templatePath) {
+    if (config?.templatePath) {
       const filePath = path.join(CONSTANTS.ROOTPATH, config.templatePath);
       try {
         await fs.access(filePath);
@@ -693,10 +692,10 @@ export default async function sendOrderConfirmationEmail(
     } else {
       template = TEMPLATE;
     }
-    const body = await buildEmailBodyFromTemplate(template, {
+    const dynamicData = await getValue('orderConfirmationEmailData', {
       order,
-      shippingAddress: data.no_shipping_required ? undefined : shippingAddress,
-      billingAddress: billingAddress
+      shippingAddress,
+      billingAddress
     });
     const subject = translate('Your order has been confirmed!');
     if (data.customer_email) {
@@ -705,11 +704,12 @@ export default async function sendOrderConfirmationEmail(
         {
           to: data.customer_email,
           subject,
-          body
+          template,
+          data: dynamicData
         },
         { order }
       );
-      await sendEmail('orderConfirmation', args);
+      await sendEmail('order_confirmation', args);
     }
   } catch (e) {
     error(e);

@@ -45,7 +45,9 @@ export type SendEmailArguments = {
   from?: string;
   to: string;
   subject: string;
-  body: string;
+  body?: string;
+  template: string;
+  data: EmailData;
   [key: string]: any;
 };
 
@@ -76,8 +78,18 @@ export function validateSendEmailArguments(
     throw new Error('"subject" field must be a non-empty string.');
   }
 
-  if (typeof typedArgs.body !== 'string' || typedArgs.body.trim() === '') {
-    throw new Error('"body" field must be a non-empty string.');
+  if (
+    typeof typedArgs.template !== 'string' ||
+    typedArgs.template.trim() === ''
+  ) {
+    throw new Error('"template" field must be a non-empty string.');
+  }
+  // Body is optional, but it must be a string if provided
+  if (
+    typedArgs.body !== undefined &&
+    (typeof typedArgs.body !== 'string' || typedArgs.body.trim() === '')
+  ) {
+    throw new Error('"body" field must be a non-empty string if provided.');
   }
 
   // Validate optional fields if present
@@ -147,6 +159,12 @@ export function registerEmailService(service: EmailService): void {
   });
 }
 
+/**
+ * Sends an email using the registered email service.
+ * @param id - The identifier for the email type, e.g., 'order_confirmation'
+ * @param args - The email arguments
+ * @returns A promise that resolves when the email is sent.
+ */
 export async function sendEmail(
   id: string,
   args: SendEmailArguments
@@ -162,6 +180,13 @@ export async function sendEmail(
     finalArgs.from = getConfig('system.notification_emails.from', undefined);
   }
   validateSendEmailArguments(finalArgs);
+  if (!finalArgs.body) {
+    const body = await buildEmailBodyFromTemplate(
+      finalArgs.template,
+      finalArgs.data || {}
+    );
+    finalArgs.body = body;
+  }
   return await emailService.sendEmail(finalArgs);
 }
 
@@ -174,6 +199,7 @@ export interface EmailData {
       width?: string;
     };
     storeName: string;
+    storeEmail: string;
     storeDescription: string;
     phone: string;
     homeUrl: string;
@@ -197,6 +223,20 @@ export async function buildEmailBodyFromTemplate(
   template: string,
   data: EmailData
 ): Promise<string> {
+  try {
+    const preparedData = await prepareData(data);
+    const body = Handlebars.compile(template)(preparedData);
+    return body;
+  } catch (error) {
+    throw new Error(`Failed to build email body from template: ${error}`);
+  }
+}
+
+/** Prepares email data by adding store information and processing through registry.
+ * @param data - The initial email data.
+ * @returns The prepared email data with store information.
+ */
+async function prepareData(data: EmailData): Promise<EmailData> {
   const logoConfig = getConfig('themeConfig.logo');
   let logo;
   if (logoConfig) {
@@ -226,6 +266,7 @@ export async function buildEmailBodyFromTemplate(
   const storeInformation = {
     logo,
     storeName: await getSetting('storeName', 'Evershop'),
+    storeEmail: await getSetting('storeEmail', ''),
     storeDescription: await getSetting('storeDescription', ''),
     phone: await getSetting('storePhoneNumber', ''),
     homeUrl: getBaseUrl(),
@@ -238,11 +279,6 @@ export async function buildEmailBodyFromTemplate(
     }
   };
   data.storeInfo = storeInformation;
-  try {
-    const finalData = await getValue('emailTemplateData', data, {});
-    const body = Handlebars.compile(template)(finalData);
-    return body;
-  } catch (error) {
-    throw new Error(`Failed to build email body from template: ${error}`);
-  }
+  const finalData = await getValue('emailTemplateData', data, {});
+  return finalData;
 }
