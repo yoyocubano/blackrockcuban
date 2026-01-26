@@ -38,7 +38,12 @@ export default async (request: EvershopRequest, response, next) => {
             isAdmin: route.isAdmin,
             path: route.path,
             url: getContextValue(request, 'currentUrl'),
-            params: request.params
+            params: Object.fromEntries(
+              Object.entries(request.params).map(([key, value]) => [
+                key,
+                Array.isArray(value) ? value[0] : value
+              ])
+            )
           }
         });
         let widgetInstances;

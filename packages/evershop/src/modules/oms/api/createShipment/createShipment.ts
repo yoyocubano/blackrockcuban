@@ -13,7 +13,9 @@ export default async (
 ) => {
   const connection = await getConnection();
   await startTransaction(connection);
-  const { id } = request.params;
+  const { id } = Array.isArray(request.params.id)
+    ? { id: request.params.id[0] }
+    : { id: request.params.id };
   const { carrier, tracking_number } = request.body;
   try {
     const shipment = await createShipment(id, carrier, tracking_number);

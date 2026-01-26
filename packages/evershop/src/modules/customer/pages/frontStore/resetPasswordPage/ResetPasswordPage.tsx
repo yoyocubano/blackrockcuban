@@ -1,4 +1,4 @@
-import Button from '@components/common/Button.js';
+import { Button } from '@components/common/ui/Button.js';
 import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { PasswordField } from '@components/common/form/PasswordField.js';
@@ -35,10 +35,12 @@ const UpdateForm: React.FC<{
         <Button
           title={_('Go to Login')}
           type="button"
-          onAction={() => {
+          onClick={() => {
             window.location.href = loginUrl;
           }}
-        />
+        >
+          {_('Go to Login')}
+        </Button>
       </div>
     </Success>
   ) : (
@@ -74,7 +76,7 @@ const UpdateForm: React.FC<{
               <Button
                 title={_('UPDATE PASSWORD')}
                 type="submit"
-                onAction={() => {
+                onClick={() => {
                   (
                     document.getElementById(
                       'updatePasswordForm'
@@ -84,7 +86,9 @@ const UpdateForm: React.FC<{
                   );
                 }}
                 isLoading={form.formState.isSubmitting}
-              />
+              >
+                {_('UPDATE PASSWORD')}
+              </Button>
             </div>
           </Form>
         </div>
@@ -117,7 +121,7 @@ function ResetForm({ action }: ResetFormProps) {
     <ResetPasswordForm
       title={_('Reset Your Password')}
       subtitle={_('Please enter your email to receive a reset link')}
-      className="w-[30rem] max-w-max md:max-w-[80%] bg-white rounded-3xl p-6 shadow-lg border border-divider"
+      className="w-120 max-w-max md:max-w-[80%] bg-white rounded-3xl p-6 shadow-lg border border-divider"
       action={action}
       onSuccess={() => {
         setSuccess(true);
