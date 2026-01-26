@@ -61,9 +61,9 @@ const buildUrlReWrite: EventSubscriber<'category_updated'> = async (data) => {
 
     // Replace the url rewrite rule for all the sub categories and products. Search for the url rewrite rule by entity_uuid and entity_type
     if (currentPath) {
-      await execute(
-        pool,
-        `UPDATE url_rewrite SET request_path = REPLACE(request_path, '${currentPath.request_path}', '${path}') WHERE entity_type IN ('category', 'product') AND entity_uuid != '${categoryUUid}'`
+      await pool.query(
+        `UPDATE url_rewrite SET request_path = REPLACE(request_path, $1, $2) WHERE entity_type IN ('category', 'product') AND entity_uuid != $3`,
+        [currentPath.request_path, path, categoryUUid]
       );
     }
   } catch (err) {
