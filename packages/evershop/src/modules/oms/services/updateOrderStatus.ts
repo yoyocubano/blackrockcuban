@@ -45,11 +45,11 @@ export function resolveOrderStatus(
   const shipmentStatusList = getConfig(
     'oms.order.shipmentStatus',
     {}
-  ) as ShipmentStatus[];
-  const paymentStatusList = getConfig(
-    'oms.order.paymentStatus',
-    {}
-  ) as PaymentStatus[];
+  ) as Record<string, ShipmentStatus>;
+  const paymentStatusList = getConfig('oms.order.paymentStatus', {}) as Record<
+    string,
+    PaymentStatus
+  >;
   const psoMapping = getConfig('oms.order.psoMapping', {});
   const shipmentStatusDefination = shipmentStatusList[shipmentStatus];
   const paymentStatusDefination = paymentStatusList[paymentStatus];

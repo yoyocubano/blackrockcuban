@@ -13,10 +13,10 @@ import { hookable } from '../../../lib/util/hookable.js';
 import { PaymentStatus } from '../../../types/order.js';
 
 function validatePaymentStatusBeforeUpdate(status: string): boolean {
-  const paymentStatusList = getConfig(
-    'oms.order.paymentStatus',
-    {}
-  ) as PaymentStatus[];
+  const paymentStatusList = getConfig('oms.order.paymentStatus', {}) as Record<
+    string,
+    PaymentStatus
+  >;
   if (!paymentStatusList[status]) {
     throw new Error('Invalid status');
   }
