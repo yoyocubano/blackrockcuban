@@ -1,5 +1,4 @@
 import { useAppDispatch } from '@components/common/context/app.js';
-import React, { useState, useEffect, useCallback } from 'react';
 import {
   Pagination as PaginationUI,
   PaginationContent,
@@ -9,6 +8,7 @@ import {
   PaginationNext,
   PaginationPrevious
 } from '@evershop/evershop/components/common/ui/Pagination';
+import React, { useState, useEffect, useCallback } from 'react';
 
 export interface PaginationProps {
   total: number;

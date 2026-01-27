@@ -24,11 +24,7 @@ interface SelectOption {
   disabled?: boolean;
 }
 
-interface SelectFieldProps<T extends FieldValues = FieldValues>
-  extends Omit<
-    React.SelectHTMLAttributes<HTMLSelectElement>,
-    'name' | 'size' | 'multiple'
-  > {
+interface SelectFieldProps<T extends FieldValues = FieldValues> {
   name: FieldPath<T>;
   label?: string;
   error?: string;
@@ -38,6 +34,11 @@ interface SelectFieldProps<T extends FieldValues = FieldValues>
   options: SelectOption[];
   placeholder?: string;
   wrapperClassName?: string;
+  className?: string;
+  disabled?: boolean;
+  defaultValue?: string | number;
+  id?: string;
+  onChange?: (value: string | number) => void;
 }
 
 export function SelectField<T extends FieldValues = FieldValues>({
@@ -52,7 +53,9 @@ export function SelectField<T extends FieldValues = FieldValues>({
   wrapperClassName,
   className,
   defaultValue,
-  ...props
+  disabled,
+  id,
+  onChange: onChangeCallback
 }: SelectFieldProps<T>) {
   const {
     control,
@@ -60,7 +63,7 @@ export function SelectField<T extends FieldValues = FieldValues>({
   } = useFormContext<T>();
 
   const fieldError = getNestedError(name, errors, error);
-  const fieldId = `field-${name}`;
+  const fieldId = id || `field-${name}`;
 
   const hasDefaultValue =
     defaultValue !== undefined && defaultValue !== null && defaultValue !== '';
@@ -109,10 +112,15 @@ export function SelectField<T extends FieldValues = FieldValues>({
         defaultValue={hasDefaultValue ? defaultValue : ('' as any)}
         render={({ field }) => (
           <Select
-            value={String(field.value ?? '')}
+            value={options.find((o) => o.value === field.value)}
             onValueChange={(value) => {
-              field.onChange(value === '' ? '' : value);
+              const newValue = value?.value === '' ? '' : value?.value;
+              field.onChange(newValue);
+              if (onChangeCallback && value !== null) {
+                onChangeCallback(value.value);
+              }
             }}
+            disabled={disabled}
           >
             <SelectTrigger
               id={fieldId}
@@ -123,10 +131,8 @@ export function SelectField<T extends FieldValues = FieldValues>({
               }
             >
               <SelectValue>
-                {field.value
-                  ? options.find((o) => String(o.value) === String(field.value))
-                      ?.label
-                  : placeholder}
+                {options.find((o) => String(o.value) === String(field.value))
+                  ?.label || placeholder}
               </SelectValue>
             </SelectTrigger>
             <SelectContent>
@@ -138,7 +144,7 @@ export function SelectField<T extends FieldValues = FieldValues>({
               {options.map((option) => (
                 <SelectItem
                   key={option.value}
-                  value={String(option.value)}
+                  value={option}
                   disabled={option.disabled}
                 >
                   {option.label}

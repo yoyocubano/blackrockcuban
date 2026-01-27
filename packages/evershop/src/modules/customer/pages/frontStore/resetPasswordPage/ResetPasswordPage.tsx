@@ -1,7 +1,7 @@
-import { Button } from '@components/common/ui/Button.js';
 import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { PasswordField } from '@components/common/form/PasswordField.js';
+import { Button } from '@components/common/ui/Button.js';
 import { ResetPasswordForm } from '@components/frontStore/customer/ResetPasswordForm.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';

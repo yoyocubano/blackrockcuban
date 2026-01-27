@@ -80,7 +80,7 @@ export default function SEO({ product }: SEOProps) {
             name="meta_description"
             label="Meta Description"
             placeholder="Enter Meta Description"
-            defaultValue={product?.metaDescription}
+            defaultValue={product?.metaDescription || ''}
           />
         )
       },

@@ -109,12 +109,6 @@
         "type": "Meta description must be a string"
       }
     },
-    "meta_keywords": {
-      "type": "string",
-      "errorMessage": {
-        "type": "Meta keywords must be a string"
-      }
-    },
     "status": {
       "type": ["integer", "string", "boolean"],
       "enum": [0, 1, "0", "1", true, false],

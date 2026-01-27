@@ -111,7 +111,7 @@ export default function Attributes({
   groups: { items }
 }: AttributesProps) {
   const { unregister, watch } = useFormContext();
-  const { fields, replace } = useFieldArray<FormValues>({
+  const { fields, remove, append } = useFieldArray<FormValues>({
     name: 'attributes'
   });
   const attributeIndex = product?.attributeIndex || [];
@@ -121,6 +121,15 @@ export default function Attributes({
   );
   useEffect(() => {
     if (currentGroup) {
+      // Unregister all existing attribute fields
+      fields.forEach((_, index) => {
+        unregister(`attributes.${index}`);
+      });
+
+      // Remove all existing fields
+      remove();
+
+      // Get new attributes for the selected group
       const attributes = getGroup(items, currentGroup)?.attributes.items || [];
       const newFields = attributes.map((attribute) => ({
         attribute_code: attribute.attribute_code,
@@ -134,9 +143,11 @@ export default function Attributes({
         ),
         is_required: attribute.is_required
       }));
-      replace(newFields);
+
+      // Append new fields
+      append(newFields);
     }
-  }, [currentGroup, items, replace, unregister]);
+  }, [currentGroup, items, append, remove, unregister]);
 
   return (
     <Card>
@@ -174,7 +185,7 @@ export default function Attributes({
                 value: group.groupId,
                 label: group.groupName
               }))}
-              defaultValue={product?.groupId}
+              defaultValue={product?.groupId || currentGroup}
               required
             />
           )}

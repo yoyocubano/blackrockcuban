@@ -1,4 +1,5 @@
 import { NumberField } from '@components/common/form/NumberField.js';
+import { Button } from '@components/common/ui/Button.js';
 import {
   Table,
   TableBody,
@@ -59,7 +60,7 @@ export function PriceBasedPrice({ lines }: PriceBasedPriceProps) {
         </TableHeader>
         <TableBody>
           {fields.map((field, index) => (
-            <TableRow key={field.id} className="border-divider py-5">
+            <TableRow key={field.id} className="border-border py-5">
               <TableCell>
                 <NumberField
                   name={`price_based_cost.${index}.min_price`}
@@ -90,21 +91,22 @@ export function PriceBasedPrice({ lines }: PriceBasedPriceProps) {
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
+        <TableFooter className="border-border">
           <TableRow>
             <TableCell colSpan={3} className="border-none">
-              <button
+              <Button
                 type="button"
-                className="text-interactive"
+                size={'sm'}
+                variant={'outline'}
                 onClick={() => {
                   append({
-                    min_price: undefined,
+                    min_weight: undefined,
                     cost: undefined
                   });
                 }}
               >
                 + Add Line
-              </button>
+              </Button>
             </TableCell>
           </TableRow>
         </TableFooter>

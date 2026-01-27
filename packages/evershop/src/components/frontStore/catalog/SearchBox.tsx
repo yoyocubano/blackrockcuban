@@ -1,5 +1,10 @@
 import { Image } from '@components/common/Image.js';
 import { Input } from '@components/common/ui/Input.js';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput
+} from '@components/common/ui/InputGroup.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Search, X } from 'lucide-react';
 import React, { useRef, useState, ReactNode, useCallback } from 'react';
@@ -222,14 +227,14 @@ export function SearchBox({
       if (event.key === 'Enter') {
         setShowResults(false);
         const url = new URL(searchPageUrl, window.location.origin);
-        url.searchParams.set('keyword', InputRef.current?.value || '');
+        url.searchParams.set('keyword', keyword);
         window.location.href = url.toString();
       } else if (event.key === 'Escape') {
         setShowResults(false);
         setShowing(false);
       }
     },
-    [searchPageUrl]
+    [searchPageUrl, keyword]
   );
 
   const handleFocus = useCallback(() => {
@@ -328,19 +333,23 @@ const defaultSearchInput = (props: {
   placeholder: string;
   ref: React.RefObject<HTMLInputElement | null>;
 }) => (
-  <div className="form__field flex items-center justify-center relative flex-grow">
-    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-    <Input
-      ref={props.ref}
-      placeholder={props.placeholder}
-      value={props.value}
-      onChange={(e) => props.onChange(e.target.value)}
-      onKeyDown={props.onKeyDown}
-      onFocus={props.onFocus}
-      onBlur={props.onBlur}
-      enterKeyHint="done"
-      className="w-full focus:outline-none"
-    />
+  <div className="form__field flex items-center justify-center relative grow">
+    <InputGroup>
+      <InputGroupAddon>
+        <Search />
+      </InputGroupAddon>
+      <InputGroupInput
+        ref={props.ref}
+        placeholder={props.placeholder}
+        value={props.value}
+        onChange={(e) => props.onChange(e.target.value)}
+        onKeyDown={props.onKeyDown}
+        onFocus={props.onFocus}
+        onBlur={props.onBlur}
+        enterKeyHint="done"
+        className="w-full focus:outline-none"
+      />
+    </InputGroup>
   </div>
 );
 
@@ -351,7 +360,7 @@ const defaultSearchResults = (props: {
   isLoading: boolean;
 }) => {
   return (
-    <div className="search__results absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-b-lg shadow-lg z-50 max-h-64 overflow-y-auto">
+    <div className="search__results absolute top-full left-0 right-0 bg-white border border-border rounded-b-lg shadow-lg z-50 max-h-64 overflow-y-auto">
       {props.isLoading && (
         <div className="p-3 text-center text-gray-500">
           <span>Searching...</span>
@@ -366,7 +375,7 @@ const defaultSearchResults = (props: {
         props.results.map((result) => (
           <div
             key={result.id}
-            className="flex items-center p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+            className="flex items-center p-3 hover:bg-gray-50 cursor-pointer border-b border-border last:border-b-0"
             onClick={(e) => {
               e.preventDefault();
               props.onSelect(result);
@@ -386,16 +395,12 @@ const defaultSearchResults = (props: {
                 alt={result.title}
                 width={100}
                 height={100}
-                className="w-10 h-10 object-cover rounded mr-3 flex-shrink-0"
+                className="w-10 h-10 object-cover rounded mr-3 shrink-0"
               />
             )}
             <div className="flex-1 min-w-0">
-              <div className="font-medium text-gray-900 truncate">
-                {result.title}
-              </div>
-              {result.price && (
-                <div className="text-sm text-gray-600">{result.price}</div>
-              )}
+              <div className="font-medium truncate">{result.title}</div>
+              {result.price && <div className="text-sm">{result.price}</div>}
               {result.type && (
                 <div className="text-xs text-gray-400 capitalize">
                   {result.type}

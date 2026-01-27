@@ -2,7 +2,7 @@ import { SettingMenu } from '@components/admin/SettingMenu.js';
 import Spinner from '@components/admin/Spinner.js';
 import Area from '@components/common/Area.js';
 import { EmailField } from '@components/common/form/EmailField.js';
-import { Form } from '@components/common/form/Form.js';
+import { Form, useFormContext } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { SelectField } from '@components/common/form/SelectField.js';
 import { TelField } from '@components/common/form/TelField.js';
@@ -48,6 +48,7 @@ const Province: React.FC<{
   allowedCountries = [],
   fieldName = 'storeProvince'
 }) => {
+  const { setValue } = useFormContext();
   const [result] = useQuery({
     query: ProvincesQuery,
     variables: { countries: allowedCountries }
@@ -68,6 +69,9 @@ const Province: React.FC<{
   );
   if (!provinces.length) {
     return null;
+  }
+  if (provinces.every((p) => p.code !== selectedProvince)) {
+    setValue(fieldName, '');
   }
   return (
     <div>
@@ -95,8 +99,8 @@ const Country: React.FC<{
   allowedCountries = [],
   fieldName = 'storeCountry'
 }) => {
-  const onChange = (e) => {
-    setSelectedCountry(e.target.value);
+  const onChange = (value: string) => {
+    setSelectedCountry(value);
   };
   const [result] = useQuery({
     query: CountriesQuery,

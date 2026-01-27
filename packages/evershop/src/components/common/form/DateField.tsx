@@ -37,6 +37,7 @@ export function DateField<T extends FieldValues = FieldValues>({
   className,
   min,
   max,
+  defaultValue,
   ...props
 }: DateFieldProps<T>) {
   const {
@@ -90,6 +91,7 @@ export function DateField<T extends FieldValues = FieldValues>({
       <Controller
         name={name}
         control={control}
+        defaultValue={defaultValue as any}
         rules={validationRules}
         render={({ field }) => (
           <InputGroup>

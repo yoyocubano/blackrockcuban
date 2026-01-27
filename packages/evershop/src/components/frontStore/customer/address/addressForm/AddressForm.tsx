@@ -106,7 +106,7 @@ export function CustomerAddressForm({
                 name={getFieldName('country')}
                 placeholder={_('Country')}
                 onChange={(value) => {
-                  setValue(getFieldName('country'), value.target.value);
+                  setValue(getFieldName('country'), value);
                   setValue(getFieldName('province'), '');
                 }}
                 required

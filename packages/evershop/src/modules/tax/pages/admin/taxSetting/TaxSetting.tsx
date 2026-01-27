@@ -130,7 +130,7 @@ export default function TaxSetting({
                     <SelectField
                       name="defaultShippingTaxClassId"
                       label="Shipping tax class"
-                      defaultValue={setting.defaultShippingTaxClassId || ''}
+                      defaultValue={setting.defaultShippingTaxClassId}
                       placeholder="None"
                       options={[
                         {

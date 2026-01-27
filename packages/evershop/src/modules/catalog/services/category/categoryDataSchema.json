@@ -100,12 +100,6 @@
         "minLength": "Meta description is required and cannot be empty"
       }
     },
-    "meta_keywords": {
-      "type": "string",
-      "errorMessage": {
-        "type": "Meta keywords must be a string"
-      }
-    },
     "url_key": {
       "type": "string",
       "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",

@@ -1,4 +1,5 @@
 import { NumberField } from '@components/common/form/NumberField.js';
+import { Button } from '@components/common/ui/Button.js';
 import {
   Table,
   TableRow,
@@ -90,12 +91,13 @@ export function WeightBasedPrice({ lines }: WeightBasedPriceProps) {
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
+        <TableFooter className="border-border">
           <TableRow>
             <TableCell colSpan={3} className="border-none">
-              <button
+              <Button
                 type="button"
-                className="text-interactive"
+                size={'sm'}
+                variant={'outline'}
                 onClick={() => {
                   append({
                     min_weight: undefined,
@@ -104,7 +106,7 @@ export function WeightBasedPrice({ lines }: WeightBasedPriceProps) {
                 }}
               >
                 + Add Line
-              </button>
+              </Button>
             </TableCell>
           </TableRow>
         </TableFooter>

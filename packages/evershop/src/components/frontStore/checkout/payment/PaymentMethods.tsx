@@ -1,4 +1,3 @@
- 
 import {
   Item,
   ItemContent,
@@ -105,7 +104,11 @@ export function PaymentMethods({
                           selectedPaymentMethod === method.code;
                         const component = getPaymentComponent(method.code);
                         return (
-                          <Item key={method.code} variant={'outline'}>
+                          <Item
+                            key={method.code}
+                            variant={'outline'}
+                            className={isSelected ? 'border-primary' : ''}
+                          >
                             <ItemContent>
                               <ItemTitle className="w-full">
                                 <div className="flex items-center space-x-3 w-full">

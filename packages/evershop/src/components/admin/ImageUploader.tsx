@@ -85,8 +85,11 @@ const Upload: React.FC<{
   const id = uniqid();
   return (
     <div className="uploader grid-item">
-      <div className="uploader-icon text-primary">
-        <label htmlFor={id}>
+      <div className="uploader-icon text-primary w-full h-full">
+        <label
+          htmlFor={id}
+          className="w-full h-full flex items-center justify-center cursor-pointer"
+        >
           {uploading ? (
             <Spinner
               width={isSingleMode ? 40 : 25}

@@ -78,7 +78,7 @@ export function Form<T extends FieldValues = FieldValues>({
 
       if (result.error) {
         if (onError) {
-          onError(result.error, data);
+          onError(result.error.message, data);
         } else {
           toast.error(result.error.message || errorMessage);
         }
@@ -104,7 +104,6 @@ export function Form<T extends FieldValues = FieldValues>({
   const [canFocus, setCanFocus] = useState(true);
 
   const onValidationError = () => {
-    console.log('Validation error');
     setCanFocus(true);
   };
 
@@ -118,7 +117,7 @@ export function Form<T extends FieldValues = FieldValues>({
       );
 
       if (elements.length > 0) {
-        let errorElement = elements[0];
+        const errorElement = elements[0];
         errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         errorElement.focus({ preventScroll: true });
         setCanFocus(false);

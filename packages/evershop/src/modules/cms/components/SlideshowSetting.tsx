@@ -287,7 +287,7 @@ export default function SlideshowSetting({
                     <div className="text-gray-400">No Image</div>
                   )}
                 </div>
-                <div className="p-2 bg-white border-t">
+                <div className="p-2 bg-white border-t border-border">
                   <p className="text-sm font-medium truncate">
                     {currentSlides[index]?.headline || `Slide ${index + 1}`}
                   </p>
@@ -300,11 +300,7 @@ export default function SlideshowSetting({
                         moveUp(index);
                       }}
                       disabled={index === 0}
-                      className={`mr-1 p-1 rounded ${
-                        index === 0
-                          ? 'text-gray-300'
-                          : 'text-gray-500 hover:bg-gray-100'
-                      }`}
+                      className={`mr-1 p-1`}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -328,11 +324,7 @@ export default function SlideshowSetting({
                         moveDown(index);
                       }}
                       disabled={index === fields.length - 1}
-                      className={`mr-1 p-1 rounded ${
-                        index === fields.length - 1
-                          ? 'text-gray-300'
-                          : 'text-gray-500 hover:bg-gray-100'
-                      }`}
+                      className={`mr-1 p-1`}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

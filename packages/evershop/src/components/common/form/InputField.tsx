@@ -64,7 +64,7 @@ export function InputField<T extends FieldValues = FieldValues>({
     <Controller
       name={name}
       control={control}
-      defaultValue={defaultValue as any}
+      defaultValue={(defaultValue ?? '') as any}
       rules={validationRules}
       render={({ field }) => (
         <InputGroupInput

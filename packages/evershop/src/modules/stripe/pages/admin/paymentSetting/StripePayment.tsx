@@ -62,7 +62,7 @@ export default function StripePayment({
             <InputField
               name="stripeDisplayName"
               placeholder="Display Name"
-              defaultValue={stripeDisplayName}
+              defaultValue={stripeDisplayName || ''}
             />
           </div>
         </div>
@@ -76,7 +76,7 @@ export default function StripePayment({
             <InputField
               name="stripePublishableKey"
               placeholder="Publishable Key"
-              defaultValue={stripePublishableKey}
+              defaultValue={stripePublishableKey || ''}
             />
           </div>
         </div>
@@ -90,7 +90,7 @@ export default function StripePayment({
             <InputField
               name="stripeSecretKey"
               placeholder="Secret Key"
-              defaultValue={stripeSecretKey}
+              defaultValue={stripeSecretKey || ''}
             />
           </div>
         </div>
@@ -104,7 +104,7 @@ export default function StripePayment({
             <InputField
               name="stripeEndpointSecret"
               placeholder="Secret Key"
-              defaultValue={stripeEndpointSecret}
+              defaultValue={stripeEndpointSecret || ''}
               helperText="Your webhook url should be: https://yourdomain.com/api/stripe/webhook"
             />
           </div>

@@ -234,8 +234,6 @@ const FileBrowser: React.FC<{
   };
 
   // Create a function to fetch files and folders to avoid code duplication
-  const [apiReady, setApiReady] = React.useState(false);
-
   const fetchFilesAndFolders = React.useCallback(() => {
     if (!browserApiRef.current) {
       return;
@@ -258,20 +256,6 @@ const FileBrowser: React.FC<{
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
   }, [currentPath]);
-
-  // Track when the browserApiRef becomes available
-  React.useEffect(() => {
-    if (browserApiRef.current && browserApiRef.current !== '' && !apiReady) {
-      setApiReady(true);
-    }
-  }, [browserApiRef.current, apiReady]);
-
-  // Fetch data when either the path changes or the API becomes ready
-  React.useEffect(() => {
-    if (apiReady) {
-      fetchFilesAndFolders();
-    }
-  }, [apiReady, currentPath, fetchFilesAndFolders]);
 
   const [result] = useQuery({
     query: GetApisQuery
@@ -296,6 +280,12 @@ const FileBrowser: React.FC<{
     deleteApiRef.current = data.deleteApi;
     uploadApiRef.current = data.uploadApi;
     folderCreateApiRef.current = data.folderCreateApi;
+
+    // Fetch files and folders when APIs are ready
+    React.useEffect(() => {
+      fetchFilesAndFolders();
+    }, [currentPath, fetchFilesAndFolders]);
+
     return (
       <div className="file-browser">
         {loading === true && (
@@ -342,20 +332,22 @@ const FileBrowser: React.FC<{
                         Root
                       </a>
                     </div>
-                    {currentPath.map((f, index) => (
-                      <div key={index}>
-                        <span>/</span>
-                        <a
-                          className="text-primary hover:underline"
-                          href="#"
-                          onClick={(e) =>
-                            onSelectFolderFromBreadcrumb(e, f.index)
-                          }
-                        >
-                          {f.name}
-                        </a>
-                      </div>
-                    ))}
+                    {currentPath
+                      .filter((f) => f.name !== '')
+                      .map((f, index) => (
+                        <div key={index}>
+                          <span>/</span>
+                          <a
+                            className="text-primary hover:underline"
+                            href="#"
+                            onClick={(e) =>
+                              onSelectFolderFromBreadcrumb(e, f.index)
+                            }
+                          >
+                            {f.name}
+                          </a>
+                        </div>
+                      ))}
                   </div>
                 </div>
                 <ul className="mt-4 mb-4">

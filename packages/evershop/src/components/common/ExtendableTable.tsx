@@ -188,7 +188,7 @@ function TableContent<T = any>({
   emptyMessage: string;
   className: string;
 }) {
-  const { columns, tableData, tableName } = useTableContext<T>();
+  const { columns, tableData } = useTableContext<T>();
 
   const handleSort = (key: string) => {
     if (!onSort) return;
@@ -218,14 +218,12 @@ function TableContent<T = any>({
                     onClick={() => col.sortable && handleSort(col.key)}
                     style={{ width: col.width }}
                   >
-                    <div className="flex items-center space-x-1">
-                      <span>{col.header.label}</span>
-                      {col.sortable && currentSort?.key === col.key && (
-                        <span className="text-blue-500">
-                          {currentSort.direction === 'asc' ? '↑' : '↓'}
-                        </span>
-                      )}
-                    </div>
+                    <span>{col.header.label}</span>
+                    {col.sortable && currentSort?.key === col.key && (
+                      <span className="text-blue-500">
+                        {currentSort.direction === 'asc' ? '↑' : '↓'}
+                      </span>
+                    )}
                   </TableHead>
                 ))}
             </TableRow>

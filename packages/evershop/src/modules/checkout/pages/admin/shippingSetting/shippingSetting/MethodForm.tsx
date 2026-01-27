@@ -210,7 +210,8 @@ function MethodForm({
       method={method ? 'PATCH' : 'POST'}
       action={saveMethodApi}
       submitBtn={false}
-      onError={() => {
+      onError={(error) => {
+        toast.error(error);
         setIsLoading(false);
       }}
       onSuccess={async (response) => {

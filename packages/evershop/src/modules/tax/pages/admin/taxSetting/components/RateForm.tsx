@@ -56,14 +56,18 @@ function RateForm({
       method={rate ? 'PATCH' : 'POST'}
       action={saveRateApi}
       submitBtn={false}
+      onError={(error: string) => {
+        toast.error(error);
+        setSaving(false);
+      }}
       onSuccess={async (response) => {
         if (!response.error) {
           await getTaxClasses({ requestPolicy: 'network-only' });
           closeModal();
           toast.success('Tax rate has been saved successfully!');
         } else {
-          toast.error(response.error.message);
         }
+        setSaving(false);
       }}
     >
       <div className="py-3 border-t border-border">

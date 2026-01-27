@@ -74,8 +74,7 @@ const SortableRow: React.FC<{
     transform: transform ? `translateY(${transform.y}px)` : undefined,
     transition,
     opacity: isDragging ? 0.5 : 1,
-    position: 'relative',
-    zIndex: isDragging ? 1 : 0
+    position: 'relative'
   } as React.CSSProperties;
 
   return (
