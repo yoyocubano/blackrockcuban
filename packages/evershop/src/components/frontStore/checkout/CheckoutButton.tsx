@@ -37,10 +37,10 @@ export function CheckoutButton() {
 
   if (noShippingRequired && !billingAddress) {
     return (
-      <div className="checkout-button-section">
+      <div className="checkout-button-section mt-6">
         <button
           type="button"
-          className="w-full bg-gray-400 text-white py-3 px-4 rounded-lg font-medium cursor-not-allowed"
+          className="w-full bg-muted text-muted-foreground py-3 px-4 rounded-lg font-medium cursor-not-allowed"
           disabled
         >
           {_('Please provide billing address to proceed')}

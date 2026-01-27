@@ -18,7 +18,7 @@ const OrderSummaryItems: React.FC<{
   }
 
   return (
-    <ul className="order__item__summary__list divide-y divide-gray-200 border-b mb-3">
+    <ul className="order__item__summary__list divide-y divide-border border-b border-border mb-3">
       {items.map((item) => (
         <li key={item.uuid} className="flex items-start py-3">
           <div className="relative mr-4 self-center">
@@ -28,13 +28,13 @@ const OrderSummaryItems: React.FC<{
                 height={100}
                 src={item.thumbnail}
                 alt={item.productName}
-                className="w-16 h-16 object-cover rounded border p-2 box-border"
+                className="w-16 h-16 object-cover rounded border p-2 box-border border-border"
               />
             )}
             {!item.thumbnail && (
-              <ProductNoThumbnail className="w-16 h-16 rounded border p-2 box-border" />
+              <ProductNoThumbnail className="w-16 h-16 rounded border border-border p-2 box-border" />
             )}
-            <span className="absolute -top-2 -right-2 bg-gray-200 rounded-full w-6 h-6 flex items-center justify-center text-gray-700 text-sm">
+            <span className="absolute -top-2 -right-2 bg-muted rounded-full w-6 h-6 flex items-center justify-center text-muted-foreground text-sm">
               {item.qty}
             </span>
           </div>

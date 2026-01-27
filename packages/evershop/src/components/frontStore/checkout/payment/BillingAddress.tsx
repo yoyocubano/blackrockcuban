@@ -103,7 +103,7 @@ export function BillingAddress({
               handleAddressOptionChange(value as string);
             }}
           >
-            {!noShippingRequired && (
+            {!noShippingRequired ? (
               <>
                 <Item variant={'outline'}>
                   <ItemContent>
@@ -154,6 +154,26 @@ export function BillingAddress({
                   </ItemContent>
                 </Item>
               </>
+            ) : (
+              <ItemDescription className="text-inherit mt-3">
+                <div className="text-inherit bg-white">
+                  <CustomerAddressForm
+                    areaId="checkoutBillingAddressForm"
+                    fieldNamePrefix="billingAddress"
+                    address={undefined} // Always start empty for different address
+                  />
+                  {noShippingRequired && (
+                    <Button
+                      onClick={() => handleGoToPayment()}
+                      variant="default"
+                      isLoading={addingBillingAddress}
+                      className="mt-4"
+                    >
+                      {_('Continue to payment')}
+                    </Button>
+                  )}
+                </div>
+              </ItemDescription>
             )}
           </RadioGroup>
         </ItemContent>
