@@ -247,7 +247,7 @@ function CartTotalSummary({ children }: CartTotalSummaryProps) {
   const total = cart?.grandTotal?.text || '';
 
   return (
-    <div className="grid grid-cols-1 gap-5">
+    <div className="grid grid-cols-1 gap-3">
       {children ? (
         children({
           loading: Object.values(loadingStates).some(

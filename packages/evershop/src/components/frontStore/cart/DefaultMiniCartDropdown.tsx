@@ -19,6 +19,7 @@ export const DefaultMiniCartDropdown: React.FC<{
   isOpen: boolean;
   onClose: () => void;
   cartUrl?: string;
+  checkoutUrl?: string;
   dropdownPosition?: 'left' | 'right';
   setIsDropdownOpen: (isOpen: boolean) => void;
 }> = ({
@@ -26,6 +27,7 @@ export const DefaultMiniCartDropdown: React.FC<{
   isOpen,
   onClose,
   cartUrl,
+  checkoutUrl,
   dropdownPosition = 'right',
   setIsDropdownOpen
 }) => {
@@ -83,6 +85,18 @@ export const DefaultMiniCartDropdown: React.FC<{
                     {_('View Cart (${totalQty})', {
                       totalQty: totalQty.toString()
                     })}
+                  </Button>
+                  <Button
+                    variant={'default'}
+                    size={'lg'}
+                    onClick={() => {
+                      if (checkoutUrl) {
+                        window.location.href = checkoutUrl;
+                      }
+                    }}
+                    className="minicart__viewcart__button w-full "
+                  >
+                    {_('Checkout')}
                   </Button>
                 </>
               )}

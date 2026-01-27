@@ -1,26 +1,27 @@
 import { Image } from '@components/common/Image.js';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
+import { Skeleton } from '@components/common/ui/Skeleton.js';
 import { CartItem } from '@components/frontStore/cart/CartContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 const CartSummarySkeleton: React.FC<{ rows?: number }> = ({ rows = 2 }) => {
   return (
-    <ul className="divide-y divide-gray-200">
+    <ul className="divide-y divide-border">
       {Array.from({ length: rows }).map((_, i) => (
         <li key={i} className="flex items-center py-6 animate-pulse">
           <div className="relative mr-4">
-            <div className="w-16 h-16 bg-gray-200 rounded border p-2 box-border" />
-            <span className="absolute -top-2 -right-2 bg-gray-100 rounded-full w-6 h-6 flex items-center justify-center text-gray-400 text-sm">
+            <div className="w-16 h-16 bg-gray-200 rounded border border-border p-2 box-border" />
+            <span className="absolute -top-2 -right-2 bg-muted rounded-full w-6 h-6 flex items-center justify-center text-muted-foreground text-sm">
               {i + 1}
             </span>
           </div>
           <div className="flex-1 min-w-0 items-start align-top">
-            <div className="h-4 bg-gray-200 rounded w-3/5 mb-2" />
-            <div className="h-3 bg-gray-100 rounded w-2/5 mb-1" />
+            <Skeleton className="h-4 w-3/5 mb-2" />
+            <Skeleton className="h-3 w-2/5 mb-1" />
           </div>
           <div className="ml-auto text-right">
-            <div className="h-4 bg-gray-200 rounded w-16" />
+            <Skeleton className="h-4 w-16" />
           </div>
         </li>
       ))}
