@@ -15,6 +15,14 @@ import { useQuery } from 'urql';
 import { v4 as uuidv4 } from 'uuid';
 import { get } from '../../../../../lib/util/get.js';
 import './General.scss';
+import { Button } from '@components/common/ui/Button.js';
+import { PlusCircle } from 'lucide-react';
+import { Input } from '@components/common/ui/Input.js';
+import {
+  InputGroupAddon,
+  InputGroupInput
+} from '@components/common/ui/InputGroup.js';
+import { InputGroup } from '@components/common/ui/InputGroup.js';
 
 const GroupsQuery = `
   query Query {
@@ -122,37 +130,25 @@ const Groups: React.FC<{ groups: Group[]; createGroupApi: string }> = ({
         <div className="grid gap-5 grid-cols-1">
           <div>
             <div className="flex gap-5">
-              <input
-                type="text"
-                placeholder="Create a new group"
-                ref={newGroup}
-                className="flex-1 border border-gray-300 rounded-l-md p-2"
-              />
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  createGroup();
-                }}
-                className="px-2 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-              >
-                <svg
-                  width="1.5rem"
-                  height="1.5rem"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-4 h-4"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </button>
+              <InputGroup className="max-w-xs">
+                <InputGroupInput
+                  type="text"
+                  placeholder="Create a new group"
+                  ref={newGroup}
+                />
+                <InputGroupAddon align="inline-end">
+                  <a
+                    className="flex w-8 items-center justify-center text-primary"
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      createGroup();
+                    }}
+                  >
+                    <PlusCircle className="size-4" />
+                  </a>
+                </InputGroupAddon>
+              </InputGroup>
             </div>
             {createGroupError && (
               <p className="text-destructive text-xs mt-1">
@@ -210,28 +206,24 @@ const Options: React.FC<{
               <InputField type="hidden" name={`options.${index}.option_id`} />
             </div>
             <div className="self-center">
-              <button
+              <Button
                 type="button"
                 onClick={(e) => {
                   e.preventDefault();
                   remove(index);
                 }}
-                className="text-destructive hover:underline"
+                variant={'destructive'}
               >
-                Remove option
-              </button>
+                Remove
+              </Button>
             </div>
           </div>
         );
       })}
       <div className="mt-2">
-        <button
-          type="button"
-          onClick={addOption}
-          className="text-blue-500 hover:underline"
-        >
+        <Button type="button" onClick={addOption} variant={'outline'}>
           Add option
-        </button>
+        </Button>
       </div>
     </div>
   );

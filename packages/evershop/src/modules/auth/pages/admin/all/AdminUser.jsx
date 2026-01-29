@@ -1,15 +1,17 @@
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@components/common/ui/DropdownMenu.js';
+import { LogOut } from 'lucide-react';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
 
 export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
-  const [showLogout, setShowLogout] = React.useState(false);
-
-  const show = (e) => {
-    e.preventDefault();
-    setShowLogout(!showLogout);
-  };
-
   const logout = async () => {
     const response = await fetch(logoutUrl, {
       method: 'GET',
@@ -31,36 +33,34 @@ export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
   return (
     <div className="admin-user flex grow justify-end items-center">
       <div className="flex justify-items-start gap-2 justify-center">
-        <div className="relative">
-          <a
-            className="w-[2.188rem] h-[2.188rem] flex items-center justify-center rounded-full bg-primary/45 font-semibold border-[3px] border-primary"
-            href="#"
-            onClick={(e) => show(e)}
-          >
-            {fullName[0]}
-          </a>
-          {showLogout && (
-            <div className="absolute right-0 top-[115%] w-57.5 bg-background shadow p-5 rounded-md z-50">
-              <div>
-                <div>
-                  Hello <span className="text-primary">{fullName}!</span>
-                </div>
-                <div className="mt-2">
-                  <a
-                    className="text-destructive"
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      logout();
-                    }}
-                  >
-                    Logout
-                  </a>
-                </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <a
+              className="w-[2.188rem] h-[2.188rem] flex items-center justify-center rounded-full bg-primary/45 font-semibold border-2 border-primary cursor-pointer hover:bg-primary/60 transition-colors"
+              onClick={(e) => e.preventDefault()}
+            >
+              {fullName[0]}
+            </a>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-45">
+            <DropdownMenuLabel className="text-base font-normal">
+              Hello <span className="text-primary">{fullName}!</span>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer"
+              onClick={(e) => {
+                e.preventDefault();
+                logout();
+              }}
+            >
+              <div className="flex justify-start items-center gap-2">
+                <LogOut className="w-4 h-4" />
+                <span>Logout</span>
               </div>
-            </div>
-          )}
-        </div>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );

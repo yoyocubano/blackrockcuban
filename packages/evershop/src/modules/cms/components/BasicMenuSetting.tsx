@@ -141,43 +141,41 @@ const SortableMenuItem: React.FC<SortableMenuItemProps> = ({
         </button>
         <div>{item.name}</div>
       </div>
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <div className="flex justify-end gap-3 items-center">
-          <DialogTrigger>
-            <Button
-              variant={'outline'}
-              onClick={() => {
-                setItemInEdit(item);
-              }}
-              size={'sm'}
-            >
-              Edit
-            </Button>
-          </DialogTrigger>
-          {!isChild && (
-            <DialogTrigger>
-              <Button
-                variant={'outline'}
-                onClick={() => {
-                  setItemInEdit({
-                    id: uniqid(),
-                    name: '',
-                    url: '',
-                    type: 'category',
-                    uuid: '',
-                    children: []
-                  });
-                }}
-                size={'sm'}
-              >
-                Add child
-              </Button>
-            </DialogTrigger>
-          )}
-          <Button variant={'destructive'} onClick={() => deleteItem(item)}>
-            Delete
+      <div className="flex justify-end gap-3 items-center">
+        <Button
+          variant={'outline'}
+          onClick={() => {
+            setItemInEdit(item);
+            setDialogOpen(true);
+          }}
+          size={'sm'}
+        >
+          Edit
+        </Button>
+        {!isChild && (
+          <Button
+            variant={'outline'}
+            onClick={() => {
+              setItemInEdit({
+                id: uniqid(),
+                name: '',
+                url: '',
+                type: 'category',
+                uuid: '',
+                children: []
+              });
+              setDialogOpen(true);
+            }}
+            size={'sm'}
+          >
+            Add child
           </Button>
-        </div>
+        )}
+        <Button variant={'destructive'} onClick={() => deleteItem(item)}>
+          Delete
+        </Button>
+      </div>
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{`Edit Menu Item: ${itemInEdit.name}`}</DialogTitle>

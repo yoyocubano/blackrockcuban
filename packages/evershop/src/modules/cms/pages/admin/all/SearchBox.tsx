@@ -3,8 +3,6 @@ import React, { useRef, useState } from 'react';
 import { useQuery } from 'urql';
 import { NoResult } from './search/NoResult.js';
 import { Results } from './search/Results.js';
-import './SearchBox.scss';
-import { Input } from '@components/common/ui/Input.js';
 import { Search } from 'lucide-react';
 import {
   InputGroup,
@@ -107,8 +105,8 @@ export default function SearchBox({ resourceLinks }: SearchBoxProps) {
   }, [keyword]);
 
   return (
-    <div className="search-box max-w-lg">
-      <InputGroup>
+    <div className="relative self-center ml-[14.563rem] w-[34.375rem]">
+      <InputGroup className="bg-[#f1f2f3] rounded-[3px] border-[#f1f2f3]">
         <InputGroupAddon>
           <Search />
         </InputGroupAddon>
@@ -120,7 +118,10 @@ export default function SearchBox({ resourceLinks }: SearchBoxProps) {
         />
       </InputGroup>
       {showResult && (
-        <div className="search-result" ref={clickRef}>
+        <div
+          className="absolute top-[calc(100%+1rem)] left-0 bg-white rounded-[5px] w-full py-5 px-2.5 border border-border shadow-lg z-50 max-h-[30rem] overflow-y-auto"
+          ref={clickRef}
+        >
           {(loading || fetching) && (
             <div className="p-2 flex justify-center items-center">
               <Spinner width={25} height={25} />
