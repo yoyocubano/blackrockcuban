@@ -1,6 +1,6 @@
 {
   "name": "@evershop/evershop",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "type": "module",
   "description": "The React Ecommerce platform. Built with Typescript, React and Postgres. Open-source and free. Fast and customizable.",
   "files": [
@@ -12,10 +12,6 @@
     "evershop": "./dist/bin/evershop.js"
   },
   "exports": {
-    ".": {
-      "import": "./dist/types/index.js",
-      "types": "./dist/types/index.d.ts"
-    },
     "./types/*": {
       "types": "./dist/types/*.d.ts"
     },
