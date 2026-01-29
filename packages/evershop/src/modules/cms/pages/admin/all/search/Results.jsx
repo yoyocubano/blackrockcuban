@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import {
   Tabs,
   TabsList,
   TabsTrigger,
   TabsContent
 } from '@components/common/ui/Tabs.js';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export function Results({ keyword, results = {} }) {
   const { customers = [], products = [], orders = [] } = results;

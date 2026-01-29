@@ -164,17 +164,15 @@ export default function Attributes({
                 defaultValue={product?.groupId}
                 name="group_id"
               />
-              <Item variant={'outline'} className="text-left">
-                <ItemContent>
-                  <ItemTitle>
-                    {getGroup(items, product?.groupId).groupName}
-                  </ItemTitle>
-                  <ItemDescription>
-                    Can not change the attribute group of a product that is
-                    already in a variant group.
-                  </ItemDescription>
-                </ItemContent>
-              </Item>
+              <div>
+                <span className="font-semibold">
+                  {getGroup(items, product?.groupId).groupName}
+                </span>
+                <p className="text-muted-foreground italic">
+                  Can not change the attribute group of a product that is
+                  already in a variant group.
+                </p>
+              </div>
             </div>
           )}
           {!product?.variantGroupId && (

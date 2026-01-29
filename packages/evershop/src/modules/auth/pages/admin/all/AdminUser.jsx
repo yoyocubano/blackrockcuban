@@ -34,13 +34,13 @@ export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
     <div className="admin-user flex grow justify-end items-center">
       <div className="flex justify-items-start gap-2 justify-center">
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <a
+          <DropdownMenuTrigger>
+            <button
               className="w-[2.188rem] h-[2.188rem] flex items-center justify-center rounded-full bg-primary/45 font-semibold border-2 border-primary cursor-pointer hover:bg-primary/60 transition-colors"
               onClick={(e) => e.preventDefault()}
             >
               {fullName[0]}
-            </a>
+            </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-45">
             <DropdownMenuLabel className="text-base font-normal">

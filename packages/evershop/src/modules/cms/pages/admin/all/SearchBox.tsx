@@ -1,14 +1,14 @@
 import Spinner from '@components/admin/Spinner.js';
-import React, { useRef, useState } from 'react';
-import { useQuery } from 'urql';
-import { NoResult } from './search/NoResult.js';
-import { Results } from './search/Results.js';
-import { Search } from 'lucide-react';
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput
 } from '@components/common/ui/InputGroup.js';
+import { Search } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { useQuery } from 'urql';
+import { NoResult } from './search/NoResult.js';
+import { Results } from './search/Results.js';
 
 const useClickOutside = (ref, callback) => {
   const handleClick = (e) => {

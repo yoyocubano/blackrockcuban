@@ -40,12 +40,10 @@
     },
     "calculate_api": {
       "type": "string",
-      "format": "uri",
       "minLength": 1,
       "description": "API endpoint URL for calculating shipping cost",
       "errorMessage": {
         "type": "Calculate API must be a string",
-        "format": "Calculate API must be a valid URL",
         "minLength": "Calculate API cannot be empty"
       }
     },

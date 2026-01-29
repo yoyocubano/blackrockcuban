@@ -1,3 +1,4 @@
+import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
 import { Button } from '@components/common/ui/Button.js';
 import { Item, ItemContent } from '@components/common/ui/Item.js';
 import { TableCell, TableRow } from '@components/common/ui/Table.js';
@@ -16,11 +17,15 @@ export const Variant: React.FC<{
       <TableCell>
         <Item variant={'outline'} size={'xs'}>
           <ItemContent>
-            <img
-              style={{ maxWidth: '50px', height: 'auto' }}
-              src={variant?.product?.image?.url}
-              alt=""
-            />
+            {variant.product?.image?.url ? (
+              <img
+                style={{ maxWidth: '50px', height: 'auto' }}
+                src={variant?.product?.image?.url}
+                alt=""
+              />
+            ) : (
+              <ProductNoThumbnail className="size-12" />
+            )}
           </ItemContent>
         </Item>
       </TableCell>

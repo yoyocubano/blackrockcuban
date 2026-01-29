@@ -1,6 +1,7 @@
 import Spinner from '@components/admin/Spinner.jsx';
 import { InputField } from '@components/common/form/InputField.js';
 import { RadioGroupField } from '@components/common/form/RadioGroupField.js';
+import { Button } from '@components/common/ui/Button.js';
 import {
   Card,
   CardContent,
@@ -8,6 +9,13 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { Input } from '@components/common/ui/Input.js';
+import {
+  InputGroupAddon,
+  InputGroupInput
+} from '@components/common/ui/InputGroup.js';
+import { InputGroup } from '@components/common/ui/InputGroup.js';
+import { PlusCircle } from 'lucide-react';
 import React from 'react';
 import { useFormContext, Controller, useFieldArray } from 'react-hook-form';
 import Select from 'react-select';
@@ -15,14 +23,6 @@ import { useQuery } from 'urql';
 import { v4 as uuidv4 } from 'uuid';
 import { get } from '../../../../../lib/util/get.js';
 import './General.scss';
-import { Button } from '@components/common/ui/Button.js';
-import { PlusCircle } from 'lucide-react';
-import { Input } from '@components/common/ui/Input.js';
-import {
-  InputGroupAddon,
-  InputGroupInput
-} from '@components/common/ui/InputGroup.js';
-import { InputGroup } from '@components/common/ui/InputGroup.js';
 
 const GroupsQuery = `
   query Query {

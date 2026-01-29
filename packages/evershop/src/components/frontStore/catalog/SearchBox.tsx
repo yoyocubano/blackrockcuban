@@ -253,9 +253,13 @@ export function SearchBox({
     }, 150);
   }, []);
 
-  const defaultSearchIcon = () => <Search className="w-5 h-5 text-primary" />;
+  const defaultSearchIcon = () => (
+    <Search className="w-5 h-5 text-foreground hover:text-primary" />
+  );
 
-  const defaultCloseIcon = () => <X className="w-5 h-5 text-primary" />;
+  const defaultCloseIcon = () => (
+    <X className="w-5 h-5 text-foreground hover:text-primary" />
+  );
 
   return (
     <div className="search__box">

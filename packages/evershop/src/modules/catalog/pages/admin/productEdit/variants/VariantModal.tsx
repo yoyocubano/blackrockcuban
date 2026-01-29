@@ -116,6 +116,8 @@ export const VariantModal: React.FC<
       }
     } else {
       toast.success('Variant updated successfully');
+      // Refresh the page to reflect the changes
+      window.location.reload();
     }
     setSaving(false);
   };

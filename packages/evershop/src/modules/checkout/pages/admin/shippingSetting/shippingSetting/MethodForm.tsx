@@ -134,13 +134,13 @@ const CostSetting: React.FC<{
         <WeightBasedPrice lines={method?.weightBasedCost || []} />
       )}
       {typeWatch === 'api' && (
-        <UrlField
+        <InputField
           name="calculate_api"
           placeholder="Calculate API endpoint"
           required
           validation={{ required: 'Calculate API is required' }}
           defaultValue={method?.calculateApi || ''}
-          helperText="This API will be called to calculate shipping cost. It supposed to return a number."
+          helperText="This is the ID of an internal api to calculate shipping cost."
         />
       )}
     </>

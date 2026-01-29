@@ -19,7 +19,7 @@ export default function UserIcon({
   return (
     <div className="self-center customer-icon">
       <a href={customer ? accountUrl : loginUrl}>
-        <CircleUser className="w-5 h-5 text-primary" />
+        <CircleUser className="w-5 h-5 text-foreground hover:text-primary" />
       </a>
     </div>
   );
