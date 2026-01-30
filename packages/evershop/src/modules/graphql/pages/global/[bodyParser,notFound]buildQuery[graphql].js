@@ -36,18 +36,19 @@ export default async (request, response, next) => {
       const jsonWebpackStats = stats.toJson();
       const { outputPath } = jsonWebpackStats;
 
-      query = outputFileSystem.readFileSync(
-        path.join(outputPath, `query-${route.id}.graphql`),
-        'utf8'
-      );
+      const queryPath = path.resolve(outputPath, `query-${route.id}.graphql`);
+      query = outputFileSystem.readFileSync(queryPath, 'utf8');
     } else if (isProductionMode()) {
       const routes = getRoutes();
       const route = request.currentRoute;
       const subPath = getRouteBuildPath(route);
-      query = readFileSync(
-        path.resolve(CONSTANTS.BUILDPATH, subPath, 'server/query.graphql'),
-        'utf8'
+      const queryPath = path.resolve(
+        CONSTANTS.BUILDPATH,
+        subPath,
+        'server',
+        'query.graphql'
       );
+      query = readFileSync(queryPath, 'utf8');
     }
     const widgetInstances = await loadWidgetInstances(request);
     const enabledWidgets = getEnabledWidgets();
