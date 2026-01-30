@@ -22,7 +22,7 @@ const DefaultVariantOptionItem: React.FC<VariantOptionItemProps> = ({
   return (
     <li key={option.optionId} className={className}>
       <Button
-        variant={'outline'}
+        variant={isSelected ? 'default' : 'outline'}
         onClick={async (e) => {
           e.preventDefault();
           if (option.available === false) {
