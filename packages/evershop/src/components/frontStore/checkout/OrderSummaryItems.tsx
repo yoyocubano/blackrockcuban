@@ -39,7 +39,14 @@ const OrderSummaryItems: React.FC<{
             </span>
           </div>
           <div className="flex-1 min-w-0 items-start align-top">
-            <div className="font-semibold text-sm mb-1">{item.productName}</div>
+            <div
+              className="font-semibold text-sm mb-1"
+              title={item.productName}
+            >
+              {item.productName.length > 50
+                ? `${item.productName.substring(0, 50)}...`
+                : item.productName}
+            </div>
             {item.variantOptions && item.variantOptions.length > 0 && (
               <div className="space-y-1">
                 {item.variantOptions.map((option) => (

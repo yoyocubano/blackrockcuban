@@ -76,7 +76,7 @@ export default function CancelButton({
           </Form>
           <DialogFooter>
             <DialogClose>
-              <Button variant="secondary">Cancel</Button>
+              <Button variant="outline">Cancel</Button>
             </DialogClose>
             <Button
               variant="default"
