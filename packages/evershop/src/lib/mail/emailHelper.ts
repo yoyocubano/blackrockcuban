@@ -2,7 +2,6 @@ import Handlebars from 'handlebars';
 import { getSetting } from '../../modules/setting/services/setting.js';
 import { countries } from '../locale/countries.js';
 import { provinces } from '../locale/provinces.js';
-import { warning } from '../log/logger.js';
 import { getBaseUrl } from '../util/getBaseUrl.js';
 import { getConfig } from '../util/getConfig.js';
 import { addProcessor, getValue, getValueSync } from '../util/registry.js';
@@ -172,8 +171,9 @@ export async function sendEmail(
 ): Promise<void> {
   const emailService = getEmailService();
   if (!emailService) {
-    warning(`No email service registered to send email with id: ${id}`);
-    return;
+    return Promise.reject(
+      new Error('No email service registered to send emails.')
+    );
   }
   const finalArgs = await getValue('emailArguments', args, { id });
   if (!finalArgs?.from) {
