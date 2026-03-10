@@ -91,6 +91,10 @@
             text-rendering: optimizeLegibility;
             -moz-osx-font-smoothing: grayscale;
         }
+
+        [data-lang]:not([data-lang="en"]) {
+            display: none;
+        }
     </style>
 </head>
 
@@ -105,21 +109,39 @@
             </div>
             <nav class="hidden md:flex items-center gap-10">
                 <a class="text-xs font-bold uppercase tracking-widest hover:text-accent-blue transition-colors"
-                    href="#legend">The Suplex</a>
+                    href="#legend">
+                    <span data-lang="en">The Suplex</span>
+                    <span data-lang="es">El Suplex</span>
+                </a>
                 <a class="text-xs font-bold uppercase tracking-widest hover:text-accent-blue transition-colors"
-                    href="#cage">The Cage</a>
+                    href="#cage">
+                    <span data-lang="en">The Cage</span>
+                    <span data-lang="es">La Jaula</span>
+                </a>
                 <a class="text-xs font-bold uppercase tracking-widest hover:text-accent-blue transition-colors"
-                    href="#rock">The Grizzly</a>
+                    href="#rock">
+                    <span data-lang="en">The Grizzly</span>
+                    <span data-lang="es">El Grizzly</span>
+                </a>
                 <a class="text-xs font-bold uppercase tracking-widest hover:text-accent-blue transition-colors"
-                    href="#">Contact</a>
+                    href="#">
+                    <span data-lang="en">Contact</span>
+                    <span data-lang="es">Contacto</span>
+                </a>
             </nav>
             <div class="flex items-center gap-4">
+                <button id="lang-switch"
+                    class="text-xs font-black uppercase tracking-widest border border-white/20 px-3 py-2 hover:bg-white hover:text-black transition-all">
+                    ES
+                </button>
                 <button
                     class="bg-accent-red hover:bg-red-700 text-white text-xs font-black uppercase px-6 py-2 rounded-none tracking-widest transition-all">
-                    Shop
+                    <span data-lang="en">Shop</span>
+                    <span data-lang="es">Tienda</span>
                 </button>
             </div>
         </header>
+
         <main class="flex-1">
             <section class="relative h-screen w-full flex items-center justify-center overflow-hidden">
                 <div class="absolute inset-0 z-0">
@@ -140,7 +162,10 @@
                         </span>
                         <button
                             class="group relative px-10 py-4 bg-white text-black font-black uppercase tracking-widest overflow-hidden transition-transform hover:scale-105">
-                            <span class="relative z-10 group-hover:text-white transition-colors">Enter The Cage</span>
+                            <span class="relative z-10 group-hover:text-white transition-colors">
+                                <span data-lang="en">Enter The Cage</span>
+                                <span data-lang="es">Entra en la Jaula</span>
+                            </span>
                             <div
                                 class="absolute inset-0 bg-accent-blue translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                             </div>
@@ -153,31 +178,48 @@
                         class="material-symbols-outlined text-white text-5xl drop-shadow-lg">keyboard_double_arrow_down</span>
                 </div>
             </section>
+
             <section class="py-24 px-6 lg:px-40 bg-zinc-950" id="legend">
                 <div class="grid lg:grid-cols-2 gap-16 items-center">
                     <div class="order-2 lg:order-1">
-                        <h2 class="text-accent-red text-sm font-black uppercase tracking-[0.3em] mb-4">Biography</h2>
+                        <h2 class="text-accent-red text-sm font-black uppercase tracking-[0.3em] mb-4">
+                            <span data-lang="en">Biography</span>
+                            <span data-lang="es">Biografía</span>
+                        </h2>
                         <h3 class="text-5xl md:text-7xl font-black uppercase mb-8 leading-tight">The Cuban Grizzly</h3>
                         <p
                             class="text-xl text-zinc-400 mb-10 leading-relaxed border-l-4 border-accent-blue pl-6 italic font-bold">
-                            Born from resilience and raw power... A legacy of Cuban American heritage meets the
-                            unstoppable force
-                            of the ring. Forged in the heat of Havana, hardened by the concrete of the city.
+                            <span data-lang="en">Born from resilience and raw power... A legacy of Cuban American
+                                heritage meets the unstoppable force of the ring. Forged in the heat of Havana, hardened
+                                by the concrete of the city.</span>
+                            <span data-lang="es">Nacido de la resiliencia y la fuerza pura... Un legado de herencia
+                                cubano-americana se une a la fuerza imparable del ring. Forjado en el calor de La
+                                Habana, endurecido por el hormigón de la ciudad.</span>
                         </p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="p-8 bg-zinc-900 brutalist-border hover:border-accent-blue transition-all group">
                                 <span
                                     class="material-symbols-outlined text-accent-blue text-5xl mb-4 block group-hover:scale-110 transition-transform">shield</span>
-                                <h4 class="font-black uppercase text-xl mb-2">Resilience</h4>
-                                <p class="text-sm text-zinc-500 font-bold uppercase tracking-wider">Forged in the
-                                    hardest conditions.</p>
+                                <h4 class="font-black uppercase text-xl mb-2">
+                                    <span data-lang="en">Resilience</span>
+                                    <span data-lang="es">Resiliencia</span>
+                                </h4>
+                                <p class="text-sm text-zinc-500 font-bold uppercase tracking-wider">
+                                    <span data-lang="en">Forged in the hardest conditions.</span>
+                                    <span data-lang="es">Forjado en las condiciones más duras.</span>
+                                </p>
                             </div>
                             <div class="p-8 bg-zinc-900 brutalist-border hover:border-accent-red transition-all group">
                                 <span
                                     class="material-symbols-outlined text-accent-red text-5xl mb-4 block group-hover:scale-110 transition-transform">bolt</span>
-                                <h4 class="font-black uppercase text-xl mb-2">Raw Power</h4>
-                                <p class="text-sm text-zinc-500 font-bold uppercase tracking-wider">Unmatched strength
-                                    in every move.</p>
+                                <h4 class="font-black uppercase text-xl mb-2">
+                                    <span data-lang="en">Raw Power</span>
+                                    <span data-lang="es">Poder Puro</span>
+                                </h4>
+                                <p class="text-sm text-zinc-500 font-bold uppercase tracking-wider">
+                                    <span data-lang="en">Unmatched strength in every move.</span>
+                                    <span data-lang="es">Fuerza inigualable en cada movimiento.</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -193,17 +235,24 @@
                     </div>
                 </div>
             </section>
-            <!-- The rest of sections remain exact as base version -->
+
             <section class="py-24 bg-primary" id="cage">
                 <div class="px-6 lg:px-40 mb-16 flex justify-between items-end">
                     <div>
-                        <h2 class="text-white text-6xl md:text-8xl font-black uppercase tracking-tighter italic">The
-                            Cage</h2>
-                        <p class="text-accent-blue font-bold tracking-[0.5em] uppercase mt-2">Inner Sanctum / Training
-                            Grounds</p>
+                        <h2 class="text-white text-6xl md:text-8xl font-black uppercase tracking-tighter italic">
+                            <span data-lang="en">The Cage</span>
+                            <span data-lang="es">La Jaula</span>
+                        </h2>
+                        <p class="text-accent-blue font-bold tracking-[0.5em] uppercase mt-2">
+                            <span data-lang="en">Inner Sanctum / Training Grounds</span>
+                            <span data-lang="es">Santuario Interior / Campos de Entrenamiento</span>
+                        </p>
                     </div>
                     <a class="hidden md:block text-zinc-500 hover:text-white underline font-bold uppercase tracking-widest transition-colors mb-4"
-                        href="#">View All Gallery</a>
+                        href="#">
+                        <span data-lang="en">View All Gallery</span>
+                        <span data-lang="es">Ver Toda la Galería</span>
+                    </a>
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
                     <div class="aspect-square bg-zinc-900 relative group overflow-hidden">
@@ -232,16 +281,21 @@
                     </div>
                     <div
                         class="aspect-square bg-zinc-900 relative group overflow-hidden text-center flex items-center justify-center p-4">
-                        <p class="font-black italic text-2xl text-accent-red uppercase tracking-tighter">Forged in
-                            Havana / Optimized for Greatness</p>
+                        <p class="font-black italic text-2xl text-accent-red uppercase tracking-tighter">
+                            <span data-lang="en">Forged in Havana / Optimized for Greatness</span>
+                            <span data-lang="es">Forjado en La Habana / Optimizado para la Grandeza</span>
+                        </p>
                     </div>
                 </div>
             </section>
+
             <section class="py-24 px-6 lg:px-40 bg-zinc-950" id="rock">
                 <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
                     <div class="max-w-xl">
-                        <h2 class="text-accent-blue text-sm font-black uppercase tracking-[0.3em] mb-4">Official
-                            Merchandise</h2>
+                        <h2 class="text-accent-blue text-sm font-black uppercase tracking-[0.3em] mb-4">
+                            <span data-lang="en">Official Merchandise</span>
+                            <span data-lang="es">Merchandising Oficial</span>
+                        </h2>
                         <h3 class="text-6xl font-black uppercase italic">The Rock Shop</h3>
                     </div>
                     <div class="mt-6 md:mt-0 flex gap-4">
@@ -256,7 +310,6 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Products stay the same as original Stitch base -->
                     <div class="group">
                         <div class="aspect-[3/4] bg-primary mb-6 brutalist-border relative overflow-hidden">
                             <img class="w-full h-full object-cover grayscale brightness-75 group-hover:scale-105 transition-transform duration-500"
@@ -274,8 +327,10 @@
                             <span class="text-xl font-black text-accent-blue">$45.00</span>
                         </div>
                         <button
-                            class="w-full mt-6 py-3 border-2 border-zinc-800 hover:border-accent-red hover:bg-accent-red font-black uppercase transition-all tracking-widest text-sm">Add
-                            to Cart</button>
+                            class="w-full mt-6 py-3 border-2 border-zinc-800 hover:border-accent-red hover:bg-accent-red font-black uppercase transition-all tracking-widest text-sm">
+                            <span data-lang="en">Add to Cart</span>
+                            <span data-lang="es">Añadir al Carrito</span>
+                        </button>
                     </div>
                     <div class="group">
                         <div class="aspect-[3/4] bg-primary mb-6 brutalist-border relative overflow-hidden">
@@ -293,8 +348,10 @@
                             <span class="text-xl font-black text-zinc-600">$85.00</span>
                         </div>
                         <button
-                            class="w-full mt-6 py-3 border-2 border-zinc-800 cursor-not-allowed text-zinc-600 font-black uppercase tracking-widest text-sm">Notify
-                            Me</button>
+                            class="w-full mt-6 py-3 border-2 border-zinc-800 cursor-not-allowed text-zinc-600 font-black uppercase tracking-widest text-sm">
+                            <span data-lang="en">Notify Me</span>
+                            <span data-lang="es">Avísame</span>
+                        </button>
                     </div>
                     <div class="group">
                         <div class="aspect-[3/4] bg-primary mb-6 brutalist-border relative overflow-hidden">
@@ -314,11 +371,14 @@
                             <span class="text-xl font-black text-accent-blue">$55.00</span>
                         </div>
                         <button
-                            class="w-full mt-6 py-3 border-2 border-zinc-800 hover:border-accent-red hover:bg-accent-red font-black uppercase transition-all tracking-widest text-sm">Add
-                            to Cart</button>
+                            class="w-full mt-6 py-3 border-2 border-zinc-800 hover:border-accent-red hover:bg-accent-red font-black uppercase transition-all tracking-widest text-sm">
+                            <span data-lang="en">Add to Cart</span>
+                            <span data-lang="es">Añadir al Carrito</span>
+                        </button>
                     </div>
                 </div>
             </section>
+
             <section class="py-20 bg-accent-blue text-black overflow-hidden relative border-y-8 border-black">
                 <div class="flex whitespace-nowrap animate-marquee">
                     <span class="text-9xl font-black uppercase italic tracking-tighter opacity-20 px-4">THE CUBAN
@@ -328,18 +388,25 @@
                 </div>
                 <div class="absolute inset-0 flex items-center justify-center">
                     <div class="text-center px-6">
-                        <h2 class="text-4xl md:text-6xl font-black uppercase leading-none mb-6">Join the Revolution</h2>
+                        <h2 class="text-4xl md:text-6xl font-black uppercase leading-none mb-6">
+                            <span data-lang="en">Join the Revolution</span>
+                            <span data-lang="es">Únete a la Revolución</span>
+                        </h2>
                         <div class="flex flex-col md:flex-row gap-4 justify-center">
                             <input
                                 class="bg-transparent border-b-4 border-black placeholder:text-black/50 font-black text-2xl uppercase focus:outline-none px-2 py-2"
                                 placeholder="YOUR EMAIL" type="email" />
                             <button
-                                class="bg-black text-white px-10 py-4 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-colors">Subscribe</button>
+                                class="bg-black text-white px-10 py-4 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-colors">
+                                <span data-lang="en">Subscribe</span>
+                                <span data-lang="es">Suscribirse</span>
+                            </button>
                         </div>
                     </div>
                 </div>
             </section>
         </main>
+
         <footer class="bg-primary pt-20 pb-10 px-6 lg:px-40 border-t border-white/5 relative overflow-hidden">
             <!-- Watermark -->
             <div
@@ -353,37 +420,71 @@
                         class="text-4xl font-black uppercase mb-6 tracking-tighter font-display italic underline decoration-accent-blue decoration-8 underline-offset-8">
                         BLACKROCKCUBAN</h2>
                     <p class="text-zinc-500 max-w-sm mb-8 leading-relaxed font-black uppercase text-xs tracking-widest">
-                        The definitive destination for professional wrestling, elite performance apparel, and the legacy
-                        of the Cuban Grizzly. No excuses. Just power.
+                        <span data-lang="en">The definitive destination for professional wrestling, elite performance
+                            apparel, and the legacy of the Cuban Grizzly. No excuses. Just power.</span>
+                        <span data-lang="es">El destino definitivo para la lucha libre profesional, ropa de alto
+                            rendimiento y el legado del Cuban Grizzly. Sin excusas. Solo poder.</span>
                     </p>
                 </div>
                 <div>
                     <h4 class="font-black uppercase mb-6 tracking-widest text-accent-red italic">Legacy</h4>
                     <ul class="space-y-4 text-zinc-500 font-black uppercase text-xs tracking-widest">
-                        <li><a class="hover:text-white transition-colors" href="#">The Legend</a></li>
-                        <li><a class="hover:text-white transition-colors" href="#">The Cage</a></li>
-                        <li><a class="hover:text-white transition-colors" href="#">Press Kit</a></li>
+                        <li><a class="hover:text-white transition-colors" href="#">
+                                <span data-lang="en">The Story</span>
+                                <span data-lang="es">La Historia</span>
+                            </a></li>
+                        <li><a class="hover:text-white transition-colors" href="#">
+                                <span data-lang="en">The Cage</span>
+                                <span data-lang="es">La Jaula</span>
+                            </a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="font-black uppercase mb-6 tracking-widest text-accent-red italic">Support</h4>
                     <ul class="space-y-4 text-zinc-500 font-black uppercase text-xs tracking-widest">
-                        <li><a class="hover:text-white transition-colors" href="#">Shipping</a></li>
-                        <li><a class="hover:text-white transition-colors" href="#">Returns</a></li>
-                        <li><a class="hover:text-white transition-colors" href="#">Contact</a></li>
+                        <li><a class="hover:text-white transition-colors" href="#">
+                                <span data-lang="en">Shipping</span>
+                                <span data-lang="es">Envío</span>
+                            </a></li>
+                        <li><a class="hover:text-white transition-colors" href="#">
+                                <span data-lang="en">Contact</span>
+                                <span data-lang="es">Contacto</span>
+                            </a></li>
                     </ul>
                 </div>
             </div>
             <div
                 class="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-white/5 relative z-10">
-                <p class="text-[10px] text-zinc-700 font-black uppercase tracking-widest">© 2024 BLACKROCKCUBAN. All
-                    rights reserved.</p>
+                <p class="text-[10px] text-zinc-700 font-black uppercase tracking-widest">
+                    <span>© 2024 BLACKROCKCUBAN. <span data-lang="en">All rights reserved.</span><span
+                            data-lang="es">Todos los derechos reservados.</span></span>
+                </p>
                 <p
                     class="text-[10px] text-zinc-700 font-black uppercase tracking-widest mt-4 md:mt-0 italic font-display">
-                    Designed for the Elite</p>
+                    <span data-lang="en">Designed for the Elite</span>
+                    <span data-lang="es">Diseñado para la Élite</span>
+                </p>
             </div>
         </footer>
     </div>
+    <script>
+        const btn = document.getElementById('lang-switch');
+        const langElements = document.querySelectorAll('[data-lang]');
+        let currentLang = 'en';
+
+        btn.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'es' : 'en';
+            btn.textContent = currentLang === 'en' ? 'ES' : 'EN';
+
+            langElements.forEach(el => {
+                if (el.getAttribute('data-lang') === currentLang) {
+                    el.style.display = 'inline';
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+        });
+    </script>
     <style>
         @keyframes marquee {
             0% {
