@@ -11,9 +11,25 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Inter:wght@400;700;900&display=swap"
         rel="stylesheet" />
-    <!-- Material Symbols with correct weight and opsz for visibility -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block" />
+    
+    <!-- Branding & Favicon -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+    
+    <!-- WhatsApp / Social Sharing Meta Tags -->
+    <meta property="og:title" content="BLACKROCKCUBAN | The Cuban Grizzly">
+    <meta property="og:description" content="Official store of The Cuban Grizzly. Premium wrestling apparel and elite gear. Forged in Havana, optimized for greatness.">
+    <meta property="og:image" content="https://yoyocubano.github.io/blackrockcuban/assets/logo.png">
+    <meta property="og:url" content="https://yoyocubano.github.io/blackrockcuban/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- E-commerce Engine (Snipcart) -->
+    <link rel="preconnect" href="https://app.snipcart.com">
+    <link rel="preconnect" href="https://cdn.snipcart.com">
+    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.4.1/default/snipcart.css" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -134,10 +150,11 @@
                     class="text-xs font-black uppercase tracking-widest border border-white/20 px-3 py-2 hover:bg-white hover:text-black transition-all">
                     ES
                 </button>
-                <button
-                    class="bg-accent-red hover:bg-red-700 text-white text-xs font-black uppercase px-6 py-2 rounded-none tracking-widest transition-all">
+                <button class="snipcart-checkout bg-accent-red hover:bg-red-700 text-white text-xs font-black uppercase px-6 py-2 rounded-none tracking-widest transition-all flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">shopping_cart</span>
                     <span data-lang="en">Shop</span>
                     <span data-lang="es">Tienda</span>
+                    <span class="snipcart-items-count bg-white text-black rounded-full px-2 py-0.5 text-[8px] ml-1">0</span>
                 </button>
             </div>
         </header>
@@ -326,8 +343,14 @@
                             </div>
                             <span class="text-xl font-black text-accent-blue">$45.00</span>
                         </div>
-                        <button
-                            class="w-full mt-6 py-3 border-2 border-zinc-800 hover:border-accent-red hover:bg-accent-red font-black uppercase transition-all tracking-widest text-sm">
+                        <button 
+                            class="snipcart-add-item w-full mt-6 py-3 border-2 border-zinc-800 hover:border-accent-red hover:bg-accent-red font-black uppercase transition-all tracking-widest text-sm"
+                            data-item-id="grizzly-core-tee"
+                            data-item-name="Grizzly Core Tee"
+                            data-item-price="45.00"
+                            data-item-url="https://yoyocubano.github.io/blackrockcuban/"
+                            data-item-image="https://lh3.googleusercontent.com/aida-public/AB6AXuDW_39jT0BSvTL7xToeedSpgR3y61XxT09d6x5UzaXsv8I-pItcRn0k6vTW6upnlD6PNPXDT5K93o0GR9aCTlzKzuTTk5aR8JXOXcSBDmjxifWDTLq0XFnt0-a4_8HwlfBIX5UFizVAU0sF0J1t9sVstJZJZHKisea3XdGzFjqnxOWtcXdaFwZxPQqydXZLy9tkK7dtJ29xQivwA_0McU-e_rjPts4ooI69ByMYPydbKGfIf1P-Qtwkt6ZbwvvPgPqEv9hf2dPSAZA"
+                            data-item-description="Heavyweight Obsidian Cotton">
                             <span data-lang="en">Add to Cart</span>
                             <span data-lang="es">Añadir al Carrito</span>
                         </button>
@@ -370,8 +393,14 @@
                             </div>
                             <span class="text-xl font-black text-accent-blue">$55.00</span>
                         </div>
-                        <button
-                            class="w-full mt-6 py-3 border-2 border-zinc-800 hover:border-accent-red hover:bg-accent-red font-black uppercase transition-all tracking-widest text-sm">
+                        <button 
+                            class="snipcart-add-item w-full mt-6 py-3 border-2 border-zinc-800 hover:border-accent-red hover:bg-accent-red font-black uppercase transition-all tracking-widest text-sm"
+                            data-item-id="mat-pro-shorts"
+                            data-item-name="Mat Pro Shorts"
+                            data-item-price="55.00"
+                            data-item-url="https://yoyocubano.github.io/blackrockcuban/"
+                            data-item-image="https://lh3.googleusercontent.com/aida-public/AB6AXuA0E8ZR5bi6Kn6cCz21C5suXqdKazfcfPzPTsUOtVh0fxTM0XXHJMOgfZKav9sUzSPEZdixvkH5nXKO9i3Xh6idNvUBeH7Ho2GjOXt_v947QzsE0Z1MGEcnCCsNrgYJV7PtaSETKHTqV20z2M9TgxNb3HSvSof7rR0qhuM4y5uhr_7i6w-Hz9PfFR38qg-wuZPhql-gKUKw96y1FUZzuaknWQPwr59u-UDxF5IHYWYb5f_eONXyyFS3Tiq9-wS-XgQZB9oSnSJu7m0"
+                            data-item-description="Triple-Reinforced Tech Fabric">
                             <span data-lang="en">Add to Cart</span>
                             <span data-lang="es">Añadir al Carrito</span>
                         </button>
@@ -487,19 +516,25 @@
     </script>
     <style>
         @keyframes marquee {
-            0% {
-                transform: translateX(0);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
-
         .animate-marquee {
             animation: marquee 20s linear infinite;
         }
+        /* Snipcart Overrides to match our BRC brand */
+        #snipcart {
+            --snipcart-color-button-primary: #ff0000;
+            --snipcart-color-button-primary-hover: #cc0000;
+            --snipcart-color-link: #0070f3;
+            --snipcart-color-modal-bg: #0a0a0a;
+            --snipcart-color-input-bg: #1a1a1a;
+            --snipcart-color-text: #ffffff;
+        }
     </style>
+    <!-- Snipcart Script -->
+    <script async src="https://cdn.snipcart.com/themes/v3.4.1/default/snipcart.js"></script>
+    <div hidden id="snipcart" data-api-key="YjM2N2M2ZjgtZWM0Zi00YmY5LTg1ZjAtZDM2ZGE1YjU1NjgzNjM4NzI2MTQzMzY4OTI5MjY4" data-config-modal-style="side"></div>
 </body>
 
 </html>
