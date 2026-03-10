@@ -8,12 +8,12 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>BLACKROCKCUBAN | The Cuban Grizzly</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&amp;display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Inter:wght@400;700;900&display=swap"
         rel="stylesheet" />
+    <!-- Material Symbols with correct weight and opsz for visibility -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -27,7 +27,7 @@
                         "background-dark": "#0a0a0a",
                     },
                     fontFamily: {
-                        "display": ["Inter", "sans-serif"]
+                        "display": ["Outfit", "Inter", "sans-serif"]
                     },
                     borderRadius: {
                         "DEFAULT": "0.25rem",
@@ -67,7 +67,29 @@
             height: 100%;
             opacity: 0.03;
             pointer-events: none;
-            background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuC64KePL-GqZmuD4Sk8kZ3564x8vswX5owK6LEDUFpY6FR-SXQ5bXgfm_KiyrSPltlBvonvULQcEv625gz7U86VO3mCdiZYBYEYUKY-mxcmUfbpta6oZOvLRIoCRPFQgUgo5sS7WN8hEkfRqHxWzc-DH-U6yVuDqoVLf40aFWG58kc2KDX7iOMJtRPiRzejomOotx_uFzCHaLeeW3vIx91v1OLDnsGIuemT4JeuoVTkbZ168h8MT2xTwSXXA24arr27CwZXmkuWZ3g)
+            background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuC64KePL-GqZmuD4Sk8kZ3564x8vswX5owK6LEDUFpY6FR-SXQ5bXgfm_KiyrSPltlBvonvULQcEv625gz7U86VO3mCdiZYBYEYUKY-mxcmUfbpta6oZOvLRIoCRPFQgUgo5sS7WN8hEkfRqHxWzc-DH-U6yVuDqoVLf40aFWG58kc2KDX7iOMJtRPiRzejomOotx_uFzCHaLeeW3vIx91v1OLDnsGIuemT4JeuoVTkbZ168h8MT2xTwSXXA24arr27CwZXmkuWZ3g);
+        }
+
+        /* Hero Text Scaling */
+        .hero-title {
+            font-size: clamp(3rem, 15vw, 10rem);
+            line-height: 0.8;
+            letter-spacing: -0.05em;
+        }
+
+        /* Fix Material Symbols */
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            line-height: 1;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            -moz-osx-font-smoothing: grayscale;
         }
     </style>
 </head>
@@ -78,11 +100,7 @@
         <header
             class="fixed top-0 z-50 w-full bg-primary/80 backdrop-blur-md border-b border-white/10 px-6 lg:px-20 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="size-8 text-accent-red">
-                    <svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z"></path>
-                    </svg>
-                </div>
+                <img src="assets/logo.png" alt="BRC Logo" class="h-8 w-auto">
                 <h2 class="text-xl font-black tracking-tighter uppercase">BLACKROCKCUBAN</h2>
             </div>
             <nav class="hidden md:flex items-center gap-10">
@@ -105,17 +123,15 @@
         <main class="flex-1">
             <section class="relative h-screen w-full flex items-center justify-center overflow-hidden">
                 <div class="absolute inset-0 z-0">
+                    <img class="w-full h-full object-cover grayscale opacity-50 scale-105" src="assets/hero.png"
+                        alt="BlackRockCuban Combat" />
                     <div class="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-primary/50 z-10">
                     </div>
-                    <img class="w-full h-full object-cover grayscale opacity-60 scale-110"
-                        data-alt="Grizzly bear silhouette merged with professional wrestler aesthetic"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhd6sfCGGbNFwEbSJbmEO9zZPR_Qk9hRvIrGkOo5CuFrHTkRVdeYUr0ksfaxXS7bzmUrala7gR4NREDnD-Uf9agTGWCPiXJz66zMhg8oD5CoQ3-H4RnSNEtPTlVWR1Qagy3q0PvY7O8dUZIi_SzhO-hKMfA_4vSdY_yBbXZHYlIOt-Z2J-RAW_RAurYt50tYkden5q3YdgjolzfvldWbyGrYeLtmeX4u8JPdWuGz8uk6dpG3NNtchPL1sBZXeEdHBye1oeFGEerlw" />
                 </div>
                 <div class="relative z-20 text-center px-4">
                     <h1
-                        class="text-7xl md:text-[12rem] font-black leading-none tracking-tighter text-white uppercase italic mix-blend-difference">
-                        BLACK<br /><span
-                            class="text-transparent border-t-2 border-b-2 border-white/20">ROCK</span><br />CUBAN
+                        class="hero-title font-black leading-none tracking-tighter text-white uppercase italic mix-blend-difference">
+                        BLACK<br /><span class="text-white">ROCK</span><br />CUBAN
                     </h1>
                     <div class="mt-8 flex flex-col items-center gap-6">
                         <span
@@ -123,7 +139,7 @@
                             #LetsGoJulio
                         </span>
                         <button
-                            class="group relative px-10 py-4 bg-white text-black font-black uppercase tracking-widest overflow-hidden">
+                            class="group relative px-10 py-4 bg-white text-black font-black uppercase tracking-widest overflow-hidden transition-transform hover:scale-105">
                             <span class="relative z-10 group-hover:text-white transition-colors">Enter The Cage</span>
                             <div
                                 class="absolute inset-0 bg-accent-blue translate-y-full group-hover:translate-y-0 transition-transform duration-300">
@@ -131,8 +147,10 @@
                         </button>
                     </div>
                 </div>
-                <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-                    <span class="material-symbols-outlined text-white/30 text-4xl">keyboard_double_arrow_down</span>
+                <!-- Fixed Double Arrow Key -->
+                <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce z-30">
+                    <span
+                        class="material-symbols-outlined text-white text-5xl drop-shadow-lg">keyboard_double_arrow_down</span>
                 </div>
             </section>
             <section class="py-24 px-6 lg:px-40 bg-zinc-950" id="legend">
@@ -141,84 +159,81 @@
                         <h2 class="text-accent-red text-sm font-black uppercase tracking-[0.3em] mb-4">Biography</h2>
                         <h3 class="text-5xl md:text-7xl font-black uppercase mb-8 leading-tight">The Cuban Grizzly</h3>
                         <p
-                            class="text-xl text-zinc-400 mb-10 leading-relaxed border-l-4 border-accent-blue pl-6 italic">
-                            Born from resilience and raw power. A legacy of Cuban heritage meets the unstoppable force
+                            class="text-xl text-zinc-400 mb-10 leading-relaxed border-l-4 border-accent-blue pl-6 italic font-bold">
+                            Born from resilience and raw power... A legacy of Cuban heritage meets the unstoppable force
                             of the ring. Forged in the heat of Havana, hardened by the concrete of the city.
                         </p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div
-                                class="p-6 bg-zinc-900 brutalist-border hover:border-accent-blue transition-colors group">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="p-8 bg-zinc-900 brutalist-border hover:border-accent-blue transition-all group">
                                 <span
-                                    class="material-symbols-outlined text-accent-blue text-4xl mb-4 group-hover:scale-110 transition-transform">shield</span>
-                                <h4 class="font-black uppercase mb-2">Resilience</h4>
-                                <p class="text-sm text-zinc-500">Forged in the hardest conditions.</p>
+                                    class="material-symbols-outlined text-accent-blue text-5xl mb-4 block group-hover:scale-110 transition-transform">shield</span>
+                                <h4 class="font-black uppercase text-xl mb-2">Resilience</h4>
+                                <p class="text-sm text-zinc-500 font-bold uppercase tracking-wider">Forged in the
+                                    hardest conditions.</p>
                             </div>
-                            <div
-                                class="p-6 bg-zinc-900 brutalist-border hover:border-accent-red transition-colors group">
+                            <div class="p-8 bg-zinc-900 brutalist-border hover:border-accent-red transition-all group">
                                 <span
-                                    class="material-symbols-outlined text-accent-red text-4xl mb-4 group-hover:scale-110 transition-transform">bolt</span>
-                                <h4 class="font-black uppercase mb-2">Raw Power</h4>
-                                <p class="text-sm text-zinc-500">Unmatched strength in every move.</p>
-                            </div>
-                            <div class="p-6 bg-zinc-900 brutalist-border hover:border-white transition-colors group">
-                                <span
-                                    class="material-symbols-outlined text-white text-4xl mb-4 group-hover:scale-110 transition-transform">flag</span>
-                                <h4 class="font-black uppercase mb-2">Heritage</h4>
-                                <p class="text-sm text-zinc-500">Honoring roots with every victory.</p>
+                                    class="material-symbols-outlined text-accent-red text-5xl mb-4 block group-hover:scale-110 transition-transform">bolt</span>
+                                <h4 class="font-black uppercase text-xl mb-2">Raw Power</h4>
+                                <p class="text-sm text-zinc-500 font-bold uppercase tracking-wider">Unmatched strength
+                                    in every move.</p>
                             </div>
                         </div>
                     </div>
-                    <div class="order-1 lg:order-2 relative">
-                        <div class="aspect-[4/5] overflow-hidden brutalist-border">
-                            <img class="w-full h-full object-cover grayscale hover:scale-105 transition-transform duration-700"
-                                data-alt="Intense high-contrast portrait of a powerful athlete"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCePjc2QMN9PkgnXZ5nRi7CVNJKc_6CylRsIajFxV2z3WCg1iuBp0g_PeD3o8l_U4oFDKTB3N5mF4dFrLl0v3FCVQLva1YyOt4-YmKlI-UAkkAqU75z_KM3Uyr5VaKuKF-bQ7i9QFiZrHitsjqnLN0pcbZ1EZXLBn5WuQ2tU8KLtBlfoh6gYh62wxMYVoGD3OUIv2Njdjnt8MIm_sDTbf8pbrn2Q_TLlP6FBGqKVav2SMiLI3YAdY-tD6sXlaw5mnJOe5zk52ECtg8" />
+                    <div class="order-1 lg:order-2 relative group">
+                        <div class="aspect-[4/5] overflow-hidden brutalist-border shadow-2xl">
+                            <img class="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCePjc2QMN9PkgnXZ5nRi7CVNJKc_6CylRsIajFxV2z3WCg1iuBp0g_PeD3o8l_U4oFDKTB3N5mF4dFrLl0v3FCVQLva1YyOt4-YmKlI-UAkkAqU75z_KM3Uyr5VaKuKF-bQ7i9QFiZrHitsjqnLN0pcbZ1EZXLBn5WuQ2tU8KLtBlfoh6gYh62wxMYVoGD3OUIv2Njdjnt8MIm_sDTbf8pbrn2Q_TLlP6FBGqKVav2SMiLI3YAdY-tD6sXlaw5mnJOe5zk52ECtg8"
+                                alt="Portrait" />
                         </div>
-                        <div class="absolute -bottom-6 -right-6 bg-accent-blue p-8 hidden md:block">
-                            <span class="text-5xl font-black italic">EST. 1994</span>
+                        <div
+                            class="absolute -bottom-8 -right-8 bg-accent-blue p-10 hidden md:block brutalist-border shadow-2xl">
+                            <span class="text-6xl font-black italic">EST. 1994</span>
                         </div>
                     </div>
                 </div>
             </section>
+            <!-- The rest of sections remain exact as base version -->
             <section class="py-24 bg-primary" id="cage">
                 <div class="px-6 lg:px-40 mb-16 flex justify-between items-end">
                     <div>
-                        <h2 class="text-white text-6xl md:text-8xl font-black uppercase tracking-tighter">The Cage</h2>
+                        <h2 class="text-white text-6xl md:text-8xl font-black uppercase tracking-tighter italic">The
+                            Cage</h2>
                         <p class="text-accent-blue font-bold tracking-[0.5em] uppercase mt-2">Inner Sanctum / Training
                             Grounds</p>
                     </div>
-                    <a class="hidden md:block text-zinc-500 hover:text-white underline font-bold uppercase tracking-widest transition-colors"
+                    <a class="hidden md:block text-zinc-500 hover:text-white underline font-bold uppercase tracking-widest transition-colors mb-4"
                         href="#">View All Gallery</a>
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
                     <div class="aspect-square bg-zinc-900 relative group overflow-hidden">
                         <img class="w-full h-full object-cover grayscale brightness-50 group-hover:brightness-100 group-hover:scale-110 transition-all duration-500"
-                            data-alt="High contrast black and white gym weight lifting"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnmSggQJiUau62YO737BCENgmEQtSB_glfUDco9YNAXqWqto6TMkxFC3BMcEbai3MQ5mSWgpajwL98TID9b8e-SOv2suD4s7qIEaVcJAQnm820dYpJEu0LHoI8iV_xmEj2LrRRcrofMfya0XUPAb-pqa9yh9vRgjaFnOS4aFQvuXYPUZouql5ZW_clWbNjXUIY2EJR2_FoYMdHjk2sBAFwXwcnpZqJ8B-1yhm48Sm6UfazwlcZ6CB0EJWX619ldNWTIrejStaBiCM" />
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnmSggQJiUau62YO737BCENgmEQtSB_glfUDco9YNAXqWqto6TMkxFC3BMcEbai3MQ5mSWgpajwL98TID9b8e-SOv2suD4s7qIEaVcJAQnm820dYpJEu0LHoI8iV_xmEj2LrRRcrofMfya0XUPAb-pqa9yh9vRgjaFnOS4aFQvuXYPUZouql5ZW_clWbNjXUIY2EJR2_FoYMdHjk2sBAFwXwcnpZqJ8B-1yhm48Sm6UfazwlcZ6CB0EJWX619ldNWTIrejStaBiCM"
+                            alt="Lifting" />
                         <div class="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity">
                             <p class="font-black uppercase text-xs tracking-tighter bg-accent-red px-2 py-1">Hustle</p>
                         </div>
                     </div>
                     <div class="aspect-square bg-zinc-900 relative group overflow-hidden md:col-span-2 md:row-span-2">
                         <img class="w-full h-full object-cover grayscale brightness-50 group-hover:brightness-100 group-hover:scale-110 transition-all duration-500"
-                            data-alt="Professional wrestler performing a dynamic move"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjyITfoR8XQ7uyvrJuEruGb92DXJYfvJz0C8QfwmqPu5qYMAczJHQFpdAxm-XPhtD0Tx8cJTu9zgwnJ0twPliMUwg0WPZ2VF7f3_QT32uWuNlMesOULTbKMHdeVLL2j15zsDFlsBg9D4MtVVoKdiyTteh8nAgQ-oFkfbur5UIvMcUdpAiDb0iYBvo8fQVlOBPJGWoMtlHoZ4rOYV1XyvxbQeXAKaZgqrz5xnfsFTlxUZYNmBgII_MvvzZtRt0Sf4Nv5LHuqXAFADE" />
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjyITfoR8XQ7uyvrJuEruGb92DXJYfvJz0C8QfwmqPu5qYMAczJHQFpdAxm-XPhtD0Tx8cJTu9zgwnJ0twPliMUwg0WPZ2VF7f3_QT32uWuNlMesOULTbKMHdeVLL2j15zsDFlsBg9D4MtVVoKdiyTteh8nAgQ-oFkfbur5UIvMcUdpAiDb0iYBvo8fQVlOBPJGWoMtlHoZ4rOYV1XyvxbQeXAKaZgqrz5xnfsFTlxUZYNmBgII_MvvzZtRt0Sf4Nv5LHuqXAFADE"
+                            alt="Slam" />
                         <div class="absolute inset-0 border-[16px] border-primary/20 pointer-events-none"></div>
                     </div>
                     <div class="aspect-square bg-zinc-900 relative group overflow-hidden">
                         <img class="w-full h-full object-cover grayscale brightness-50 group-hover:brightness-100 group-hover:scale-110 transition-all duration-500"
-                            data-alt="Intense training sweat and shadows"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8hPwEz2m0-fCdDKov5gKYClcvVweuEKgKYLpOoMV3BU3SjZlczgpZ2XQaLPs8A7QAwMzQoDPN7Rslejrt-NjCv3ph8NDyYw4keBQr-RMPBxVU1hZ_PCrp8Je1G1VmasH1m-cn0DyqlYPl4DxMfkoT0OwyAJAGejIEtXAffTPIqGP-LH1DUwPdFhK_4aR0y6AuW7GSXaE3s-1F8y8OM35tJhk8duFagHqXak0drhloNguGZNqF90Mpd50J4JqJ4Lv5mwupsplF-yo" />
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8hPwEz2m0-fCdDKov5gKYClcvVweuEKgKYLpOoMV3BU3SjZlczgpZ2XQaLPs8A7QAwMzQoDPN7Rslejrt-NjCv3ph8NDyYw4keBQr-RMPBxVU1hZ_PCrp8Je1G1VmasH1m-cn0DyqlYPl4DxMfkoT0OwyAJAGejIEtXAffTPIqGP-LH1DUwPdFhK_4aR0y6AuW7GSXaE3s-1F8y8OM35tJhk8duFagHqXak0drhloNguGZNqF90Mpd50J4JqJ4Lv5mwupsplF-yo"
+                            alt="Training" />
                     </div>
                     <div class="aspect-square bg-zinc-900 relative group overflow-hidden">
                         <img class="w-full h-full object-cover grayscale brightness-50 group-hover:brightness-100 group-hover:scale-110 transition-all duration-500"
-                            data-alt="Heavy weights in a dark gym setting"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCokLfn6aG-y83vdaDhrYu4GKC5dbd90DdGZiJOoKJo0Jc40JtL9vlip4LeiOWA7LYusSnN-vLyTvzqvptqr2mcNjxNMm7vlRkWnDcumdYlR6UX6ujXXYtA-H-Yicw0Mnj8qhA801kmc1GdLlr6d26IXH1auD0bcQiCTu4W7PkIa7kKpreuikQ5oxxgdGGBGBfXmKizRUraR05ir5D5BzuGjUvV-5n4N1PN-2wh91FrdJMgIpqW7pbsTvLRzvHTFsSWrg4THhBsPk4" />
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCokLfn6aG-y83vdaDhrYu4GKC5dbd90DdGZiJOoKJo0Jc40JtL9vlip4LeiOWA7LYusSnN-vLyTvzqvptqr2mcNjxNMm7vlRkWnDcumdYlR6UX6ujXXYtA-H-Yicw0Mnj8qhA801kmc1GdLlr6d26IXH1auD0bcQiCTu4W7PkIa7kKpreuikQ5oxxgdGGBGBfXmKizRUraR05ir5D5BzuGjUvV-5n4N1PN-2wh91FrdJMgIpqW7pbsTvLRzvHTFsSWrg4THhBsPk4"
+                            alt="Weights" />
                     </div>
-                    <div class="aspect-square bg-zinc-900 relative group overflow-hidden">
-                        <img class="w-full h-full object-cover grayscale brightness-50 group-hover:brightness-100 group-hover:scale-110 transition-all duration-500"
-                            data-alt="Athlete preparing in locker room"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdw7HxHsY8l-84XE_ES38f4Ki9uiNRbLOYWpS3BF3RxtRlr8PQgEHIYz4q_hX7sjZ_i88CbRVb1J8_W29myuK1v4ey4msfeRQu3kXVmpiv32V72Ts6BsTkIopIffz6le7vCIo1I9_bLNNP_mPP_G4X0Fma9Bxyj0dFf7GjPJdwetPLpoU7cWhf0K4aHRfMSIcOtue4s4EkH0ZeuJWtu1fn7VBOBnsvvHcRoOF5zOmW_MGKCaFMxokl3D4M4rFq8ZpBm5KVxK_2LEE" />
+                    <div
+                        class="aspect-square bg-zinc-900 relative group overflow-hidden text-center flex items-center justify-center p-4">
+                        <p class="font-black italic text-2xl text-accent-red uppercase tracking-tighter">Forged in
+                            Havana / Optimized for Greatness</p>
                     </div>
                 </div>
             </section>
@@ -241,10 +256,10 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Products stay the same as original Stitch base -->
                     <div class="group">
                         <div class="aspect-[3/4] bg-primary mb-6 brutalist-border relative overflow-hidden">
                             <img class="w-full h-full object-cover grayscale brightness-75 group-hover:scale-105 transition-transform duration-500"
-                                data-alt="Premium black t-shirt with grizzly logo"
                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDW_39jT0BSvTL7xToeedSpgR3y61XxT09d6x5UzaXsv8I-pItcRn0k6vTW6upnlD6PNPXDT5K93o0GR9aCTlzKzuTTk5aR8JXOXcSBDmjxifWDTLq0XFnt0-a4_8HwlfBIX5UFizVAU0sF0J1t9sVstJZJZHKisea3XdGzFjqnxOWtcXdaFwZxPQqydXZLy9tkK7dtJ29xQivwA_0McU-e_rjPts4ooI69ByMYPydbKGfIf1P-Qtwkt6ZbwvvPgPqEv9hf2dPSAZA" />
                             <div class="absolute top-4 left-4">
                                 <span class="bg-accent-red text-[10px] font-black uppercase px-2 py-1">Limited
@@ -265,7 +280,6 @@
                     <div class="group">
                         <div class="aspect-[3/4] bg-primary mb-6 brutalist-border relative overflow-hidden">
                             <img class="w-full h-full object-cover grayscale brightness-75 group-hover:scale-105 transition-transform duration-500"
-                                data-alt="Heavyweight black hoodie industrial style"
                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9tlHQIglLb2x9z2Qi6J4EL7it1BlYLeNpSyuIavRo3_DhO7i4X7dbZoL3qe29LjgTumMQsmyLJWVjPzAvFYAJFxMP2m1SL-KQfW20u8E9a66SKqNXkLNjbvfykQVjkeXtaR0VxmxU9ipioVZORla6k-hnolGJgQPHGWxPSjPtv7Zaii32RiS7WP_doTHJ2AkIXOoyNMwhm-CTohqp1XTHO6b0ImMGWfXmB_dgOx7IYZ5fB470eAIzFwU1P8IwXgHmTKqJJfJ3S4k" />
                             <div class="absolute top-4 left-4">
                                 <span class="bg-zinc-800 text-[10px] font-black uppercase px-2 py-1">Sold Out</span>
@@ -285,8 +299,8 @@
                     <div class="group">
                         <div class="aspect-[3/4] bg-primary mb-6 brutalist-border relative overflow-hidden">
                             <img class="w-1/2 mx-auto h-full object-contain grayscale brightness-75 group-hover:scale-105 transition-transform duration-500"
-                                data-alt="Professional wrestling compression shorts"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0E8ZR5bi6Kn6cCz21C5suXqdKazfcfPzPTsUOtVh0fxTM0XXHJMOgfZKav9sUzSPEZdixvkH5nXKO9i3Xh6idNvUBeH7Ho2GjOXt_v947QzsE0Z1MGEcnCCsNrgYJV7PtaSETKHTqV20z2M9TgxNb3HSvSof7rR0qhuM4y5uhr_7i6w-Hz9PfFR38qg-wuZPhql-gKUKw96y1FUZzuaknWQPwr59u-UDxF5IHYWYb5f_eONXyyFS3Tiq9-wS-XgQZB9oSnSJu7m0" />
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0E8ZR5bi6Kn6cCz21C5suXqdKazfcfPzPTsUOtVh0fxTM0XXHJMOgfZKav9sUzSPEZdixvkH5nXKO9i3Xh6idNvUBeH7Ho2GjOXt_v947QzsE0Z1MGEcnCCsNrgYJV7PtaSETKHTqV20z2M9TgxNb3HSvSof7rR0qhuM4y5uhr_7i6w-Hz9PfFR38qg-wuZPhql-gKUKw96y1FUZzuaknWQPwr59u-UDxF5IHYWYb5f_eONXyyFS3Tiq9-wS-XgQZB9oSnSJu7m0"
+                                alt="Shorts" />
                             <div class="absolute top-4 left-4">
                                 <span class="bg-accent-blue text-[10px] font-black uppercase px-2 py-1">New
                                     Arrival</span>
@@ -305,10 +319,8 @@
                     </div>
                 </div>
             </section>
-            <section class="py-20 bg-accent-blue text-black overflow-hidden relative">
+            <section class="py-20 bg-accent-blue text-black overflow-hidden relative border-y-8 border-black">
                 <div class="flex whitespace-nowrap animate-marquee">
-                    <span class="text-9xl font-black uppercase italic tracking-tighter opacity-20 px-4">THE CUBAN
-                        GRIZZLY •</span>
                     <span class="text-9xl font-black uppercase italic tracking-tighter opacity-20 px-4">THE CUBAN
                         GRIZZLY •</span>
                     <span class="text-9xl font-black uppercase italic tracking-tighter opacity-20 px-4">THE CUBAN
@@ -328,47 +340,45 @@
                 </div>
             </section>
         </main>
-        <footer class="bg-primary pt-20 pb-10 px-6 lg:px-40 border-t border-white/5">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
+        <footer class="bg-primary pt-20 pb-10 px-6 lg:px-40 border-t border-white/5 relative overflow-hidden">
+            <!-- Watermark -->
+            <div class="absolute inset-0 opacity-10 pointer-events-none flex items-center justify-center">
+                <img src="assets/logo.png" alt="Grizzly Watermark" class="h-full w-auto grayscale">
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20 relative z-10">
                 <div class="md:col-span-2">
-                    <h2 class="text-4xl font-black uppercase mb-6 tracking-tighter">BLACKROCKCUBAN</h2>
-                    <p class="text-zinc-500 max-w-sm mb-8 leading-relaxed">
+                    <h2
+                        class="text-4xl font-black uppercase mb-6 tracking-tighter font-display italic underline decoration-accent-blue decoration-8 underline-offset-8">
+                        BLACKROCKCUBAN</h2>
+                    <p class="text-zinc-500 max-w-sm mb-8 leading-relaxed font-black uppercase text-xs tracking-widest">
                         The definitive destination for professional wrestling, elite performance apparel, and the legacy
                         of the Cuban Grizzly. No excuses. Just power.
                     </p>
-                    <div class="flex gap-6">
-                        <a class="text-zinc-400 hover:text-accent-red transition-colors" href="#"><span
-                                class="material-symbols-outlined text-3xl">public</span></a>
-                        <a class="text-zinc-400 hover:text-accent-blue transition-colors" href="#"><span
-                                class="material-symbols-outlined text-3xl">brand_awareness</span></a>
-                        <a class="text-zinc-400 hover:text-white transition-colors" href="#"><span
-                                class="material-symbols-outlined text-3xl">play_circle</span></a>
-                    </div>
                 </div>
                 <div>
-                    <h4 class="font-black uppercase mb-6 tracking-widest text-accent-red">Navigation</h4>
-                    <ul class="space-y-4 text-zinc-500 font-bold uppercase text-xs tracking-widest">
-                        <li><a class="hover:text-white transition-colors" href="#">The Story</a></li>
-                        <li><a class="hover:text-white transition-colors" href="#">Training Plan</a></li>
-                        <li><a class="hover:text-white transition-colors" href="#">Gallery</a></li>
+                    <h4 class="font-black uppercase mb-6 tracking-widest text-accent-red italic">Legacy</h4>
+                    <ul class="space-y-4 text-zinc-500 font-black uppercase text-xs tracking-widest">
+                        <li><a class="hover:text-white transition-colors" href="#">The Legend</a></li>
+                        <li><a class="hover:text-white transition-colors" href="#">The Cage</a></li>
                         <li><a class="hover:text-white transition-colors" href="#">Press Kit</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-black uppercase mb-6 tracking-widest text-accent-red">Support</h4>
-                    <ul class="space-y-4 text-zinc-500 font-bold uppercase text-xs tracking-widest">
+                    <h4 class="font-black uppercase mb-6 tracking-widest text-accent-red italic">Support</h4>
+                    <ul class="space-y-4 text-zinc-500 font-black uppercase text-xs tracking-widest">
                         <li><a class="hover:text-white transition-colors" href="#">Shipping</a></li>
                         <li><a class="hover:text-white transition-colors" href="#">Returns</a></li>
-                        <li><a class="hover:text-white transition-colors" href="#">Terms</a></li>
                         <li><a class="hover:text-white transition-colors" href="#">Contact</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-white/5">
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-white/5 relative z-10">
                 <p class="text-[10px] text-zinc-700 font-black uppercase tracking-widest">© 2024 BLACKROCKCUBAN. All
                     rights reserved.</p>
-                <p class="text-[10px] text-zinc-700 font-black uppercase tracking-widest mt-4 md:mt-0 italic">Designed
-                    for the Elite</p>
+                <p
+                    class="text-[10px] text-zinc-700 font-black uppercase tracking-widest mt-4 md:mt-0 italic font-display">
+                    Designed for the Elite</p>
             </div>
         </footer>
     </div>
