@@ -11,7 +11,12 @@
 
   body {
     font-size: 100%;
-    color: #3a3a3a;
+    color: #E0E0E0; // Light Grey for readability on dark
+    background-color: #0A0A0A; // Dark background per Cinematic style
+    --brand-blue: #002A8F;
+    --brand-red: #D21034;
+    --brand-grey: #4A4A4A;
+
     input[type='email'],
     input[type='password'],
     input[type='tel'],
@@ -45,29 +50,36 @@
     $h4-font-size: $font-size-base * 1.45;
     $h5-font-size: $font-size-base * 1;
     $h6-font-size: $font-size-base;
+
     body {
       font-size: $font-size-base;
       line-height: $line-height-sm;
+
       .h1,
       h1 {
         font-size: $h1-font-size;
       }
+
       .h2,
       h2 {
         font-size: $h2-font-size;
       }
+
       .h3,
       h3 {
         font-size: $h3-font-size;
       }
+
       .h4,
       h4 {
         font-size: $h4-font-size;
       }
+
       .h5,
       h5 {
         font-size: $h5-font-size;
       }
+
       .h6,
       h6 {
         font-size: $h6-font-size;
@@ -87,26 +99,32 @@
     body {
       font-size: $font-size-base;
       line-height: $line-height-md;
+
       .h1,
       h1 {
         font-size: $h1-font-size;
       }
+
       .h2,
       h2 {
         font-size: $h2-font-size;
       }
+
       .h3,
       h3 {
         font-size: $h3-font-size;
       }
+
       .h4,
       h4 {
         font-size: $h4-font-size;
       }
+
       .h5,
       h5 {
         font-size: $h5-font-size;
       }
+
       .h6,
       h6 {
         font-size: $h6-font-size;
@@ -126,32 +144,39 @@
     body {
       font-size: $font-size-base;
       line-height: $line-height-lg;
+
       .h1,
       h1 {
         font-size: $h1-font-size;
       }
+
       .h2,
       h2 {
         font-size: $h2-font-size;
       }
+
       .h3,
       h3 {
         font-size: $h3-font-size;
       }
+
       .h4,
       h4 {
         font-size: $h4-font-size;
       }
+
       .h5,
       h5 {
         font-size: $h5-font-size;
       }
+
       .h6,
       h6 {
         font-size: $h6-font-size;
       }
     }
   }
+
   h1,
   h2,
   h3,
@@ -160,6 +185,7 @@
   h6 {
     font-weight: 600;
   }
+
   .wrapper .content {
     min-height: calc(100vh - 50px);
   }
@@ -167,10 +193,12 @@
   .container {
     margin: 0 auto;
   }
+
   .page-width {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 22px;
+
     @media screen and (min-width: 1200px) {
       padding: 0 55px;
     }
@@ -179,22 +207,27 @@
   table {
     width: 100%;
     border-collapse: collapse;
+
     td,
     th {
       border: 1px solid var(--divider);
       padding: 0.313rem;
       text-align: left;
     }
+
     th {
       vertical-align: top;
     }
+
     &.listing {
+
       td,
       th {
         border-left: 0;
         border-right: 0;
         padding: 0.625rem;
       }
+
       th {
         border: 0;
         padding-top: 1.25rem;

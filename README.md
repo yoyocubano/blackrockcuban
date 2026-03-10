@@ -18,9 +18,11 @@
 <img alt="EverShop" width="950" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/banner.png"/>
 </p>
 
-## Introduction
+# 🐻 BlackRockCuban - Personalized Wrestling Brand Store
 
-EverShop is a modern, TypeScript-first eCommerce platform built with GraphQL and React. Designed for developers, it offers essential commerce features in a modular, fully customizable architecture—perfect for building tailored shopping experiences with confidence and speed.
+Welcome to the official store of **BlackRockCuban**. This store is powered by EverShop and customized with the "Cuban Grizzly" branding.
+
+**Slogan:** #LetsGoJulio
 
 ## Installation Using Docker
 
