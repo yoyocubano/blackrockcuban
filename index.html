@@ -28,22 +28,12 @@
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
 
-    <!-- E-commerce Engine (Snipcart) - MODERNO Y ESTABLE -->
-    <link rel="preconnect" href="https://app.snipcart.com">
-    <link rel="preconnect" href="https://cdn.snipcart.com">
-    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.4.1/default/snipcart.css" />
-    <script async src="https://cdn.snipcart.com/themes/v3.4.1/default/snipcart.js?v=2"></script>
-    <script>
-        window.SnipcartSettings = {
-            publicApiKey: "YmY0N2E4ZjUtOWJlMi00Njc1LTk4MTctNmRkNjE4MzM2MWMxNjM3OTYwNjI4MTM4OTM4OTkw",
-            loadStrategy: "on-idle",
-            modalStyle: "side",
-            addProductBehavior: "none",
-        };
-        document.addEventListener('snipcart.ready', () => {
-            console.log('BRC Commerce Engine: Active');
-        });
-    </script>
+    <!-- E-commerce Transition: Preparing for Fourthwall/Direct Integration -->
+    <style>
+        .cart-dot {
+            display: none;
+        }
+    </style>
     
     <script id="tailwind-config">
         tailwind.config = {
@@ -169,11 +159,10 @@
                     class="text-xs font-black uppercase tracking-widest border border-white/20 px-3 py-2 hover:bg-white hover:text-black transition-all">
                     ES
                 </button>
-                <button class="snipcart-checkout bg-accent-red hover:bg-red-700 text-white text-xs font-black uppercase px-6 py-2 rounded-none tracking-widest transition-all flex items-center gap-2">
-                    <span class="material-symbols-outlined text-sm">shopping_cart</span>
+                <button onclick="location.href='#rock'" class="bg-accent-red hover:bg-red-700 text-white text-xs font-black uppercase px-6 py-2 rounded-none tracking-widest transition-all flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">shopping_bag</span>
                     <span data-lang="en">Shop</span>
                     <span data-lang="es">Tienda</span>
-                    <span class="snipcart-items-count bg-white text-black rounded-full px-2 py-0.5 text-[8px] ml-1">0</span>
                 </button>
             </div>
         </header>
@@ -366,18 +355,11 @@
                             <span class="text-xl font-black text-accent-blue">$45.00</span>
                         </div>
                         <button 
-                            class="snipcart-add-item w-full mt-6 py-3 border-2 border-zinc-800 hover:border-accent-red hover:bg-accent-red font-black uppercase transition-all tracking-widest text-sm"
-                            data-item-id="brc-grizzly-tee-3010"
-                            data-item-name="Grizzly Core Tee - B+C 3010"
-                            data-item-price="45.00"
-                            data-item-url="https://yoyocubano.github.io/blackrockcuban/"
-                            data-item-image="https://lh3.googleusercontent.com/aida-public/AB6AXuDW_39jT0BSvTL7xToeedSpgR3y61XxT09d6x5UzaXsv8I-pItcRn0k6vTW6upnlD6PNPXDT5K93o0GR9aCTlzKzuTTk5aR8JXOXcSBDmjxifWDTLq0XFnt0-a4_8HwlfBIX5UFizVAU0sF0J1t9sVstJZJZHKisea3XdGzFjqnxOWtcXdaFwZxPQqydXZLy9tkK7dtJ29xQivwA_0McU-e_rjPts4ooI69ByMYPydbKGfIf1P-Qtwkt6ZbwvvPgPqEv9hf2dPSAZA"
-                            data-item-description="Premium Unisex Oversized Boxy Tee - Bella+Canvas 3010. Authentic Cuban American Legacy Gear."
-                            data-item-custom1-name="Size"
-                            data-item-custom1-options="S|M|L|XL|2XL"
-                            data-item-custom1-required="true">
-                            <span data-lang="en">Add to Cart</span>
-                            <span data-lang="es">Añadir al Carrito</span>
+                            onclick="window.open('https://fourthwall.com/products/grizzly-core-tee', '_blank')"
+                            class="w-full mt-6 py-4 bg-zinc-900 border-2 border-zinc-800 hover:border-accent-red hover:bg-accent-red font-black uppercase transition-all tracking-widest text-sm flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-sm">bolt</span>
+                            <span data-lang="en">Get This Gear</span>
+                            <span data-lang="es">Conseguir Equipo</span>
                         </button>
                     </div>
                     <div class="group">
@@ -399,18 +381,11 @@
                             <span class="text-xl font-black text-zinc-600">$85.00</span>
                         </div>
                         <button
-                            class="snipcart-add-item w-full mt-6 py-3 border-2 border-zinc-800 hover:border-accent-red hover:bg-accent-red font-black uppercase transition-all tracking-widest text-sm"
-                            data-item-id="brc-iron-cage-hoodie"
-                            data-item-name="Iron Cage Hoodie"
-                            data-item-price="85.00"
-                            data-item-url="https://yoyocubano.github.io/blackrockcuban/"
-                            data-item-image="https://lh3.googleusercontent.com/aida-public/AB6AXuB9tlHQIglLb2x9z2Qi6J4EL7it1BlYLeNpSyuIavRo3_DhO7i4X7dbZoL3qe29LjgTumMQsmyLJWVjPzAvFYAJFxMP2m1SL-KQfW20u8E9a66SKqNXkLNjbvfykQVjkeXtaR0VxmxU9ipioVZORla6k-hnolGJgQPHGWxPSjPtv7Zaii32RiS7WP_doTHJ2AkIXOoyNMwhm-CTohqp1XTHO6b0ImMGWfXmB_dgOx7IYZ5fB470eAIzFwU1P8IwXgHmTKqJJfJ3S4k"
-                            data-item-description="Heavyweight Industrial Fleece / Red-Lined. Authentic Iron Cage gear."
-                            data-item-custom1-name="Size"
-                            data-item-custom1-options="S|M|L|XL|2XL"
-                            data-item-custom1-required="true">
-                            <span data-lang="en">Add to Cart</span>
-                            <span data-lang="es">Añadir al Carrito</span>
+                            onclick="window.open('https://fourthwall.com/products/iron-cage-hoodie', '_blank')"
+                            class="w-full mt-6 py-4 bg-zinc-900 border-2 border-zinc-800 hover:border-accent-red hover:bg-accent-red font-black uppercase transition-all tracking-widest text-sm flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-sm">flash_on</span>
+                            <span data-lang="en">Get This Gear</span>
+                            <span data-lang="es">Conseguir Equipo</span>
                         </button>
                     </div>
                     <div class="group">
@@ -434,18 +409,11 @@
                             <span class="text-xl font-black text-accent-blue">$55.00</span>
                         </div>
                         <button 
-                            class="snipcart-add-item w-full mt-6 py-3 border-2 border-zinc-800 hover:border-accent-red hover:bg-accent-red font-black uppercase transition-all tracking-widest text-sm"
-                            data-item-id="brc-mat-pro-shorts"
-                            data-item-name="Mat Pro Shorts"
-                            data-item-price="55.00"
-                            data-item-url="https://yoyocubano.github.io/blackrockcuban/"
-                            data-item-image="https://lh3.googleusercontent.com/aida-public/AB6AXuA0E8ZR5bi6Kn6cCz21C5suXqdKazfcfPzPTsUOtVh0fxTM0XXHJMOgfZKav9sUzSPEZdixvkH5nXKO9i3Xh6idNvUBeH7Ho2GjOXt_v947QzsE0Z1MGEcnCCsNrgYJV7PtaSETKHTqV20z2M9TgxNb3HSvSof7rR0qhuM4y5uhr_7i6w-Hz9PfFR38qg-wuZPhql-gKUKw96y1FUZzuaknWQPwr59u-UDxF5IHYWYb5f_eONXyyFS3Tiq9-wS-XgQZB9oSnSJu7m0"
-                            data-item-description="Triple-Reinforced Tech Fabric. Garment-Dyed Pepper (Vintage Black)."
-                            data-item-custom1-name="Size"
-                            data-item-custom1-options="S|M|L|XL|2XL"
-                            data-item-custom1-required="true">
-                            <span data-lang="en">Add to Cart</span>
-                            <span data-lang="es">Añadir al Carrito</span>
+                            onclick="window.open('https://fourthwall.com/products/mat-pro-shorts', '_blank')"
+                            class="w-full mt-6 py-4 bg-zinc-900 border-2 border-zinc-800 hover:border-accent-blue hover:bg-accent-blue font-black uppercase transition-all tracking-widest text-sm flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-sm">fitness_center</span>
+                            <span data-lang="en">Get This Gear</span>
+                            <span data-lang="es">Conseguir Equipo</span>
                         </button>
                     </div>
                 </div>
@@ -570,27 +538,7 @@
         // Init placeholders
         updateTranslations();
     </script>
-    <style>
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-            animation: marquee 20s linear infinite;
-        }
-        /* Snipcart Overrides to match our BRC brand */
-        #snipcart {
-            --snipcart-color-button-primary: #ff0000;
-            --snipcart-color-button-primary-hover: #cc0000;
-            --snipcart-color-link: #0070f3;
-            --snipcart-color-modal-bg: #0a0a0a;
-            --snipcart-color-input-bg: #1a1a1a;
-            --snipcart-color-text: #ffffff;
-        }
-    </style>
-    <!-- Snipcart Configuration (VERIFIED TEST KEY) -->
-    <div hidden id="snipcart" 
-         data-api-key="YmY0N2E4ZjUtOWJlMi00Njc1LTk4MTctNmRkNjE4MzM2MWMxNjM3OTYwNjI4MTM4OTM4OTkw"></div>
+    <!-- No more Snipcart here, transitioned to Fourthwall/Direct -->
 </body>
 
 </html>
