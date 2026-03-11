@@ -35,10 +35,14 @@
     <script async src="https://cdn.snipcart.com/themes/v3.4.1/default/snipcart.js?v=2"></script>
     <script>
         window.SnipcartSettings = {
-            publicApiKey: "OWE3MmZmMjQtNTQyZi00YmYwLTkzZTEtMGY5ZGRhY2EwYzU4NjM3MTY2MjYxNTI3MDUyNzg1",
+            publicApiKey: "YmY0N2E4ZjUtOWJlMi00Njc1LTk4MTctNmRkNjE4MzM2MWMxNjM3OTYwNjI4MTM4OTM4OTkw",
             loadStrategy: "on-idle",
             modalStyle: "side",
+            addProductBehavior: "none",
         };
+        document.addEventListener('snipcart.ready', () => {
+            console.log('BRC Commerce Engine: Active');
+        });
     </script>
     
     <script id="tailwind-config">
@@ -586,7 +590,7 @@
     </style>
     <!-- Snipcart Configuration (VERIFIED TEST KEY) -->
     <div hidden id="snipcart" 
-         data-api-key="OWE3MmZmMjQtNTQyZi00YmYwLTkzZTEtMGY5ZGRhY2EwYzU4NjM3MTY2MjYxNTI3MDUyNzg1"></div>
+         data-api-key="YmY0N2E4ZjUtOWJlMi00Njc1LTk4MTctNmRkNjE4MzM2MWMxNjM3OTYwNjI4MTM4OTM4OTkw"></div>
 </body>
 
 </html>
