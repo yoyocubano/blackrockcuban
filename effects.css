@@ -1,0 +1,122 @@
+/* ========== BLACKROCKCUBAN PREMIUM VFX ========== */
+:root {
+    --primary-red: #ff0000;
+    --neon-red: #ff0000;
+    --neon-blue: #0070f3;
+    --transition-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Glitch Effect */
+.glitch { position: relative; }
+.glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0;
+}
+.glitch:hover::before {
+    animation: glitch-anim 0.3s infinite;
+    color: #00fffc; z-index: -1; opacity: 0.8;
+    text-shadow: -2px 0 #ff00ff;
+}
+.glitch:hover::after {
+    animation: glitch-anim2 0.3s infinite;
+    color: #fc00ff; z-index: -2; opacity: 0.8;
+    text-shadow: 2px 0 #00fffc;
+}
+@keyframes glitch-anim {
+    0% { clip-path: inset(40% 0 61% 0); }
+    20% { clip-path: inset(92% 0 1% 0); }
+    40% { clip-path: inset(43% 0 1% 0); }
+    60% { clip-path: inset(25% 0 58% 0); }
+    80% { clip-path: inset(54% 0 7% 0); }
+    100% { clip-path: inset(58% 0 43% 0); }
+}
+@keyframes glitch-anim2 {
+    0% { clip-path: inset(65% 0 31% 0); }
+    20% { clip-path: inset(45% 0 31% 0); }
+    40% { clip-path: inset(33% 0 51% 0); }
+    60% { clip-path: inset(84% 0 11% 0); }
+    80% { clip-path: inset(22% 0 61% 0); }
+    100% { clip-path: inset(76% 0 21% 0); }
+}
+
+/* 3D Tilt Cards */
+.vfx-card {
+    transform-style: preserve-3d;
+    transition: all 0.5s var(--transition-smooth);
+}
+.vfx-card:hover {
+    transform: translateY(-10px) rotateX(4deg) rotateY(4deg) scale(1.02);
+    box-shadow: 0 25px 50px rgba(255, 0, 0, 0.2);
+}
+
+/* Neon Buttons */
+.neon-button-red {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s var(--transition-smooth);
+}
+.neon-button-red:hover {
+    box-shadow: 0 0 15px var(--neon-red), 0 0 30px rgba(255, 0, 0, 0.4);
+    text-shadow: 0 0 8px #fff;
+}
+.neon-button-red::after {
+    content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+.neon-button-red:hover::after { left: 100%; }
+
+/* Scroll Reveals */
+.reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s var(--transition-smooth); }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+/* Scanlines Overlay */
+.scanlines {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 100;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 2px);
+    opacity: 0.5;
+}
+
+/* Mouse Trail */
+.particle {
+    position: fixed; width: 4px; height: 4px; border-radius: 50%;
+    background: var(--neon-red); pointer-events: none; z-index: 999;
+    animation: particleFade 0.8s ease-out forwards;
+}
+@keyframes particleFade { to { opacity: 0; transform: scale(4); } }
+
+/* Parallax Background for Hero */
+.hero-parallax {
+    transform: translateY(calc(var(--scroll-y, 0) * 0.2px));
+    will-change: transform;
+}
+
+/* Custom Text Reveal */
+.text-reveal {
+    overflow: hidden;
+}
+.text-reveal span {
+    display: block;
+    transform: translateY(110%);
+    transition: transform 1s var(--transition-smooth);
+}
+.reveal.active .text-reveal span {
+    transform: translateY(0);
+}
+
+/* Responsive Overrides */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: clamp(2.5rem, 12vw, 5rem) !important;
+        line-height: 0.9 !important;
+    }
+    .vfx-card:hover {
+        transform: none !important; /* Disable tilt on touch for better UX */
+    }
+    .glitch::before, .glitch::after {
+        display: none !important; /* Performance on mobile */
+    }
+}
