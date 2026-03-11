@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Inter:wght@400;700&display=swap');
+
+:root {
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --primary-color: #002A8F; /* Electric Blue */
+  --accent-color: #D21034; /* Cuban Red */
+  --bg-color: #0A0A0A; /* Obsidian Black */
+}
+
+h1, h2, h3, .heading {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  font-weight: 900;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-color);
+  color: #E0E0E0;
+}
+
+.brc-logo {
+  filter: drop-shadow(0 0 10px rgba(0, 42, 143, 0.5));
+  transition: transform 0.3s ease;
+}
+
+.brc-logo:hover {
+  transform: scale(1.05);
+}
