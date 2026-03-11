@@ -33,6 +33,13 @@
     <link rel="preconnect" href="https://cdn.snipcart.com">
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.4.1/default/snipcart.css" />
     <script async src="https://cdn.snipcart.com/themes/v3.4.1/default/snipcart.js"></script>
+    <script>
+        window.SnipcartSettings = {
+            publicApiKey: "YmY0N2E4ZjUtOWJlMi00Njc1LTk4MTctNmRkNjE4MzM2MWMxNjM3OTYwNjI4MTM4OTM4OTkw",
+            loadStrategy: "on-idle",
+            modalStyle: "side",
+        };
+    </script>
     
     <script id="tailwind-config">
         tailwind.config = {
@@ -347,7 +354,10 @@
                         <div class="flex justify-between items-start">
                             <div>
                                 <h4 class="text-xl font-black uppercase">Grizzly Core Tee</h4>
-                                <p class="text-zinc-500 text-sm">Heavyweight Obsidian Cotton</p>
+                                <p class="text-zinc-500 text-sm">
+                                    <span data-lang="en">Heavyweight Obsidian Cotton</span>
+                                    <span data-lang="es">Algodón Obsidian de Alto Gramaje</span>
+                                </p>
                             </div>
                             <span class="text-xl font-black text-accent-blue">$45.00</span>
                         </div>
@@ -371,13 +381,16 @@
                             <img class="w-full h-full object-cover grayscale brightness-75 group-hover:scale-105 transition-transform duration-500"
                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9tlHQIglLb2x9z2Qi6J4EL7it1BlYLeNpSyuIavRo3_DhO7i4X7dbZoL3qe29LjgTumMQsmyLJWVjPzAvFYAJFxMP2m1SL-KQfW20u8E9a66SKqNXkLNjbvfykQVjkeXtaR0VxmxU9ipioVZORla6k-hnolGJgQPHGWxPSjPtv7Zaii32RiS7WP_doTHJ2AkIXOoyNMwhm-CTohqp1XTHO6b0ImMGWfXmB_dgOx7IYZ5fB470eAIzFwU1P8IwXgHmTKqJJfJ3S4k" />
                             <div class="absolute top-4 left-4">
-                                <span class="bg-zinc-800 text-[10px] font-black uppercase px-2 py-1">Sold Out</span>
+                                <span class="bg-accent-blue text-[10px] font-black uppercase px-2 py-1">New Arrival</span>
                             </div>
                         </div>
                         <div class="flex justify-between items-start">
                             <div>
                                 <h4 class="text-xl font-black uppercase">Iron Cage Hoodie</h4>
-                                <p class="text-zinc-500 text-sm">Industrial Fleece / Red Lined</p>
+                                <p class="text-zinc-500 text-sm">
+                                    <span data-lang="en">Industrial Fleece / Red Lined</span>
+                                    <span data-lang="es">Felpa Industrial / Forro Rojo</span>
+                                </p>
                             </div>
                             <span class="text-xl font-black text-zinc-600">$85.00</span>
                         </div>
@@ -409,7 +422,10 @@
                         <div class="flex justify-between items-start">
                             <div>
                                 <h4 class="text-xl font-black uppercase">Mat Pro Shorts</h4>
-                                <p class="text-zinc-500 text-sm">Triple-Reinforced Tech Fabric</p>
+                                <p class="text-zinc-500 text-sm">
+                                    <span data-lang="en">Triple-Reinforced Tech Fabric</span>
+                                    <span data-lang="es">Tejido Técnico con Triple Refuerzo</span>
+                                </p>
                             </div>
                             <span class="text-xl font-black text-accent-blue">$55.00</span>
                         </div>
@@ -446,8 +462,9 @@
                         </h2>
                         <div class="flex flex-col md:flex-row gap-4 justify-center">
                             <input
+                                id="newsletter-input"
                                 class="bg-transparent border-b-4 border-black placeholder:text-black/50 font-black text-2xl uppercase focus:outline-none px-2 py-2"
-                                placeholder="YOUR EMAIL" type="email" />
+                                placeholder="..." type="email" />
                             <button
                                 class="bg-black text-white px-10 py-4 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-colors">
                                 <span data-lang="en">Subscribe</span>
@@ -524,10 +541,9 @@
         const langElements = document.querySelectorAll('[data-lang]');
         let currentLang = 'en';
 
-        btn.addEventListener('click', () => {
-            currentLang = currentLang === 'en' ? 'es' : 'en';
-            btn.textContent = currentLang === 'en' ? 'ES' : 'EN';
-
+        const newsletterInput = document.getElementById('newsletter-input');
+        
+        function updateTranslations() {
             langElements.forEach(el => {
                 if (el.getAttribute('data-lang') === currentLang) {
                     el.style.display = 'inline';
@@ -535,7 +551,20 @@
                     el.style.display = 'none';
                 }
             });
+            // Update placeholders
+            if (newsletterInput) {
+                newsletterInput.placeholder = currentLang === 'en' ? 'YOUR EMAIL' : 'TU CORREO';
+            }
+        }
+
+        btn.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'es' : 'en';
+            btn.textContent = currentLang === 'en' ? 'ES' : 'EN';
+            updateTranslations();
         });
+
+        // Init placeholders
+        updateTranslations();
     </script>
     <style>
         @keyframes marquee {
@@ -557,8 +586,7 @@
     </style>
     <!-- Snipcart Configuration (VERIFIED TEST KEY) -->
     <div hidden id="snipcart" 
-         data-api-key="ODFhMTVkY2QtNmEwYi00NjViLTg1ODAtYzg5NWVmZjU0ZWZkNjM3MTY2MjYxNTI3MDUyNzg1" 
-         data-config-modal-style="side"></div>
+         data-api-key="YmY0N2E4ZjUtOWJlMi00Njc1LTk4MTctNmRkNjE4MzM2MWMxNjM3OTYwNjI4MTM4OTM4OTkw"></div>
 </body>
 
 </html>
