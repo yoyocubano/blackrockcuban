@@ -251,6 +251,96 @@
         }
     </script>
     <style>
+        /* ========== ENHANCED EFFECTS ========== */
+        :root {
+            --primary-red: #ff0000;
+            --neon-red: #ff0000;
+            --neon-blue: #0070f3;
+            --transition-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Glitch Effect */
+        .glitch { position: relative; }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0;
+        }
+        .glitch:hover::before {
+            animation: glitch-anim 0.3s infinite;
+            color: #00fffc; z-index: -1; opacity: 0.8;
+            text-shadow: -2px 0 #ff00ff;
+        }
+        .glitch:hover::after {
+            animation: glitch-anim2 0.3s infinite;
+            color: #fc00ff; z-index: -2; opacity: 0.8;
+            text-shadow: 2px 0 #00fffc;
+        }
+        @keyframes glitch-anim {
+            0% { clip-path: inset(40% 0 61% 0); }
+            20% { clip-path: inset(92% 0 1% 0); }
+            40% { clip-path: inset(43% 0 1% 0); }
+            60% { clip-path: inset(25% 0 58% 0); }
+            80% { clip-path: inset(54% 0 7% 0); }
+            100% { clip-path: inset(58% 0 43% 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip-path: inset(65% 0 31% 0); }
+            20% { clip-path: inset(45% 0 31% 0); }
+            40% { clip-path: inset(33% 0 51% 0); }
+            60% { clip-path: inset(84% 0 11% 0); }
+            80% { clip-path: inset(22% 0 61% 0); }
+            100% { clip-path: inset(76% 0 21% 0); }
+        }
+
+        /* 3D Tilt Cards */
+        .vfx-card {
+            transform-style: preserve-3d;
+            transition: all 0.5s var(--transition-smooth);
+        }
+        .vfx-card:hover {
+            transform: translateY(-10px) rotateX(4deg) rotateY(4deg) scale(1.02);
+            box-shadow: 0 25px 50px rgba(255, 0, 0, 0.2);
+        }
+
+        /* Neon Buttons */
+        .neon-button-red {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s var(--transition-smooth);
+        }
+        .neon-button-red:hover {
+            box-shadow: 0 0 15px var(--neon-red), 0 0 30px rgba(255, 0, 0, 0.4);
+            text-shadow: 0 0 8px #fff;
+        }
+        .neon-button-red::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        .neon-button-red:hover::after { left: 100%; }
+
+        /* Scroll Reveals */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s var(--transition-smooth); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Scanlines Overlay */
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 100;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 2px);
+            opacity: 0.5;
+        }
+
+        /* Mouse Trail */
+        .particle {
+            position: fixed; width: 4px; height: 4px; border-radius: 50%;
+            background: var(--neon-red); pointer-events: none; z-index: 999;
+            animation: particleFade 0.8s ease-out forwards;
+        }
+        @keyframes particleFade { to { opacity: 0; transform: scale(4); } }
+
         html {
             scroll-behavior: smooth;
         }
@@ -317,9 +407,9 @@
     <div class="relative flex h-auto min-h-screen w-full flex-col bg-volcanic">
         <header
             class="fixed top-0 z-50 w-full bg-primary/80 backdrop-blur-md border-b border-white/10 px-4 md:px-20 py-3 md:py-4 flex items-center justify-between">
-            <div class="flex items-center gap-2 md:gap-3">
+            <div class="flex items-center gap-2 md:gap-3 group">
                 <img src="assets/logo.png" alt="BRC Logo" class="h-6 md:h-8 w-auto">
-                <h2 class="text-lg md:text-xl font-black tracking-tighter uppercase">BLACKROCKCUBAN</h2>
+                <h2 class="text-lg md:text-xl font-black tracking-tighter uppercase glitch" data-text="BLACKROCKCUBAN">BLACKROCKCUBAN</h2>
             </div>
             <nav class="hidden md:flex items-center gap-10">
                 <a class="text-xs font-bold uppercase tracking-widest hover:text-accent-blue transition-colors"
@@ -368,9 +458,9 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-primary/50 z-10">
                     </div>
                 </div>
-                <div class="relative z-20 text-center px-4">
+                <div class="relative z-20 text-center px-4 reveal">
                     <h1
-                        class="hero-title font-black leading-none tracking-tighter text-white uppercase italic mix-blend-difference">
+                        class="hero-title font-black leading-none tracking-tighter text-white uppercase italic mix-blend-difference glitch" data-text="BLACK ROCK CUBAN">
                         BLACK<br /><span class="text-white">ROCK</span><br />CUBAN
                     </h1>
                     <div class="mt-8 flex flex-col items-center gap-6">
@@ -379,7 +469,7 @@
                             #LetsGoJulio
                         </span>
                         <button onclick="document.getElementById('rock').scrollIntoView({ behavior: 'smooth' })"
-                            class="group relative px-10 py-4 bg-white text-black font-black uppercase tracking-widest overflow-hidden transition-transform hover:scale-105 active:scale-95">
+                            class="group relative px-10 py-4 bg-white text-black font-black uppercase tracking-widest overflow-hidden transition-transform hover:scale-105 active:scale-95 neon-button-red">
                             <span class="relative z-10 group-hover:text-white transition-colors">
                                 <span data-lang="en">Enter The Cage</span>
                                 <span data-lang="es">Entra en la Jaula</span>
@@ -532,12 +622,12 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="group">
+                    <div class="group vfx-card reveal">
                         <div class="aspect-[3/4] bg-primary mb-6 brutalist-border relative overflow-hidden">
                             <img class="w-full h-full object-cover grayscale brightness-75 group-hover:scale-105 transition-transform duration-500"
                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDW_39jT0BSvTL7xToeedSpgR3y61XxT09d6x5UzaXsv8I-pItcRn0k6vTW6upnlD6PNPXDT5K93o0GR9aCTlzKzuTTk5aR8JXOXcSBDmjxifWDTLq0XFnt0-a4_8HwlfBIX5UFizVAU0sF0J1t9sVstJZJZHKisea3XdGzFjqnxOWtcXdaFwZxPQqydXZLy9tkK7dtJ29xQivwA_0McU-e_rjPts4ooI69ByMYPydbKGfIf1P-Qtwkt6ZbwvvPgPqEv9hf2dPSAZA" />
                             <div class="absolute top-4 left-4">
-                                <span class="bg-accent-red text-[10px] font-black uppercase px-2 py-1">Limited
+                                <span class="bg-accent-red text-[10px] font-black uppercase px-2 py-1 badge">Limited
                                     Edition</span>
                             </div>
                         </div>
@@ -549,21 +639,21 @@
                                     <span data-lang="es">Algodón Obsidian de Alto Gramaje</span>
                                 </p>
                             </div>
-                            <span class="text-xl font-black text-accent-blue">$10.22</span>
+                            <span class="text-xl font-black text-accent-blue price">$10.22</span>
                         </div>
                         <a href="https://amzn.to/4rrmnyc" target="_blank"
-                            class="w-full mt-6 bg-accent-red text-white py-4 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2 group">
+                            class="w-full mt-6 bg-accent-red text-white py-4 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2 group neon-button-red">
                             <span data-lang="en">Buy on Amazon</span>
                             <span data-lang="es">Comprar en Amazon</span>
                             <span class="material-symbols-outlined transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
                         </a>
                     </div>
-                    <div class="group">
+                    <div class="group vfx-card reveal">
                         <div class="aspect-[3/4] bg-primary mb-6 brutalist-border relative overflow-hidden">
                             <img class="w-full h-full object-cover grayscale brightness-75 group-hover:scale-105 transition-transform duration-500"
                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9tlHQIglLb2x9z2Qi6J4EL7it1BlYLeNpSyuIavRo3_Dh07i4X7dbZoL3qe29LjgTumMQsmyLJWVjPzAvFYAJFxMP2m1SL-KQfW20u8E9a66SKqNXkLNjbvfykQVjkeXtaR0VxmxU9ipioVZORla6k-hnolGJgQPHGWxPSjPtv7Zaii32RiS7WP_doTHJ2AkIXOoyNMwhm-CTohqp1XTHO6b0ImMGWfXmB_dgOx7IYZ5fB470eAIzFwU1P8IwXgHmTKuJJfJ3S4k" />
                             <div class="absolute top-4 left-4">
-                                <span class="bg-accent-blue text-[10px] font-black uppercase px-2 py-1">New Arrival</span>
+                                <span class="bg-accent-blue text-[10px] font-black uppercase px-2 py-1 badge">New Arrival</span>
                             </div>
                         </div>
                         <div class="flex justify-between items-start">
@@ -574,22 +664,22 @@
                                     <span data-lang="es">Felpa Industrial / Forro Rojo</span>
                                 </p>
                             </div>
-                            <span class="text-xl font-black text-zinc-600">$74.00</span>
+                            <span class="text-xl font-black text-zinc-600 price">$74.00</span>
                         </div>
                         <a href="https://www.amazon.com/dp/B0FC8GWSG3?tag=blackrockcuba-20" target="_blank"
-                            class="w-full mt-6 bg-accent-red text-white py-4 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2 group">
+                            class="w-full mt-6 bg-accent-red text-white py-4 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2 group neon-button-red">
                             <span data-lang="en">Buy on Amazon</span>
                             <span data-lang="es">Comprar en Amazon</span>
                             <span class="material-symbols-outlined transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
                         </a>
                     </div>
-                    <div class="group">
+                    <div class="group vfx-card reveal">
                         <div class="aspect-[3/4] bg-primary mb-6 brutalist-border relative overflow-hidden flex items-center justify-center">
                             <img class="w-full h-full object-cover grayscale brightness-75 group-hover:scale-105 transition-transform duration-500"
                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0E8ZR5bi6Kn6cCz21C5suXqdKazfcfPzPTsUOtVh0fxTM0XXHJMOgfZKav9sUzSPEZdixvkH5nXKO9i3Xh6idNvUBeH7Ho2GjOXt_v947QzsE0Z1MGEcnCCsNrgYJV7PtaSETKHTqV20z2M9TgxNb3HSvSof7rR0qhuM4y5uhr_7i6w-Hz9PfFR38qg-wuZPhql-gKUKw96y1FUZzuaknWQPwr59u-UDxF5IHYWYb5f_eONXyyFS3Tiq9-wS-XgQZB9oSnSJu7m0"
                                 alt="Shorts" />
                             <div class="absolute top-4 left-4">
-                                <span class="bg-accent-blue text-[10px] font-black uppercase px-2 py-1">New
+                                <span class="bg-accent-blue text-[10px] font-black uppercase px-2 py-1 badge">New
                                     Arrival</span>
                             </div>
                         </div>
@@ -601,10 +691,10 @@
                                     <span data-lang="es">Tejido Técnico con Triple Refuerzo</span>
                                 </p>
                             </div>
-                            <span class="text-xl font-black text-accent-blue">$39.99</span>
+                            <span class="text-xl font-black text-accent-blue price">$39.99</span>
                         </div>
                         <a href="https://www.amazon.com/dp/B01F46KV80?tag=blackrockcuba-20" target="_blank"
-                            class="w-full mt-6 bg-accent-red text-white py-4 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2 group">
+                            class="w-full mt-6 bg-accent-red text-white py-4 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2 group neon-button-red">
                             <span data-lang="en">Buy on Amazon</span>
                             <span data-lang="es">Comprar en Amazon</span>
                             <span class="material-symbols-outlined transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
@@ -650,7 +740,7 @@
                                 <span data-lang="en">The Essentials</span>
                                 <span data-lang="es">Los Esenciales</span>
                             </h2>
-                            <h3 class="text-white text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none italic">
+                            <h3 class="text-white text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none italic glitch" data-text="THE ARSENAL">
                                 <span data-lang="en">THE ARSENAL</span>
                                 <span data-lang="es">EL ARSENAL</span>
                             </h3>
@@ -885,6 +975,7 @@
             </div>
         </footer>
     </div>
+    <div class="scanlines"></div>
     <script>
         const btn = document.getElementById('lang-switch');
         const langElements = document.querySelectorAll('[data-lang]');
@@ -900,7 +991,6 @@
                     el.style.display = 'none';
                 }
             });
-            // Update placeholders
             if (newsletterInput) {
                 newsletterInput.placeholder = currentLang === 'en' ? 'YOUR EMAIL' : 'TU CORREO';
             }
@@ -912,7 +1002,39 @@
             updateTranslations();
         });
 
-        // Init placeholders
+        // --- NEW VFX SCRIPTS ---
+        // Scroll Observer for Reveal Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Mouse Trail Effects (Optimized)
+        let lastX = 0, lastY = 0;
+        document.addEventListener('mousemove', (e) => {
+            const dist = Math.hypot(e.clientX - lastX, e.clientY - lastY);
+            if (dist < 20) return; // Throttling
+            lastX = e.clientX; lastY = e.clientY;
+
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = e.clientX + 'px';
+            particle.style.top = e.clientY + 'px';
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 800);
+        });
+
+        // Typewriter Completion for Hashtag
+        const hashtag = document.querySelector('.neon-glow-red');
+        if (hashtag) {
+            hashtag.classList.add('typewriter');
+        }
+
         updateTranslations();
     </script>
     <!-- No more Snipcart here, transitioned to Fourthwall/Direct -->
