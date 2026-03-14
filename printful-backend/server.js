@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -75,6 +76,70 @@ app.get('/api/printful/test', async (req, res) => {
             message: 'Failed to connect to Printful',
             error: error.message
         });
+    }
+});
+
+// Create Stripe Checkout Session
+app.post('/api/create-checkout-session', async (req, res) => {
+    try {
+        if (!process.env.STRIPE_SECRET_KEY) {
+            throw new Error('STRIPE_SECRET_KEY missing in server config');
+        }
+
+        const { items, success_url, cancel_url } = req.body;
+
+        // Map cart items to Stripe line items
+        const lineItems = items.map(item => ({
+            price_data: {
+                currency: 'usd',
+                product_data: {
+                    name: item.name,
+                    // images: [item.image], // Optional: can pass product mockups
+                },
+                unit_amount: Math.round(item.price * 100), // Stripe expects cents
+            },
+            quantity: item.quantity || 1,
+        }));
+
+        // Provide necessary URLs or rely on headers for local testing
+        const hostUrl = req.headers.origin || 'https://yoyocubano.github.io';
+        
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            shipping_address_collection: {
+                allowed_countries: ['US', 'CA', 'GB', 'ES', 'FR'], // Adjust based on your shipping capabilities
+            },
+            shipping_options: [
+                {
+                    shipping_rate_data: {
+                        type: 'fixed_amount',
+                        fixed_amount: {
+                            amount: 500, // $5 flat rate shipping
+                            currency: 'usd',
+                        },
+                        display_name: 'Standard Shipping (Printful)',
+                        delivery_estimate: {
+                            minimum: { unit: 'business_day', value: 3 },
+                            maximum: { unit: 'business_day', value: 7 },
+                        },
+                    },
+                },
+            ],
+            line_items: lineItems,
+            mode: 'payment',
+            success_url: success_url || `${hostUrl}/blackrockcuban/?status=success`,
+            cancel_url: cancel_url || `${hostUrl}/blackrockcuban/?status=cancelled`,
+            metadata: {
+                source: 'BlackRockCuban',
+                // We'll store what the customer ordered here to tell Printful later
+                order_items: JSON.stringify(items.map(i => i.name))
+            }
+        });
+
+        res.json({ id: session.id, url: session.url });
+    } catch (error) {
+        console.error('Stripe Checkout Error:', error);
+        res.status(500).json({ error: error.message });
     }
 });
 
