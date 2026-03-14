@@ -1053,6 +1053,17 @@
     <script src="effects.js"></script>
     <script src="printful-client.js"></script>
     <script>
+        // Check Stripe Checkout Redirect Status
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('status') === 'success') {
+            alert('PAYMENT SUCCESSFUL!\\n\\nYour Printful payload has been triggered and your gear is being manufactured.\\nCheck your email for the receipt tracking.');
+            localStorage.removeItem('grizzly_cart');
+            window.history.replaceState({}, document.title, window.location.pathname);
+        } else if (urlParams.get('status') === 'cancelled') {
+            alert('CHECKOUT CANCELLED.\\n\\nYour weapon cache is still secure. You can complete your order anytime.');
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
         const btn = document.getElementById('lang-switch');
         const langElements = document.querySelectorAll('[data-lang]');
         let currentLang = 'en';
