@@ -61,9 +61,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Cart and Checkout Handlers
-    window.addToGrizzlyCart = function(name, rawPrice) {
+    window.addToGrizzlyCart = function(name, rawPrice, imagePath) {
         const numericPrice = parseFloat(rawPrice.replace(/[^0-9.]/g, ''));
-        grizzlyCart.push({ name, price: numericPrice, quantity: 1 });
+        
+        // Build absolute URL for Stripe since Stripe can't read local paths
+        const currentUrl = window.location.href.split('?')[0];
+        const baseUrl = currentUrl.endsWith('/') ? currentUrl : currentUrl + '/';
+        const absoluteImageUrl = imagePath ? (baseUrl + imagePath) : null;
+
+        grizzlyCart.push({ name, price: numericPrice, quantity: 1, image: absoluteImageUrl });
         localStorage.setItem('grizzly_cart', JSON.stringify(grizzlyCart));
 
         const actionBtn = document.getElementById('modal-action-btn');
@@ -122,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // The function triggered by buttons
-    window.launchPrintfulDesign = async function(productName, price) {
+    window.launchPrintfulDesign = async function(productName, price, imagePath) {
         document.body.style.overflow = 'hidden'; // Lock scrolling
         modal.classList.remove('hidden');
         
@@ -151,11 +157,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 modalContent.classList.remove('hidden');
                 modalContent.innerHTML = `
-                    <div class="flex justify-between border-b border-white/10 pb-2">
-                        <span class="text-zinc-500">TARGET EQUIPMENT:</span>
-                        <span class="text-white font-black" id="modal-product-name">${productName}</span>
+                    <div class="flex items-center gap-4 border-b border-white/10 pb-4 mb-4">
+                        ${imagePath ? `<img src="${imagePath}" class="w-16 h-16 object-cover border border-zinc-700 bg-zinc-900" alt="Thumbnail">` : ''}
+                        <div class="flex-1">
+                            <span class="text-zinc-500 text-xs block mb-1">TARGET EQUIPMENT:</span>
+                            <span class="text-white font-black" id="modal-product-name">${productName}</span>
+                        </div>
                     </div>
-                    <div class="flex justify-between border-b border-white/10 pb-2">
+                    <div class="flex justify-between border-b border-white/10 pb-2 mb-2">
                         <span class="text-zinc-500">BASE PRICE:</span>
                         <span class="text-accent-blue font-black" id="modal-product-price">${price}</span>
                     </div>
@@ -164,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span class="text-green-500 animate-pulse">INTEGRATION READY</span>
                     </div>
                     
-                    <button id="modal-action-btn" onclick="addToGrizzlyCart('${productName}', '${price}')" class="w-full mt-8 bg-zinc-800 hover:bg-white hover:text-black border border-zinc-700 text-white py-4 font-black uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all">
+                    <button id="modal-action-btn" onclick="addToGrizzlyCart('${productName}', '${price}', '${imagePath || ''}')" class="w-full mt-8 bg-zinc-800 hover:bg-white hover:text-black border border-zinc-700 text-white py-4 font-black uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all">
                         <span>ADD TO WEAPON CACHE (CART)</span>
                         <span class="material-symbols-outlined">add_shopping_cart</span>
                     </button>
