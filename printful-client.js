@@ -46,6 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Reset UI state
+    // Initialize Local Cart
+    let grizzlyCart = JSON.parse(localStorage.getItem('grizzly_cart')) || [];
+
+    // Reset UI state
     function resetModal() {
         progressBar.style.width = '0%';
         progressBar.className = 'bg-accent-blue h-full w-0 transition-all duration-1000 ease-out shadow-[0_0_15px_rgba(0,255,255,0.5)]';
@@ -55,6 +59,67 @@ document.addEventListener('DOMContentLoaded', () => {
         modalContent.innerHTML = '';
         document.body.style.overflow = ''; // Restore scrolling
     }
+
+    // Cart and Checkout Handlers
+    window.addToGrizzlyCart = function(name, rawPrice) {
+        const numericPrice = parseFloat(rawPrice.replace(/[^0-9.]/g, ''));
+        grizzlyCart.push({ name, price: numericPrice, quantity: 1 });
+        localStorage.setItem('grizzly_cart', JSON.stringify(grizzlyCart));
+
+        const actionBtn = document.getElementById('modal-action-btn');
+        actionBtn.innerHTML = `
+            <span>PROCEED TO SECURE CHECKOUT</span>
+            <span class="material-symbols-outlined">lock</span>
+        `;
+        actionBtn.className = "w-full mt-8 bg-green-600 hover:bg-green-500 text-white py-4 font-black uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-colors";
+        actionBtn.onclick = window.launchStripeCheckout;
+        
+        statusBar.textContent = 'ITEM SECURED IN CACHE';
+        statusBar.classList.add('animate-pulse');
+    };
+
+    window.launchStripeCheckout = async function() {
+        const actionBtn = document.getElementById('modal-action-btn');
+        actionBtn.innerHTML = `
+            <span>UPLINKING TO STRIPE...</span>
+            <span class="material-symbols-outlined animate-spin">refresh</span>
+        `;
+        actionBtn.disabled = true;
+
+        try {
+            // Point to your gateway (currently testing on localhost, switch to IONOS URL in prod)
+            const GATEWAY_URL = 'http://localhost:3000/api/create-checkout-session'; 
+            
+            const response = await fetch(GATEWAY_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    items: grizzlyCart,
+                    success_url: window.location.href.split('?')[0] + '?status=success',
+                    cancel_url: window.location.href.split('?')[0] + '?status=cancelled'
+                })
+            });
+
+            const session = await response.json();
+
+            if (session.error) {
+                console.error("Gateway Error:", session.error);
+                alert("Stripe keys not active yet. Check console.");
+                resetModal();
+                modal.classList.add('hidden');
+                return;
+            }
+
+            // Redirect to Stripe's hosted checkout page
+            window.location.href = session.url;
+            
+        } catch (error) {
+            console.error("Checkout Request failed", error);
+            alert("Gateway offline. Make sure the Node server is running.");
+            resetModal();
+            modal.classList.add('hidden');
+        }
+    };
 
     // The function triggered by buttons
     window.launchPrintfulDesign = async function(productName, price) {
@@ -88,22 +153,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalContent.innerHTML = `
                     <div class="flex justify-between border-b border-white/10 pb-2">
                         <span class="text-zinc-500">TARGET EQUIPMENT:</span>
-                        <span class="text-white font-black">${productName}</span>
+                        <span class="text-white font-black" id="modal-product-name">${productName}</span>
                     </div>
                     <div class="flex justify-between border-b border-white/10 pb-2">
                         <span class="text-zinc-500">BASE PRICE:</span>
-                        <span class="text-accent-blue font-black">${price}</span>
+                        <span class="text-accent-blue font-black" id="modal-product-price">${price}</span>
                     </div>
                     <div class="flex justify-between border-b border-white/10 pb-2">
                         <span class="text-zinc-500">API STATUS:</span>
-                        <span class="text-green-500 animate-pulse">OK (AWAITING EMBEDDED MAKER)</span>
+                        <span class="text-green-500 animate-pulse">INTEGRATION READY</span>
                     </div>
                     
-                    <button class="w-full mt-8 bg-zinc-800 border border-zinc-700 text-zinc-400 py-4 font-black uppercase tracking-widest flex items-center justify-center gap-2 cursor-wait opacity-80" disabled>
-                        <span>LOADING PRINTFUL EDITOR...</span>
-                        <span class="material-symbols-outlined animate-spin">refresh</span>
+                    <button id="modal-action-btn" onclick="addToGrizzlyCart('${productName}', '${price}')" class="w-full mt-8 bg-zinc-800 hover:bg-white hover:text-black border border-zinc-700 text-white py-4 font-black uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer transition-all">
+                        <span>ADD TO WEAPON CACHE (CART)</span>
+                        <span class="material-symbols-outlined">add_shopping_cart</span>
                     </button>
-                    <p class="text-center text-[10px] text-zinc-600 mt-2 uppercase tracking-widest">Integration requires Production Deployment & API Whitelist</p>
+                    <p class="text-center text-[10px] text-zinc-600 mt-2 uppercase tracking-widest">Connects to Node.js Gateway & Stripe</p>
                 `;
             }, 2000);
 
