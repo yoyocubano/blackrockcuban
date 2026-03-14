@@ -24,9 +24,6 @@
     <link rel="shortcut icon" href="assets/logo.png">
     <link rel="apple-touch-icon" href="assets/logo.png">
 
-    <!-- Spline 3D Viewer -->
-    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.72/build/spline-viewer.js"></script>
-    
     <!-- Social Media Sharing Meta Tags -->
     <meta property="og:title" content="BLACKROCKCUBAN | Elite Wrestling & Performance Gear">
     <meta property="og:description" content="Dominate the cage. Official merchandise for the legacy of the Cuban Grizzly. Industrial quality apparel for peak performance.">
@@ -346,26 +343,23 @@
         <main class="flex-1">
             <section class="relative h-screen w-full flex items-center justify-center overflow-hidden">
                 <div class="absolute inset-0 z-0">
-                    <!-- Interactive 3D Spline Scene (Dark Metallic Robot / Theme) -->
-                    <spline-viewer class="absolute inset-0 w-full h-full object-cover z-0" url="https://prod.spline.design/9xuF1oRA5poA131s/scene.splinecode"></spline-viewer>
-                    
-                    <!-- Overlay dark gradient (pointer-events-none to allow 3D interaction) -->
-                    <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/50 to-primary/20 z-10 pointer-events-none">
+                    <img class="w-full h-full object-cover grayscale opacity-50 scale-105" src="assets/hero.png"
+                        alt="BlackRockCuban Combat" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-primary/50 z-10">
                     </div>
                 </div>
-                <!-- Text Container (pointer-events-none to let mouse interact with 3D behind it) -->
-                <div class="relative z-20 text-center px-4 reveal pointer-events-none w-full max-w-4xl mx-auto">
+                <div class="relative z-20 text-center px-4 reveal">
                     <h1
-                        class="hero-title font-black leading-none tracking-tighter text-white uppercase italic mix-blend-difference glitch pointer-events-auto" data-text="BLACK ROCK CUBAN">
+                        class="hero-title font-black leading-none tracking-tighter text-white uppercase italic mix-blend-difference glitch" data-text="BLACK ROCK CUBAN">
                         BLACK<br /><span class="text-white">ROCK</span><br />CUBAN
                     </h1>
-                    <div class="mt-8 flex flex-col items-center gap-6 pointer-events-auto">
+                    <div class="mt-8 flex flex-col items-center gap-6">
                         <span
                             class="text-accent-blue text-2xl md:text-4xl font-black tracking-widest neon-glow-red italic uppercase">
                             #LetsGoJulio
                         </span>
                         <button onclick="document.getElementById('rock').scrollIntoView({ behavior: 'smooth' })"
-                            class="group relative px-10 py-4 bg-white text-black font-black uppercase tracking-widest overflow-hidden transition-transform hover:scale-105 active:scale-95 neon-button-red pointer-events-auto">
+                            class="group relative px-10 py-4 bg-white text-black font-black uppercase tracking-widest overflow-hidden transition-transform hover:scale-105 active:scale-95 neon-button-red">
                             <span class="relative z-10 group-hover:text-white transition-colors">
                                 <span data-lang="en">Enter The Cage</span>
                                 <span data-lang="es">Entra en la Jaula</span>
@@ -595,6 +589,106 @@
                             <span data-lang="es">Comprar en Amazon</span>
                             <span class="material-symbols-outlined transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
                         </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PRINTFUL CUSTOM GEAR SECTION -->
+            <section class="py-24 px-6 lg:px-40 bg-zinc-950 border-t border-white/5" id="custom">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                    <div class="max-w-xl">
+                        <h2 class="text-accent-blue text-sm font-black uppercase tracking-[0.3em] mb-4 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-accent-blue animate-pulse"></span>
+                            <span data-lang="en">Direct to Garment Division</span>
+                            <span data-lang="es">División de Confección Directa</span>
+                        </h2>
+                        <h3 class="text-5xl md:text-6xl font-black uppercase italic glitch" data-text="ELITE CUSTOM GEAR">ELITE CUSTOM GEAR</h3>
+                        <p class="text-zinc-500 mt-2 text-xs font-black uppercase tracking-[0.2em] flex items-center gap-2">
+                            <span data-lang="en">Precision Crafted • Powered by Printful</span>
+                            <span data-lang="es">Fabricación de Precisión • Powered by Printful</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Product 1 -->
+                    <div class="group vfx-card reveal">
+                        <div class="aspect-[3/4] bg-primary mb-6 brutalist-border relative overflow-hidden">
+                            <img class="w-full h-full object-cover grayscale brightness-75 group-hover:scale-105 transition-transform duration-500"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTWv4z9-3Q8kO5-hSj7V54Z8L-2yU_P7h9YvI4211U_P0V_aJqI8eZ4mH-0dNx21T8bA5P3lK9O1nZ6Wb--7I8z12y3e_Tq7D9W7-Vb9Qh8X0D02F8Y4F-wKk_T3O_2U4QJ8yE-kH_zLq3w0cT6v1G_0uH8t1Tq6XyC3R1a8k2sF7_Y0H8mJq9G-r0s25k9V6B" alt="Custom PRO Jersey" />
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-accent-blue text-[10px] font-black uppercase px-2 py-1 badge">DTG Custom</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="text-xl font-black uppercase">Pro Combat Jersey</h4>
+                                <p class="text-zinc-500 text-sm">
+                                    <span data-lang="en">Premium All-Over Print</span>
+                                    <span data-lang="es">Estampado Premium Total</span>
+                                </p>
+                            </div>
+                            <span class="text-xl font-black text-accent-blue price">$45.00</span>
+                        </div>
+                        <button
+                            class="w-full mt-6 bg-transparent border-2 border-white text-white py-4 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2 group cursor-pointer">
+                            <span data-lang="en">Customize & Buy</span>
+                            <span data-lang="es">Personalizar & Comprar</span>
+                            <span class="material-symbols-outlined transform group-hover:translate-x-1 transition-transform">tune</span>
+                        </button>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="group vfx-card reveal">
+                        <div class="aspect-[3/4] bg-primary mb-6 brutalist-border relative overflow-hidden">
+                            <img class="w-full h-full object-cover grayscale brightness-75 group-hover:scale-105 transition-transform duration-500"
+                                src="assets/Iron_Cage_Hoodie_HQ.png" alt="Official Gym Hoodie" />
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-accent-red text-[10px] font-black uppercase px-2 py-1 badge">Top Rated</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="text-xl font-black uppercase">Grizzly Elite Hoodie</h4>
+                                <p class="text-zinc-500 text-sm">
+                                    <span data-lang="en">Heavyweight Embroidered</span>
+                                    <span data-lang="es">Bordado de Alto Gramaje</span>
+                                </p>
+                            </div>
+                            <span class="text-xl font-black text-accent-red price">$65.00</span>
+                        </div>
+                        <button
+                            class="w-full mt-6 bg-transparent border-2 border-white text-white py-4 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2 group cursor-pointer">
+                            <span data-lang="en">Customize & Buy</span>
+                            <span data-lang="es">Personalizar & Comprar</span>
+                            <span class="material-symbols-outlined transform group-hover:translate-x-1 transition-transform">tune</span>
+                        </button>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="group vfx-card reveal">
+                        <div class="aspect-[3/4] bg-primary mb-6 brutalist-border relative overflow-hidden">
+                            <img class="w-full h-full object-cover grayscale brightness-75 group-hover:scale-105 transition-transform duration-500"
+                                src="https://m.media-amazon.com/images/I/71wLpWXZO6L._AC_SX679_.jpg" alt="Tactical Snapback" />
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-zinc-800 text-[10px] font-black uppercase border border-zinc-600 px-2 py-1 badge">Accessory</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="text-xl font-black uppercase">Tactical Snapback</h4>
+                                <p class="text-zinc-500 text-sm">
+                                    <span data-lang="en">3D Puff Embroidery</span>
+                                    <span data-lang="es">Bordado 3D en Relieve</span>
+                                </p>
+                            </div>
+                            <span class="text-xl font-black text-accent-blue price">$25.00</span>
+                        </div>
+                        <button
+                            class="w-full mt-6 bg-transparent border-2 border-white text-white py-4 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2 group cursor-pointer">
+                            <span data-lang="en">Customize & Buy</span>
+                            <span data-lang="es">Personalizar & Comprar</span>
+                            <span class="material-symbols-outlined transform group-hover:translate-x-1 transition-transform">tune</span>
+                        </button>
                     </div>
                 </div>
             </section>
