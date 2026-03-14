@@ -23,6 +23,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="assets/logo.png">
     <link rel="shortcut icon" href="assets/logo.png">
     <link rel="apple-touch-icon" href="assets/logo.png">
+
+    <!-- Spline 3D Viewer -->
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.72/build/spline-viewer.js"></script>
     
     <!-- Social Media Sharing Meta Tags -->
     <meta property="og:title" content="BLACKROCKCUBAN | Elite Wrestling & Performance Gear">
@@ -343,23 +346,26 @@
         <main class="flex-1">
             <section class="relative h-screen w-full flex items-center justify-center overflow-hidden">
                 <div class="absolute inset-0 z-0">
-                    <img class="w-full h-full object-cover grayscale opacity-50 scale-105" src="assets/hero.png"
-                        alt="BlackRockCuban Combat" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-primary/50 z-10">
+                    <!-- Interactive 3D Spline Scene (Dark Metallic Robot / Theme) -->
+                    <spline-viewer class="absolute inset-0 w-full h-full object-cover z-0" url="https://prod.spline.design/9xuF1oRA5poA131s/scene.splinecode"></spline-viewer>
+                    
+                    <!-- Overlay dark gradient (pointer-events-none to allow 3D interaction) -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/50 to-primary/20 z-10 pointer-events-none">
                     </div>
                 </div>
-                <div class="relative z-20 text-center px-4 reveal">
+                <!-- Text Container (pointer-events-none to let mouse interact with 3D behind it) -->
+                <div class="relative z-20 text-center px-4 reveal pointer-events-none w-full max-w-4xl mx-auto">
                     <h1
-                        class="hero-title font-black leading-none tracking-tighter text-white uppercase italic mix-blend-difference glitch" data-text="BLACK ROCK CUBAN">
+                        class="hero-title font-black leading-none tracking-tighter text-white uppercase italic mix-blend-difference glitch pointer-events-auto" data-text="BLACK ROCK CUBAN">
                         BLACK<br /><span class="text-white">ROCK</span><br />CUBAN
                     </h1>
-                    <div class="mt-8 flex flex-col items-center gap-6">
+                    <div class="mt-8 flex flex-col items-center gap-6 pointer-events-auto">
                         <span
                             class="text-accent-blue text-2xl md:text-4xl font-black tracking-widest neon-glow-red italic uppercase">
                             #LetsGoJulio
                         </span>
                         <button onclick="document.getElementById('rock').scrollIntoView({ behavior: 'smooth' })"
-                            class="group relative px-10 py-4 bg-white text-black font-black uppercase tracking-widest overflow-hidden transition-transform hover:scale-105 active:scale-95 neon-button-red">
+                            class="group relative px-10 py-4 bg-white text-black font-black uppercase tracking-widest overflow-hidden transition-transform hover:scale-105 active:scale-95 neon-button-red pointer-events-auto">
                             <span class="relative z-10 group-hover:text-white transition-colors">
                                 <span data-lang="en">Enter The Cage</span>
                                 <span data-lang="es">Entra en la Jaula</span>
