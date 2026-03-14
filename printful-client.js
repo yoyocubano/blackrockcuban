@@ -87,8 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
         actionBtn.disabled = true;
 
         try {
-            // Point to your gateway (currently testing on localhost, switch to IONOS URL in prod)
-            const GATEWAY_URL = 'http://localhost:3000/api/create-checkout-session'; 
+            // Point to your live Render gateway
+            const GATEWAY_URL = 'https://blackrock-gateway.onrender.com/api/create-checkout-session'; 
             
             const response = await fetch(GATEWAY_URL, {
                 method: 'POST',
