@@ -89,17 +89,22 @@ app.post('/api/create-checkout-session', async (req, res) => {
         const { items, success_url, cancel_url } = req.body;
 
         // Map cart items to Stripe line items
-        const lineItems = items.map(item => ({
-            price_data: {
-                currency: 'usd',
-                product_data: {
-                    name: item.name,
-                    // images: [item.image], // Optional: can pass product mockups
+        const lineItems = items.map(item => {
+            const productData = { name: item.name };
+            if (item.image) {
+                // Ensure array format for Stripe
+                productData.images = [item.image];
+            }
+
+            return {
+                price_data: {
+                    currency: 'usd',
+                    product_data: productData,
+                    unit_amount: Math.round(item.price * 100), // Stripe expects cents
                 },
-                unit_amount: Math.round(item.price * 100), // Stripe expects cents
-            },
-            quantity: item.quantity || 1,
-        }));
+                quantity: item.quantity || 1,
+            };
+        });
 
         // Provide necessary URLs or rely on headers for local testing
         const hostUrl = req.headers.origin || 'https://yoyocubano.github.io';
