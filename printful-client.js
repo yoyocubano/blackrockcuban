@@ -110,20 +110,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (session.error) {
                 console.error("Gateway Error:", session.error);
-                alert("Stripe keys not active yet. Check console.");
-                resetModal();
-                modal.classList.add('hidden');
+                statusBar.textContent = 'ERROR: ' + session.error;
+                actionBtn.innerHTML = '<span>TRY AGAIN</span>';
+                actionBtn.disabled = false;
                 return;
             }
 
             // Redirect to Stripe's hosted checkout page
             window.location.href = session.url;
-            
+
         } catch (error) {
             console.error("Checkout Request failed", error);
-            alert("Gateway offline. Make sure the Node server is running.");
-            resetModal();
-            modal.classList.add('hidden');
+            statusBar.textContent = 'CONNECTION ERROR — RETRY';
+            actionBtn.innerHTML = '<span>TRY AGAIN</span>';
+            actionBtn.disabled = false;
         }
     };
 
