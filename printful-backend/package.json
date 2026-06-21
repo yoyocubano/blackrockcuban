@@ -1,20 +1,21 @@
 {
   "name": "printful-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "BlackRockCuban Gateway — Stripe + Printful",
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
-    "express": "^5.2.1",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.1.0",
     "node-fetch": "^3.3.2",
-    "stripe": "^20.4.1"
+    "stripe": "^17.7.0"
   }
 }
