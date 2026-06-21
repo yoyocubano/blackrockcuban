@@ -46,7 +46,13 @@ app.use('/api/', limiter);
 
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://yoyocubano.github.io', 'https://blackrockcuban.weluxevents.store', process.env.FRONTEND_URL].filter(Boolean)
+    ? [
+        'https://yoyocubano.github.io',
+        'http://yoyocubano.github.io',
+        'https://blackrockcuban.weluxevents.store',
+        'http://blackrockcuban.weluxevents.store',   // until GitHub Pages SSL cert propagates
+        process.env.FRONTEND_URL
+      ].filter(Boolean)
     : true
 }));
 
