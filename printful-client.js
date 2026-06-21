@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Point to your live Render gateway
-            const GATEWAY_URL = 'https://blackrock-gateway.onrender.com/api/create-checkout-session'; 
+            const GATEWAY_URL = 'https://blackrockcuban-gateway-production.up.railway.app/api/create-checkout-session';
             
             const response = await fetch(GATEWAY_URL, {
                 method: 'POST',
