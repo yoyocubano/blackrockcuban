@@ -6,6 +6,12 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://js.stripe.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://blackrockcuban-gateway-production.up.railway.app https://api.stripe.com; frame-src https://js.stripe.com https://hooks.stripe.com; object-src 'none';" />
     <title>BLACKROCKCUBAN | The Cuban Grizzly - Official Elite Shop</title>
     <meta name="description" content="Official store of The Cuban Grizzly. Premium wrestling apparel, industrial grade hoodies, and elite performance gear. Shop the BlackRockCuban collection. No excuses. Just power.">
     <meta name="keywords" content="BlackRockCuban, Cuban Grizzly, Wrestling Apparel, Elite Performance, Fight Wear, Miami Fitness, Gym Gear, Pro Wrestling Merchandise">
@@ -1202,18 +1208,59 @@
                 </div>
             </div>
             <div
-                class="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-white/5 relative z-10">
+                class="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-white/5 relative z-10 gap-4">
                 <p class="text-[10px] text-zinc-700 font-black uppercase tracking-widest">
-                    <span>© 2024 BLACKROCKCUBAN. <span data-lang="en">All rights reserved.</span><span
-                            data-lang="es">Todos los derechos reservados.</span></span>
+                    <span>© 2026 BLACKROCKCUBAN · WELUX EVENTS HOLDING. <span data-lang="en">All rights reserved.</span><span data-lang="es">Todos los derechos reservados.</span></span>
                 </p>
-                <p
-                    class="text-[10px] text-zinc-700 font-black uppercase tracking-widest mt-4 md:mt-0 italic font-display">
-                    <span data-lang="en">Designed for the Elite</span>
-                    <span data-lang="es">Diseñado para la Élite</span>
-                </p>
+                <div class="flex items-center gap-6">
+                    <a href="privacy.html" class="text-[10px] text-zinc-600 font-black uppercase tracking-widest hover:text-white transition-colors">
+                        <span data-lang="en">Privacy Policy</span><span data-lang="es">Privacidad</span>
+                    </a>
+                    <a href="terms.html" class="text-[10px] text-zinc-600 font-black uppercase tracking-widest hover:text-white transition-colors">
+                        <span data-lang="en">Terms of Service</span><span data-lang="es">Términos</span>
+                    </a>
+                    <a href="mailto:yucolaguilar@gmail.com" class="text-[10px] text-zinc-600 font-black uppercase tracking-widest hover:text-white transition-colors">
+                        <span data-lang="en">Legal Contact</span><span data-lang="es">Contacto Legal</span>
+                    </a>
+                </div>
             </div>
         </footer>
+
+        <!-- COOKIE CONSENT BANNER -->
+        <div id="brc-cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(0,0,0,0.97);border-top:1px solid rgba(255,255,255,0.08);padding:1.25rem 1.5rem;">
+            <div style="max-width:960px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;">
+                <p style="color:#a1a1aa;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;max-width:600px;line-height:1.6;">
+                    <span data-lang="en">We use essential cookies for checkout and consent preferences only. No tracking. No ads. By continuing, you agree to our </span>
+                    <span data-lang="es">Usamos cookies esenciales solo para checkout y preferencias. Sin rastreo. Sin anuncios. Al continuar aceptas nuestra </span>
+                    <a href="privacy.html" style="color:#ef4444;text-decoration:underline;">
+                        <span data-lang="en">Privacy Policy</span><span data-lang="es">Política de Privacidad</span>
+                    </a>.
+                </p>
+                <div style="display:flex;gap:0.75rem;flex-shrink:0;">
+                    <button onclick="brcRejectCookies()" style="background:transparent;border:1px solid rgba(255,255,255,0.15);color:#71717a;padding:0.5rem 1rem;font-size:0.65rem;font-weight:900;text-transform:uppercase;letter-spacing:0.15em;cursor:pointer;">
+                        <span data-lang="en">Reject</span><span data-lang="es">Rechazar</span>
+                    </button>
+                    <button onclick="brcAcceptCookies()" style="background:#ef4444;border:none;color:#fff;padding:0.5rem 1.25rem;font-size:0.65rem;font-weight:900;text-transform:uppercase;letter-spacing:0.15em;cursor:pointer;">
+                        <span data-lang="en">Accept Essential</span><span data-lang="es">Aceptar Esenciales</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <script>
+        (function(){
+            if(!localStorage.getItem('brc_cookie_consent')){
+                document.getElementById('brc-cookie-banner').style.display='block';
+            }
+        })();
+        function brcAcceptCookies(){
+            localStorage.setItem('brc_cookie_consent','essential');
+            document.getElementById('brc-cookie-banner').style.display='none';
+        }
+        function brcRejectCookies(){
+            localStorage.setItem('brc_cookie_consent','rejected');
+            document.getElementById('brc-cookie-banner').style.display='none';
+        }
+        </script>
     </div>
     <div class="scanlines"></div>
     <!-- PREMIUM VFX CORE & EXTENSIONS -->
