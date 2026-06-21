@@ -38,6 +38,7 @@ const GELATO_PRODUCTS = new Set([
 ]);
 
 // ── Security ──────────────────────────────────────────────
+app.set('trust proxy', 1); // Railway runs behind a proxy
 app.use(helmet({ contentSecurityPolicy: false }));
 
 const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 60, message: { error: 'Too many requests' } });
