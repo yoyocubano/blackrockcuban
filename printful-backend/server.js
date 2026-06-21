@@ -18,17 +18,24 @@ const GELATO_API_KEY = process.env.GELATO_API_KEY;
 // Server-side price catalog — never trust client amounts
 const PRODUCT_PRICES = {
   // ── Original BRC (Printful) ──
-  'Grizzly Core Tee':   3900,
-  'Iron Cage Hoodie':   5900,
-  'Mat Pro Shorts':     4500,
-  'Grizzly Rashguard':  4200,
+  'Grizzly Core Tee':       3900,
+  'Iron Cage Hoodie':       5900,
+  'Mat Pro Shorts':         4500,
+  'Grizzly Rashguard':      4200,
+  // ── DTG Custom (Printful) ──
+  'Pro Combat Jersey':      4500,
+  'Grizzly Elite Hoodie':   6500,
+  'Tactical Snapback':      2500,
+  'Combat Rash Guard':      4200,
+  'Grizzly Grappling Shorts': 3900,
+  'Strategic Duffel':       5500,
   // ── White Label (Gelato) ──
-  'BRC Premium Tee':    4200,
-  'Cuban Grizzly Hoodie': 7200,
-  'BRC Bomber Jacket':  9500,
-  'BRC Grappling Shorts': 5500,
-  'BRC Performance Tank': 3500,
-  'BRC Coach Jacket':   8800,
+  'BRC Premium Tee':        4200,
+  'Cuban Grizzly Hoodie':   7200,
+  'BRC Bomber Jacket':      9500,
+  'BRC Grappling Shorts':   5500,
+  'BRC Performance Tank':   3500,
+  'BRC Coach Jacket':       8800,
 };
 
 // Products fulfilled by Gelato vs Printful
