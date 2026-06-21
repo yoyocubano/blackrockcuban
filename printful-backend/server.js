@@ -12,13 +12,30 @@ const PRINTFUL_API_URL  = 'https://api.printful.com';
 const PRINTFUL_TOKEN    = process.env.PRINTFUL_TOKEN;
 const PRINTFUL_STORE_ID = process.env.PRINTFUL_STORE_ID;
 
+const GELATO_API_URL = 'https://order.gelatoapis.com';
+const GELATO_API_KEY = process.env.GELATO_API_KEY;
+
 // Server-side price catalog — never trust client amounts
 const PRODUCT_PRICES = {
-  'Grizzly Core Tee':  3900,
-  'Iron Cage Hoodie':  5900,
-  'Mat Pro Shorts':    4500,
-  'Grizzly Rashguard': 4200,
+  // ── Original BRC (Printful) ──
+  'Grizzly Core Tee':   3900,
+  'Iron Cage Hoodie':   5900,
+  'Mat Pro Shorts':     4500,
+  'Grizzly Rashguard':  4200,
+  // ── White Label (Gelato) ──
+  'BRC Premium Tee':    4200,
+  'Cuban Grizzly Hoodie': 7200,
+  'BRC Bomber Jacket':  9500,
+  'BRC Grappling Shorts': 5500,
+  'BRC Performance Tank': 3500,
+  'BRC Coach Jacket':   8800,
 };
+
+// Products fulfilled by Gelato vs Printful
+const GELATO_PRODUCTS = new Set([
+  'BRC Premium Tee', 'Cuban Grizzly Hoodie', 'BRC Bomber Jacket',
+  'BRC Grappling Shorts', 'BRC Performance Tank', 'BRC Coach Jacket',
+]);
 
 // ── Security ──────────────────────────────────────────────
 app.use(helmet({ contentSecurityPolicy: false }));
@@ -50,10 +67,15 @@ app.post('/api/webhooks/stripe', express.raw({ type: 'application/json' }), asyn
     const shipping = session.shipping_details;
 
     console.log(`[Webhook] Payment confirmed — session ${session.id}`);
-    try {
-      await createPrintfulOrder({ session, items, shipping });
-    } catch (err) {
-      console.error('[Webhook] Printful order failed:', err.message);
+    const gelatoItems   = items.filter(n => GELATO_PRODUCTS.has(n));
+    const printfulItems = items.filter(n => !GELATO_PRODUCTS.has(n));
+    if (gelatoItems.length) {
+      try { await createGelatoOrder({ session, items: gelatoItems, shipping }); }
+      catch (err) { console.error('[Webhook] Gelato order failed:', err.message); }
+    }
+    if (printfulItems.length) {
+      try { await createPrintfulOrder({ session, items: printfulItems, shipping }); }
+      catch (err) { console.error('[Webhook] Printful order failed:', err.message); }
     }
   }
 
@@ -167,6 +189,57 @@ app.post('/api/create-checkout-session', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// ── Gelato helper ─────────────────────────────────────────
+async function createGelatoOrder({ session, items, shipping }) {
+  if (!GELATO_API_KEY) {
+    console.warn('[Gelato] GELATO_API_KEY not set — order not created');
+    return;
+  }
+  const { default: fetch } = await import('node-fetch');
+  const addr = shipping?.address || {};
+  const body = {
+    orderReferenceId: session.id,
+    customerReferenceId: session.customer_details?.email || session.id,
+    currency: 'USD',
+    items: items.map((name, i) => ({
+      itemReferenceId: `item-${i}`,
+      productUid: gelatoProductUid(name),
+      quantity: 1,
+      fileUrl: process.env.GELATO_DESIGN_URL || 'https://yoyocubano.github.io/blackrockcuban/assets/BRC_Ready_to_Print_Preview.png',
+    })),
+    shippingAddress: {
+      firstName: (shipping?.name || 'Customer').split(' ')[0],
+      lastName:  (shipping?.name || 'Customer').split(' ').slice(1).join(' ') || '-',
+      addressLine1: addr.line1 || '',
+      city:        addr.city  || '',
+      postCode:    addr.postal_code || '',
+      country:     addr.country || 'US',
+      email:       session.customer_details?.email || '',
+    },
+  };
+  const res = await fetch(`${GELATO_API_URL}/v4/orders`, {
+    method: 'POST',
+    headers: { 'X-API-KEY': GELATO_API_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Gelato API error');
+  console.log(`[Gelato] Order created: ${data.id}`);
+  return data;
+}
+
+function gelatoProductUid(name) {
+  const map = {
+    'BRC Premium Tee':      'apparel_product_gca_t-shirt_gsc_unisex-t-shirt_gcu_white_gqa_xs-4xl',
+    'Cuban Grizzly Hoodie': 'apparel_product_gca_hoodie_gsc_unisex-heavy-blend-hooded-sweatshirt_gcu_black_gqa_xs-3xl',
+    'BRC Bomber Jacket':    'apparel_product_gca_jacket_gsc_unisex-lightweight-bomber-jacket_gcu_black_gqa_xs-3xl',
+    'BRC Grappling Shorts': 'apparel_product_gca_shorts_gsc_unisex-training-shorts_gcu_black_gqa_xs-3xl',
+    'BRC Performance Tank': 'apparel_product_gca_tank-top_gsc_unisex-performance-tank_gcu_black_gqa_xs-2xl',
+    'BRC Coach Jacket':     'apparel_product_gca_jacket_gsc_unisex-coach-jacket_gcu_black_gqa_xs-3xl',
+  };
+  return map[name] || 'apparel_product_gca_t-shirt_gsc_unisex-t-shirt_gcu_white_gqa_xs-4xl';
+}
 
 // ── Printful store test ───────────────────────────────────
 app.get('/api/printful/test', async (req, res) => {
