@@ -495,31 +495,31 @@
                 </div>
             </section>
 
+            <!-- BRC OFFICIAL COLLECTION — Printify -->
             <section class="py-24 px-6 lg:px-40 bg-zinc-950" id="rock">
-                <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
                     <div class="max-w-xl">
-                        <h2 class="text-accent-blue text-sm font-black uppercase tracking-[0.3em] mb-4">
-                            <span data-lang="en">Official Merchandise</span>
-                            <span data-lang="es">Merchandising Oficial</span>
+                        <h2 class="text-accent-red text-sm font-black uppercase tracking-[0.3em] mb-4 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-accent-red animate-pulse"></span>
+                            <span>Official Collection · Powered by Printify</span>
                         </h2>
-                        <h3 class="text-6xl font-black uppercase italic">The Rock Shop</h3>
+                        <h3 class="text-5xl md:text-6xl font-black uppercase italic glitch" data-text="BRC ORIGINALS">BRC ORIGINALS</h3>
                         <p class="text-zinc-500 mt-2 text-xs font-black uppercase tracking-[0.2em]">
-                            <span data-lang="en">Curated Gear • Powered by Amazon</span>
-                            <span data-lang="es">Equipo Seleccionado • Powered by Amazon</span>
+                            40 products · 8 designs · 5 garment types · Black · DTG Print · Ships worldwide
                         </p>
                     </div>
-                    <div class="mt-6 md:mt-0 flex gap-4">
-                        <button onclick="document.getElementById('rock').scrollIntoView({ behavior: 'smooth' })"
-                            class="size-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-accent-blue hover:text-white transition-colors active:scale-90">
-                            <span class="material-symbols-outlined">arrow_back</span>
-                        </button>
-                        <button onclick="document.getElementById('essentials').scrollIntoView({ behavior: 'smooth' })"
-                            class="size-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-accent-blue hover:text-white transition-colors active:scale-90">
-                            <span class="material-symbols-outlined">arrow_forward</span>
-                        </button>
-                    </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- FILTERS -->
+                <div class="mb-4">
+                    <p class="text-zinc-600 text-[9px] font-black uppercase tracking-[.15em] mb-2">DESIGN</p>
+                    <div id="brc-animal-filter" class="flex flex-wrap gap-2 mb-4"></div>
+                    <p class="text-zinc-600 text-[9px] font-black uppercase tracking-[.15em] mb-2">TYPE</p>
+                    <div id="brc-type-filter" class="flex flex-wrap gap-2"></div>
+                </div>
+                <!-- DYNAMIC GRID -->
+                <div id="brc-shop-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-8"></div>
+                <!-- HIDDEN — kept for layout compat with old 3-col grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8" style="display:none!important">
                     <div class="group vfx-card reveal">
                         <div class="aspect-[3/4] bg-primary mb-6 brutalist-border relative overflow-hidden">
                             <img class="w-full h-full object-cover grayscale brightness-75 group-hover:scale-105 transition-transform duration-500"
