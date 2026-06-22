@@ -363,7 +363,7 @@ const styleEl = document.createElement('style');
 styleEl.textContent = css;
 document.head.appendChild(styleEl);
 
-document.addEventListener('DOMContentLoaded', () => {
+function brcInit() {
 
   // ── INJECT MODAL + CART BAR ──────────────────────────────
   document.body.insertAdjacentHTML('beforeend', `
@@ -669,4 +669,10 @@ document.addEventListener('DOMContentLoaded', () => {
     alert('CHECKOUT CANCELLED.\n\nYour cart is still saved.');
     history.replaceState({}, '', location.pathname);
   }
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', brcInit);
+} else {
+  brcInit();
+}
