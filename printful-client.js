@@ -406,8 +406,8 @@ function brcInit() {
 
   let rotY = 0, rotX = 0;
   let isDragging = false, lastX = 0, lastY = 0;
-  let velocity = 0.4; // auto-spin speed deg/frame
-  let autoFrame = null;
+  let velocity = 0.4; // auto-spin speed deg/tick
+  let autoTimer = null;
 
   function applyRotation() {
     imgWrap.style.transform = `rotateY(${rotY}deg) rotateX(${rotX * 0.4}deg)`;
@@ -416,14 +416,24 @@ function brcInit() {
     shadow.style.transform = `translateX(-50%) scaleX(${scale})`;
   }
 
-  function autoSpin() {
-    if (!isDragging) {
-      rotY += velocity;
-      // subtle vertical oscillation
-      rotX = Math.sin(rotY * 0.02) * 4;
-      applyRotation();
-    }
-    autoFrame = requestAnimationFrame(autoSpin);
+  // Auto-spin on a timer, NOT requestAnimationFrame: rAF pauses when the
+  // tab is backgrounded or in automated browsers, so the product would sit
+  // still instead of turning. A 16ms timer keeps it turning wherever the
+  // page is open; it stops when the modal closes.
+  function startAutoSpin() {
+    stopAutoSpin();
+    autoTimer = setInterval(() => {
+      if (!isDragging && !document.hidden) {
+        rotY += velocity;
+        // subtle vertical oscillation
+        rotX = Math.sin(rotY * 0.02) * 4;
+        applyRotation();
+      }
+    }, 16);
+  }
+
+  function stopAutoSpin() {
+    if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
   }
 
   stage.addEventListener('mousedown', e => {
@@ -586,8 +596,7 @@ function brcInit() {
 
     // Reset rotation
     rotY = 0; rotX = 0; velocity = 0.3;
-    if (autoFrame) cancelAnimationFrame(autoFrame);
-    autoFrame = requestAnimationFrame(autoSpin);
+    startAutoSpin();
 
     // Body info
     document.getElementById('brc-modal-body').innerHTML = `
@@ -631,7 +640,7 @@ function brcInit() {
   function closeModal() {
     document.getElementById('brc-modal').style.display = 'none';
     document.body.style.overflow = '';
-    if (autoFrame) { cancelAnimationFrame(autoFrame); autoFrame = null; }
+    stopAutoSpin();
     velocity = 0.4; rotY = 0; rotX = 0;
   }
 
