@@ -661,10 +661,9 @@ function brcInit() {
   window.launchStripeCheckout = launchStripeCheckout;
 
   // ── LEGACY COMPAT ─────────────────────────────────────────
-  // Static cards in index.html use legacy names; map them to real catalog
-  // products. NOTE: the static card prices ($39/$59/$45/$72) differ from the
-  // catalog prices ($42/$65/$42/$65) — the catalog price is what Stripe
-  // charges; the static prices still need aligning by the owner.
+  // Static cards now pass real catalog names, so each button opens exactly
+  // the product on its card. LEGACY_MAP stays for old card names in case a
+  // cached page or external link still calls them.
   const LEGACY_MAP = {
     'Grizzly Core Tee':       'BRC Grizzly Tee',
     'Iron Cage Hoodie':       'BRC Grizzly Hoodie',
@@ -673,7 +672,7 @@ function brcInit() {
     'Cuban Grizzly Hoodie':   'BRC Grizzly Hoodie',
   };
   window.launchPrintfulDesign = name => {
-    const mapped = LEGACY_MAP[name] || ('BRC ' + name);
+    const mapped = LEGACY_MAP[name] || name;
     openProduct(mapped);
   };
 
