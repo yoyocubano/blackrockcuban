@@ -65,7 +65,7 @@ const css = `
   .brc-img-stage {
     position: relative;
     aspect-ratio: 1;
-    background: radial-gradient(ellipse at 50% 35%, #1a1a1a 0%, #050505 75%);
+    background: radial-gradient(ellipse at 50% 35%, #ffffff 0%, #ececec 75%);
     overflow: hidden;
     transform-style: preserve-3d;
   }
@@ -98,7 +98,6 @@ const css = `
     width: 100%;
     height: 100%;
     object-fit: cover;
-    mix-blend-mode: multiply;
     display: block;
     transform-origin: center;
     transition: transform .1s ease-out;
@@ -116,14 +115,6 @@ const css = `
     transition: opacity .3s;
   }
   .brc-card:hover .brc-glare { opacity: 1; }
-  .brc-reflection {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 40%;
-    background: linear-gradient(to top, rgba(8,8,8,1) 0%, rgba(8,8,8,0.5) 60%, transparent 100%);
-    z-index: 5;
-    pointer-events: none;
-  }
   .brc-card-info {
     padding: 14px 16px;
     background: #080808;
@@ -182,8 +173,8 @@ const css = `
     width: 100%;
     aspect-ratio: 1;
     perspective: 1200px;
-    background: radial-gradient(ellipse at 50% 30%, #1c1c1c 0%, #050505 70%);
-    border: 1px solid rgba(255,255,255,0.06);
+    background: radial-gradient(ellipse at 50% 30%, #ffffff 0%, #e8e8e8 70%);
+    border: 1px solid rgba(0,0,0,0.08);
     overflow: hidden;
     cursor: grab;
     user-select: none;
@@ -230,7 +221,6 @@ const css = `
     width: 88%;
     height: 88%;
     object-fit: contain;
-    mix-blend-mode: multiply;
     display: block;
     position: relative;
     z-index: 1;
@@ -252,7 +242,7 @@ const css = `
     position: absolute;
     bottom: 0; left: 0; right: 0;
     height: 30%;
-    background: linear-gradient(to top, rgba(5,5,5,1) 0%, transparent 100%);
+    background: linear-gradient(to top, rgba(232,232,232,1) 0%, transparent 100%);
     z-index: 4;
     pointer-events: none;
   }
@@ -521,7 +511,6 @@ function brcInit() {
         <div class="brc-img-stage" id="stage-${p.name.replace(/\s+/g,'_')}">
           <img class="brc-product-img" src="${p.img}" alt="${p.name}" loading="lazy">
           <div class="brc-glare"></div>
-          <div class="brc-reflection"></div>
         </div>
         <div class="brc-card-info">
           <div class="brc-animal-tag">${p.animal} · ${TYPE_LABELS[p.type]}</div>
