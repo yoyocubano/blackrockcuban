@@ -405,9 +405,13 @@ function brcInit() {
   const shadow  = document.getElementById('brc-shadow');
 
   let rotY = 0, rotX = 0;
-  let isDragging = false, lastX = 0, lastY = 0;
-  let velocity = 0.4; // auto-spin speed deg/tick
+  let isDragging = false, lastX = 0, lastY = 0, lastMoveT = 0;
+  // Spin speed in deg/sec. Base auto-spin is 18 deg/s (~1 vuelta cada 20 s);
+  // dragging sets it from the flick speed, then it decays back to 18.
+  const SPIN_RATE = 18;
+  let velocity = SPIN_RATE;
   let autoTimer = null;
+  let lastTick = 0;
 
   function applyRotation() {
     imgWrap.style.transform = `rotateY(${rotY}deg) rotateX(${rotX * 0.4}deg)`;
@@ -418,13 +422,21 @@ function brcInit() {
 
   // Auto-spin on a timer, NOT requestAnimationFrame: rAF pauses when the
   // tab is backgrounded or in automated browsers, so the product would sit
-  // still instead of turning. A 16ms timer keeps it turning wherever the
-  // page is open; it stops when the modal closes.
+  // still. The rotation is TIME-BASED (deg/sec x elapsed seconds), so it
+  // keeps its real speed even if the timer itself is throttled to 1 Hz
+  // (background/automated browsers): each tick advances by the time that
+  // actually passed, capped at 0.5 s to avoid a jump after a long freeze.
   function startAutoSpin() {
     stopAutoSpin();
+    lastTick = Date.now();
     autoTimer = setInterval(() => {
+      const now = Date.now();
+      const dt = Math.min((now - lastTick) / 1000, 0.5); // seconds
+      lastTick = now;
       if (!isDragging && !document.hidden) {
-        rotY += velocity;
+        // ease back to the base spin rate after a flick
+        velocity += (SPIN_RATE - velocity) * 0.08;
+        rotY += velocity * dt;
         // subtle vertical oscillation
         rotX = Math.sin(rotY * 0.02) * 4;
         applyRotation();
@@ -438,6 +450,7 @@ function brcInit() {
 
   stage.addEventListener('mousedown', e => {
     isDragging = true; lastX = e.clientX; lastY = e.clientY;
+    lastMoveT = Date.now();
     stage.style.cursor = 'grabbing';
     e.preventDefault();
   });
@@ -448,34 +461,43 @@ function brcInit() {
     rotY += dx * 0.5;
     rotX += dy * 0.3;
     rotX = Math.max(-25, Math.min(25, rotX));
-    velocity = dx * 0.5;
+    // flick speed in deg/sec (clamped): the product keeps spinning with
+    // the flick's momentum after release
+    const now = Date.now();
+    const dtm = (now - lastMoveT) / 1000;
+    if (dtm > 0) velocity = Math.max(-120, Math.min(120, (dx * 0.5) / dtm));
+    lastMoveT = now;
     lastX = e.clientX; lastY = e.clientY;
     applyRotation();
   });
   document.addEventListener('mouseup', () => {
     isDragging = false;
     stage.style.cursor = 'grab';
-    // dampen velocity
-    velocity = Math.max(-1.5, Math.min(1.5, velocity * 0.3)) || 0.4;
-    if (Math.abs(velocity) < 0.05) velocity = 0.4;
+    // dampen the flick (deg/sec); the timer then eases back to base spin
+    velocity = Math.max(-90, Math.min(90, velocity * 0.3)) || SPIN_RATE;
+    if (Math.abs(velocity) < 0.05) velocity = SPIN_RATE;
   });
 
   // Touch support
   stage.addEventListener('touchstart', e => {
     isDragging = true; lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
+    lastMoveT = Date.now();
     e.preventDefault();
   }, { passive: false });
   document.addEventListener('touchmove', e => {
     if (!isDragging) return;
     const dx = e.touches[0].clientX - lastX;
     rotY += dx * 0.5;
-    velocity = dx * 0.4;
+    const nowT = Date.now();
+    const dtmT = (nowT - lastMoveT) / 1000;
+    if (dtmT > 0) velocity = Math.max(-120, Math.min(120, (dx * 0.5) / dtmT));
+    lastMoveT = nowT;
     lastX = e.touches[0].clientX;
     applyRotation();
   });
   document.addEventListener('touchend', () => {
     isDragging = false;
-    velocity = Math.max(-2, Math.min(2, velocity * 0.3)) || 0.4;
+    velocity = Math.max(-90, Math.min(90, velocity * 0.3)) || SPIN_RATE;
   });
 
   // ── RENDER GRID ──────────────────────────────────────────
@@ -595,7 +617,7 @@ function brcInit() {
     modalImg.alt = p.name;
 
     // Reset rotation
-    rotY = 0; rotX = 0; velocity = 0.3;
+    rotY = 0; rotX = 0; velocity = SPIN_RATE;
     startAutoSpin();
 
     // Body info
@@ -641,7 +663,7 @@ function brcInit() {
     document.getElementById('brc-modal').style.display = 'none';
     document.body.style.overflow = '';
     stopAutoSpin();
-    velocity = 0.4; rotY = 0; rotX = 0;
+    velocity = SPIN_RATE; rotY = 0; rotX = 0;
   }
 
   // ── STRIPE CHECKOUT ───────────────────────────────────────
