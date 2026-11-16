@@ -563,6 +563,9 @@ function brcInit() {
     const count = cart.reduce((s,i)=>s+i.quantity,0);
     summary.textContent = `${count} item${count>1?'s':''} · $${total}`;
     bar.classList.add('visible');
+    // Keep the checkout bar above the cookie banner while it is shown
+    const banner = document.getElementById('brc-cookie-banner');
+    bar.style.bottom = (banner && banner.style.display !== 'none') ? banner.offsetHeight + 'px' : '';
   }
   saveCart();
 
@@ -651,12 +654,28 @@ function brcInit() {
       window.location.href = d.url;
     } catch(err) {
       btn.textContent = 'ERROR — RETRY'; btn.disabled = false;
+      const summary = document.getElementById('brc-cart-summary');
+      if (summary) summary.textContent = 'Checkout unavailable right now — please try again or contact us.';
     }
   }
   window.launchStripeCheckout = launchStripeCheckout;
 
   // ── LEGACY COMPAT ─────────────────────────────────────────
-  window.launchPrintfulDesign = name => openProduct('BRC ' + name) || openProduct(name);
+  // Static cards in index.html use legacy names; map them to real catalog
+  // products. NOTE: the static card prices ($39/$59/$45/$72) differ from the
+  // catalog prices ($42/$65/$42/$65) — the catalog price is what Stripe
+  // charges; the static prices still need aligning by the owner.
+  const LEGACY_MAP = {
+    'Grizzly Core Tee':       'BRC Grizzly Tee',
+    'Iron Cage Hoodie':       'BRC Grizzly Hoodie',
+    'Mat Pro Shorts':         'BRC Grizzly Shorts',
+    'BRC Premium Tee':        'BRC Signature Tee',
+    'Cuban Grizzly Hoodie':   'BRC Grizzly Hoodie',
+  };
+  window.launchPrintfulDesign = name => {
+    const mapped = LEGACY_MAP[name] || ('BRC ' + name);
+    openProduct(mapped);
+  };
 
   // ── REDIRECT HANDLERS ──────────────────────────────────────
   const p = new URLSearchParams(location.search);

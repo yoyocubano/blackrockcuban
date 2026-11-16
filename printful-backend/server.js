@@ -82,7 +82,8 @@ app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 60, message: { error: 'Too ma
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
     ? ['https://yoyocubano.github.io', 'http://yoyocubano.github.io',
-       'https://blackrockcuban.weluxevents.store', process.env.FRONTEND_URL].filter(Boolean)
+       'https://blackrockcuban.weluxevents.store', 'https://blackrockcuban.pages.dev',
+       process.env.FRONTEND_URL].filter(Boolean)
     : true
 }));
 
