@@ -1,8 +1,9 @@
 import requests
 import json
+import os
 
 shop_id = "26750273"
-token = "REDACTED-PRINTIFY-TOKEN"
+token = os.environ.get("PRINTIFY_TOKEN")
 headers = {"Authorization": f"Bearer {token}"}
 
 ids = ["69b09bd522fd93f52e06281c", "69b09bd222fd93f52e06281a", "69b09a016d2baa18fc0b6ede"]

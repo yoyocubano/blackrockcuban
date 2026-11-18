@@ -1,8 +1,9 @@
 import requests
 import json
+import os
 
 shop_id = "26750273"
-token = "REDACTED-PRINTIFY-TOKEN"
+token = os.environ.get("PRINTIFY_TOKEN")
 headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
 
 def delete_product(p_id):

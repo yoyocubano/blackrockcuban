@@ -1,8 +1,9 @@
 import requests
 import base64
 import json
+import os
 
-token = "REDACTED-PRINTIFY-TOKEN"
+token = os.environ.get("PRINTIFY_TOKEN")
 headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
 
 def upload(file_path, name):

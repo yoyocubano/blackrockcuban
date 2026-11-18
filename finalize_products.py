@@ -1,8 +1,9 @@
 import requests
 import json
+import os
 
 shop_id = "26750273"
-token = "REDACTED-PRINTIFY-TOKEN"
+token = os.environ.get("PRINTIFY_TOKEN")
 headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
 
 def update_product(p_id, data):
